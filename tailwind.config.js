@@ -3,9 +3,11 @@ module.exports = {
     content: [
         "./pages/**/*.{js,jsx}",
         "./components/**/*.{js,jsx}",
+        "node_modules/daisyui/dist/**/*.js",
+        "node_modules/react-daisyui/dist/**/*.js",
     ],
     theme: {
         extend: {},
     },
-    plugins: [],
+    plugins: [require("daisyui")],
 };
