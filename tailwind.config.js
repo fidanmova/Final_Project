@@ -1,4 +1,5 @@
 /** @type {import('tailwindcss').Config} */
+const defaultTheme = require("tailwindcss/defaultTheme");
 module.exports = {
     content: [
         "./pages/**/*.{js,jsx}",
@@ -8,6 +9,9 @@ module.exports = {
     ],
     theme: {
         extend: {
+            fontFamily: {
+                poppins: ["Poppins", ...defaultTheme.fontFamily.sans],
+            },
             backgroundImage: {
                 home: "url('../images/home.png')",
                 test: "url('../images/test1.jpg')",
@@ -15,6 +19,8 @@ module.exports = {
             },
             colors: {
                 background: "#2A303C",
+                myRed: "#b43332",
+                myPurple: "#48345E",
             },
         },
     },
