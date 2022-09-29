@@ -1,7 +1,8 @@
 import React from "react";
 import { useForm } from "react-hook-form";
-import { Button, Input, Form, Card, Option, Select } from "react-daisyui";
+import { Button, Input, Form, Card } from "react-daisyui";
 import languagesList from "../../../utils/languagesList";
+import ButtonUI from "./SubmitButton";
 
 const Register = ({ setForm }) => {
     console.log("languagesList", languagesList);
@@ -10,11 +11,15 @@ const Register = ({ setForm }) => {
         handleSubmit,
         formState: { errors },
     } = useForm();
-    const onSubmit = (data) => console.log(data);
+
+    const onSubmit = (data) => {
+        setForm("otp");
+        console.log(data);
+    };
     console.log(errors);
 
     return (
-        <Card className="flex-shrink-0 w-full shadow-2xl">
+        <Card className="flex-shrink-0 w-full h-[50vh] shadow-2xl">
             <Card.Body>
                 <Form onSubmit={handleSubmit(onSubmit)}>
                     <div className="w-full flex space-x-2">
@@ -78,7 +83,7 @@ const Register = ({ setForm }) => {
                             <Input
                                 className="w-full input-bordered bg-transparent focus:border-4 focus:border-myPurple"
                                 type="text"
-                                {...register("City", { pattern: /\p{L}/i })}
+                                {...register("City", {required:true })}
                             />
                         </div>
                         <div className=" w-1/2">
@@ -104,18 +109,18 @@ const Register = ({ setForm }) => {
                             className="label"
                             onClick={() => setForm("login")}
                         >
-                            <p className="text-xs">Back</p>
+                            <p className="text-xs hover:text-blue-500">Back</p>
                         </label>
                         <label
                             className="label"
                             onClick={() => setForm("reset")}
                         >
-                            <p className="text-xs">Forgot password?</p>
+                            <p className="text-xs hover:text-blue-500">
+                                Forgot password?
+                            </p>
                         </label>
                     </div>
-                    <Button className="bg-gradient-to-r from-indigo-500 to-blue-900 mt-10">
-                        Sign Up
-                    </Button>
+                    <ButtonUI title="sign up" onSubmit={onSubmit} />
                 </Form>
             </Card.Body>
         </Card>
