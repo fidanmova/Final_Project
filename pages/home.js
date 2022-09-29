@@ -1,10 +1,11 @@
-import AuthLanding from "../components/ui/auth/AuthLanding";
+import Homepage from "../components/Homepage";
+
 import PageTemplate from "../components/ui/PageTemplate";
 
-export default function Home() {
+export default function HomePage() {
     return (
         <PageTemplate content="Dev-Shed Community" title="DevShed">
-            <AuthLanding />
+            <Homepage />
         </PageTemplate>
     );
 }

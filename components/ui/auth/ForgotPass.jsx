@@ -60,11 +60,13 @@ const ForgotPass = ({ setForm }) => {
                         </h1>
                     </div>
                 </>
-            ):(<div className="w-full h-[50vh] flex justify-center items-center tracking-[5px] ">
-            <h1 className="uppercase font-extrabold text-transparent text-6xl bg-clip-text bg-gradient-to-r from-red-800 via-blue-800 to-purple-500">
-                check your email
-            </h1>
-        </div>)}
+            ) : (
+                <div className="w-full h-[50vh] flex justify-center items-center tracking-[5px] ">
+                    <h1 className="uppercase font-extrabold text-transparent text-6xl bg-clip-text bg-gradient-to-r from-red-800 via-blue-800 to-purple-500">
+                        check your email
+                    </h1>
+                </div>
+            )}
         </>
     );
 };

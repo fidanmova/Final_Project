@@ -1,11 +1,16 @@
-import React from "react";
+import React, { useState } from "react";
 import { useForm } from "react-hook-form";
-import { Button, Input, Form, Card } from "react-daisyui";
-import languagesList from "../../../utils/languagesList";
+import { Input, Form, Card, Button } from "react-daisyui";
+import languagesList from "../../../utils/list/languagesList";
 import ButtonUI from "./SubmitButton";
+import { RiEyeCloseLine, RiEyeLine, RiArrowGoBackLine } from "react-icons/ri";
 
 const Register = ({ setForm }) => {
-    console.log("languagesList", languagesList);
+    const [show, setShow] = useState(false);
+    const handleShow = () => {
+        setShow(!show);
+    };
+
     const {
         register,
         handleSubmit,
@@ -19,10 +24,10 @@ const Register = ({ setForm }) => {
     console.log(errors);
 
     return (
-        <Card className="flex-shrink-0 w-full h-[50vh] shadow-2xl">
+        <Card className="flex-shrink-0 shadow-2xl w-full">
             <Card.Body>
-                <Form onSubmit={handleSubmit(onSubmit)}>
-                    <div className="w-full flex space-x-2">
+                <Form>
+                    <div className="w-full flex flex-col lg:flex-row lg:space-x-2">
                         <div className="w-1/2">
                             <Form.Label title="Username" />
 
@@ -54,20 +59,41 @@ const Register = ({ setForm }) => {
 
                             <Input
                                 className="w-full input-bordered bg-transparent focus:border-4 focus:border-myPurple"
-                                type="password"
+                                type={show ? "text" : "password"}
                                 {...register("Password", {
                                     required: true,
                                     pattern:
                                         /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/i,
                                 })}
                             />
+                            {show ? (
+                                <div
+                                    className="flex space-x-2 py-1.5 pl-1"
+                                    onClick={handleShow}
+                                >
+                                    <RiEyeLine className="text-yellow-500" />
+                                    <p className="italic text-xs">
+                                        hide password
+                                    </p>
+                                </div>
+                            ) : (
+                                <div
+                                    className="flex space-x-2 py-1.5 pl-1"
+                                    onClick={handleShow}
+                                >
+                                    <RiEyeCloseLine className="text-yellow-500 " />
+                                    <p className="italic text-xs ">
+                                        show password
+                                    </p>
+                                </div>
+                            )}
                         </div>
                         <div className="w-1/2">
                             <Form.Label title="Repeat Password" />
 
                             <Input
                                 className="w-full input-bordered bg-transparent focus:border-4 focus:border-myPurple"
-                                type="password"
+                                type={show ? "text" : "password"}
                                 {...register("Password2", {
                                     required: true,
                                     pattern:
@@ -76,14 +102,14 @@ const Register = ({ setForm }) => {
                             />
                         </div>
                     </div>
-                    <div className="w-full flex space-x-2">
+                    <div className="w-full flex flex-col lg:flex-row lg:space-x-2">
                         <div className="w-1/2">
                             <Form.Label title="City" />
 
                             <Input
                                 className="w-full input-bordered bg-transparent focus:border-4 focus:border-myPurple"
                                 type="text"
-                                {...register("City", {required:true })}
+                                {...register("City", { required: true })}
                             />
                         </div>
                         <div className=" w-1/2">
@@ -91,7 +117,7 @@ const Register = ({ setForm }) => {
                             <div className="flex w-full component-preview items-center justify-center gap-2 font-sans">
                                 <select
                                     {...register("Title", { required: true })}
-                                    className="select select-bordered w-full bg-transparent focus:border-4 focus:border-myPurple"
+                                    className="select select-bordered w-full bg-transparent focus:border-4 focus:border-myPurple text-blue-600"
                                 >
                                     <option disabled selected>
                                         choose language
@@ -109,7 +135,10 @@ const Register = ({ setForm }) => {
                             className="label"
                             onClick={() => setForm("login")}
                         >
-                            <p className="text-xs hover:text-blue-500">Back</p>
+                            <div className="text-xs hover:text-blue-500 flex items-center">
+                                <RiArrowGoBackLine />
+                                <p className="pl-1">Back</p>
+                            </div>
                         </label>
                         <label
                             className="label"
@@ -120,7 +149,12 @@ const Register = ({ setForm }) => {
                             </p>
                         </label>
                     </div>
-                    <ButtonUI title="sign up" onSubmit={onSubmit} />
+                    <Button
+                        className="bg-gradient-to-r from-blue-900 to-purple-900  mt-4"
+                        onClick={handleSubmit(onSubmit)}
+                    >
+                        enter
+                    </Button>
                 </Form>
             </Card.Body>
         </Card>

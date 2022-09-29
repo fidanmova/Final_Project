@@ -1,20 +1,20 @@
 import React, { useState } from "react";
 import { Hero } from "react-daisyui";
-import EmailVerification from "../ui/auth/EmailVerification";
-import ForgotPass from "../ui/auth/ForgotPass";
-import Login from "../ui/auth/Login";
-import Register from "../ui/auth/Register";
+import EmailVerification from "./EmailVerification";
+import ForgotPass from "./ForgotPass";
+import Login from "./Login";
+import Register from "./Register";
 
-const LandingHero = () => {
+const AuthLanding = () => {
     const [form, setForm] = useState("login");
     console.log("form", form);
     return (
-        <Hero className=" w-screen h-full min-h-96 bg-black bg-opacity-30 rounded-lg backdrop-blur-sm overflow-hidden">
+        <Hero className="w-full lg:h-[50vh] bg-black bg-opacity-30 rounded-lg backdrop-blur-sm overflow-hidden">
             <Hero.Content className="w-full flex-col lg:flex-row-reverse lg:justify-center">
                 {form === "register" && (
                     <>
                         <Banner />
-                        <div className="w-full flex lg:w-1/2 lg:pr-12">
+                        <div className="w-full flex lg:w-1/2 lg:pr-12 px-auto">
                             <Register setForm={setForm} />
                         </div>
                     </>
@@ -30,8 +30,7 @@ const LandingHero = () => {
 
                 {form === "otp" && (
                     <>
-                        <div className="w-full flex justify-center items-center">
-                            {" "}
+                        <div className="w-full flex justify-center items-center h-[50vh">
                             <EmailVerification setForm={setForm} />
                         </div>
                         <div className="w-full text-center lg:w-1/2 lg:text-left tracking-[5px] ">
@@ -47,11 +46,11 @@ const LandingHero = () => {
     );
 };
 
-export default LandingHero;
+export default AuthLanding;
 
 const Banner = () => {
     return (
-        <div className="w-full text-center lg:w-1/2 lg:text-left tracking-[5px] ">
+        <div className="w-full text-center lg:w-1/2 lg:text-left tracking-[5px] text-sm lg:text-lg">
             <h1 className="uppercase font-extrabold text-transparent text-6xl bg-clip-text bg-gradient-to-r from-red-600 via-purple-500 to-yellow-500">
                 DevShed
             </h1>

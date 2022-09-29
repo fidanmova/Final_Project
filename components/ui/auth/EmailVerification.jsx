@@ -35,8 +35,8 @@ const EmailVerification = () => {
         if (key === "Backspace") prevInput(currentOTPid);
     };
 
-    const onSubmit = (e) => {
-        e.preventDefault();
+    const onSubmit = () => {
+        router.push("/home");
         console.log(inputRef);
     };
     useEffect(() => {
@@ -44,11 +44,8 @@ const EmailVerification = () => {
     }, [activeOTPi]);
 
     return (
-        <Card className="flex-shrink-0 w-full shadow-2xl">
+        <Card className="flex-shrink-0 w-full shadow-2xl border-4 border-myPurple">
             <Card.Body>
-                <p className="font-bold uppercase text-center">
-                    insert the OTP sent to your inbox
-                </p>
                 <div className="space-x-5 flex justify-center">
                     {otp &&
                         otp.map((_, index) => (
@@ -56,7 +53,7 @@ const EmailVerification = () => {
                                 ref={activeOTPi === index ? inputRef : null}
                                 key={index}
                                 value={otp[index] || ""}
-                                className="w-full spin-button-none input-bordered bg-transparent focus:border-4 focus:border-myPurple"
+                                className="w-full input-bordered bg-transparent border-yellow-500 focus:border-4"
                                 type="number"
                                 onChange={handleOTP}
                                 onKeyDown={(e) => handleKeyDown(e, index)}

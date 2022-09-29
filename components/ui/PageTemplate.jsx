@@ -5,7 +5,7 @@ import Footer from "../Footer";
 
 const PageTemplate = ({ children, content, title }) => {
     return (
-        <div className="w-screen h-screen flex flex-col justify-between items-center bg-home bg-cover bg-right-bottom text-white font-poppins">
+        <div className="w-screen h-screen flex flex-col justify-between items-center bg-home bg-cover bg-right-bottom bg-repeat-y lg:bg-no-repeat text-white font-poppins snap-y snap-mandatory overflow-y-scroll overflow-x-hidden z-0 scrollbar-thin lg:scrollbar scrollbar-track-[#fcdef8] scrollbar-thumb-[#242424]/80 ">
             <Head>
                 <title>{title}</title>
                 <meta name="description" content={content} />

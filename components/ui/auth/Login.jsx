@@ -1,8 +1,7 @@
 import { useRouter } from "next/router";
 import React, { useState } from "react";
-import { Card, Form, Input } from "react-daisyui";
+import { Button, Card, Form, Input } from "react-daisyui";
 import { useForm } from "react-hook-form";
-import ButtonUI from "./SubmitButton";
 import { RiEyeCloseLine, RiEyeLine } from "react-icons/ri";
 
 const Login = ({ setForm }) => {
@@ -18,21 +17,20 @@ const Login = ({ setForm }) => {
         handleSubmit,
         formState: { errors },
     } = useForm();
-    
+
     const onSubmit = (data) => {
         router.push("/home");
-        console.log(data);
+        console.log("puzzetta", data);
     };
     console.log(errors);
 
     return (
-        <Card className="flex-shrink-0 w-full max-w-sm shadow-2xl h-[50vh] ">
+        <Card className="flex-shrink-0 w-full max-w-sm shadow-2xl">
             <Card.Body>
-                <Form onSubmit={handleSubmit(onSubmit)}>
+                <Form>
                     <Form.Label title="Email" />
                     <Input
                         type="text"
-                        placeholder="email"
                         className="input-bordered bg-transparent focus:border-4 focus:border-myPurple"
                         {...register("email", {
                             required: true,
@@ -40,12 +38,10 @@ const Login = ({ setForm }) => {
                                 /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/i,
                         })}
                     />
-                </Form>
-                <Form>
+
                     <Form.Label title="Password" />
                     <Input
-                        type={show ? 'text' : 'password'}
-                        placeholder="password"
+                        type={show ? "text" : "password"}
                         className="input-bordered bg-transparent focus:border-4 focus:border-myPurple"
                         {...register("password", {
                             required: true,
@@ -77,18 +73,27 @@ const Login = ({ setForm }) => {
                             className="label"
                             onClick={() => setForm("reset")}
                         >
-                            <p className="text-xs hover:text-blue-500">Forgot password?</p>
+                            <p className="text-xs hover:text-blue-500">
+                                Forgot password?
+                            </p>
                         </label>
                         <label
                             className="label"
                             onClick={() => setForm("register")}
                         >
-                            <p className="text-xs hover:text-blue-500">Not a member?</p>
+                            <p className="text-xs hover:text-blue-500">
+                                Not a member?
+                            </p>
                         </label>
                     </div>
                 </Form>
 
-                <ButtonUI title="login" onSubmit={onSubmit} />
+                <Button
+                    className="bg-gradient-to-r from-blue-900 to-purple-900  mt-4"
+                    onClick={handleSubmit(onSubmit)}
+                >
+                    enter
+                </Button>
             </Card.Body>
         </Card>
     );
