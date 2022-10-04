@@ -61,5 +61,3 @@ userSchema.pre("save", async function (next) {
 const userModel = mongoose.model("User") || mongoose.model("User", userSchema);
 
 export default userModel;
-
-{value:" /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/i"; message: "At least 8 characters,uppercase, lowercase,special symbol,number"})}
