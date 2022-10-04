@@ -1,5 +1,6 @@
 import React, { useRef, useState } from "react";
 import { Button, Card, Form, Input } from "react-daisyui";
+import Link from "next/link";
 
 const ForgotPass = ({ setForm }) => {
     const [reset, setReset] = useState(false);
@@ -13,8 +14,13 @@ const ForgotPass = ({ setForm }) => {
         <>
             {!reset ? (
                 <>
-                    <div className="w-full h-[50vh] flex justify-center items-center">
-                        <Card className="flex-shrink-0 w-full max-w-sm shadow-2xl ">
+                    <div className="w-full h-[50vh] flex flex-col lg:flex-row justify-between items-center lg:justify-center">
+                        <div className="w-full text-center lg:w-1/2 lg:text-left tracking-[5px] ">
+                            <h1 className="uppercase font-extrabold text-transparent text-4xl lg:text-6xl bg-clip-text bg-gradient-to-r  from-red-600 via-purple-500 to-yellow-500">
+                                reset your password
+                            </h1>
+                        </div>
+                        <Card className="flex-shrink-0 w-full max-w-sm shadow-md shadow-yellow-500">
                             <Card.Body>
                                 <Form>
                                     <Form.Label title="Enter your email" />
@@ -22,7 +28,7 @@ const ForgotPass = ({ setForm }) => {
                                         ref={email}
                                         type="text"
                                         placeholder="email"
-                                        className="input-bordered bg-transparent focus:border-4 focus:border-myPurple"
+                                        className="w-full input-bordered bg-transparent focus:border-4 focus:border-myPurple"
                                     />
                                 </Form>
 
@@ -54,17 +60,15 @@ const ForgotPass = ({ setForm }) => {
                             </Card.Body>
                         </Card>
                     </div>
-                    <div className="w-full text-center lg:w-1/2 lg:text-left tracking-[5px] ">
-                        <h1 className="uppercase font-extrabold text-transparent text-6xl bg-clip-text bg-gradient-to-r from-red-800 via-blue-800 to-purple-500">
-                            reset your password
-                        </h1>
-                    </div>
                 </>
             ) : (
-                <div className="w-full h-[50vh] flex justify-center items-center tracking-[5px] ">
-                    <h1 className="uppercase font-extrabold text-transparent text-6xl bg-clip-text bg-gradient-to-r from-red-800 via-blue-800 to-purple-500">
+                <div className="w-full h-[50vh] flex flex-col justify-center items-center tracking-[5px] space-y-8">
+                    <h1 className="uppercase text-center font-extrabold text-transparent text-4xl lg:text-6xl bg-clip-text bg-gradient-to-r from-red-600 via-purple-500 to-yellow-500">
                         check your email
                     </h1>
+                    <p>
+                        <Link href="/home">home</Link>
+                    </p>
                 </div>
             )}
         </>

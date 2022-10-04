@@ -7,10 +7,16 @@ import Register from "./Register";
 
 const AuthLanding = () => {
     const [form, setForm] = useState("login");
-    console.log("form", form);
+
     return (
         <Hero className="w-full lg:h-[50vh] bg-black bg-opacity-30 rounded-lg backdrop-blur-sm overflow-hidden">
-            <Hero.Content className="w-full flex-col lg:flex-row-reverse lg:justify-center">
+            <Hero.Content
+                className={`w-full flex-col ${
+                    form === "login" || form === "register"
+                        ? "lg:flex-row-reverse"
+                        : "lg:flex-row"
+                } lg:justify-center`}
+            >
                 {form === "register" && (
                     <>
                         <Banner />
@@ -30,13 +36,13 @@ const AuthLanding = () => {
 
                 {form === "otp" && (
                     <>
-                        <div className="w-full flex justify-center items-center h-[50vh">
-                            <EmailVerification setForm={setForm} />
-                        </div>
                         <div className="w-full text-center lg:w-1/2 lg:text-left tracking-[5px] ">
-                            <h1 className="uppercase font-extrabold text-transparent text-6xl bg-clip-text bg-gradient-to-r from-red-800 via-blue-800 to-purple-500">
+                            <h1 className="uppercase font-extrabold text-transparent text-4xl lg:text-6xl bg-clip-text bg-gradient-to-r from-red-600 via-purple-500 to-yellow-500">
                                 Enter your verification code
                             </h1>
+                        </div>
+                        <div className="w-full flex justify-center items-center h-[50vh]">
+                            <EmailVerification setForm={setForm} />
                         </div>
                     </>
                 )}

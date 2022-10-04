@@ -1,8 +1,8 @@
-import connect from "../../../utils/mongo/mongo";
+import dbConnect from "../../../utils/mongo/dbConnect";
+dbConnect();
 
 export default async function testUser(req, res) {
-    const { username, email } = req.body;
     console.log("CONNECTING..........");
-    await connect();
+    await dbConnect();
     console.log("CONNECTED TO MONGO");
 }

@@ -20,36 +20,39 @@ const Login = ({ setForm }) => {
 
     const onSubmit = (data) => {
         router.push("/home");
-        console.log("puzzetta", data);
+        console.log("puzzetta");
     };
-    console.log(errors);
 
     return (
-        <Card className="flex-shrink-0 w-full max-w-sm shadow-2xl">
+        <Card className="flex-shrink-0 w-full shadow-md shadow-yellow-500">
             <Card.Body>
                 <Form>
                     <Form.Label title="Email" />
                     <Input
                         type="text"
-                        className="input-bordered bg-transparent focus:border-4 focus:border-myPurple"
+                        className="w-full input-bordered bg-transparent focus:border-4 focus:border-myPurple"
                         {...register("email", {
                             required: true,
-                            pattern:
-                                /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/i,
+                            pattern: {
+                                value: /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/i,
+                                message: "Please enter a valid email address.",
+                            },
                         })}
                     />
 
                     <Form.Label title="Password" />
                     <Input
                         type={show ? "text" : "password"}
-                        className="input-bordered bg-transparent focus:border-4 focus:border-myPurple"
+                        className="w-full input-bordered bg-transparent focus:border-4 focus:border-myPurple"
                         {...register("password", {
                             required: true,
-                            pattern:
-                                /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/i,
+                            pattern: {
+                                value: /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/i,
+                                message: "Please enter a valid password.",
+                            },
                         })}
                     />
-                    <div className="w-full text-myYellow flex items-center z-50 pr-4 lg:pr-0 lg:p-4">
+                    <div className="w-full text-myYellow flex items-center z-50 pr-4 pt-2 lg:pr-0 ">
                         {show ? (
                             <div
                                 className="flex space-x-2"

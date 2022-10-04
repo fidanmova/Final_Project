@@ -2,10 +2,14 @@ import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import { Input, Form, Card, Button } from "react-daisyui";
 import languagesList from "../../../utils/list/languagesList";
-import ButtonUI from "./SubmitButton";
 import { RiEyeCloseLine, RiEyeLine, RiArrowGoBackLine } from "react-icons/ri";
 
-const Register = ({ setForm }) => {
+import axios from "axios";
+
+
+const url = "http://localhost:3000/api/testUser";
+
+const Register = ({ setForm , props}) => {
     const [show, setShow] = useState(false);
     const handleShow = () => {
         setShow(!show);
@@ -17,17 +21,23 @@ const Register = ({ setForm }) => {
         formState: { errors },
     } = useForm();
 
-    const onSubmit = (data) => {
+    const onSubmit = async(data) => {
+
         setForm("otp");
         console.log(data);
     };
     console.log(errors);
 
     return (
-        <Card className="flex-shrink-0 shadow-2xl w-full">
+        <Card className="flex-shrink-0 shadow-md shadow-yellow-500 w-full">
             <Card.Body>
+                <div className="text-red-500">{errors?.username?.message}</div>{" "}
+                <div className="text-red-500">{errors?.email?.message}</div>{" "}
+                <div className="text-red-500">{errors?.password?.message}</div>
+                <div className="text-red-500">{errors?.city?.message}</div>{" "}
+                <div className="text-red-500">{errors?.language?.message}</div>
                 <Form>
-                    <div className="w-full flex flex-col lg:flex-row lg:space-x-2">
+                    <div className="w-full flex space-x-2">
                         <div className="w-1/2">
                             <Form.Label title="Username" />
 
@@ -35,8 +45,8 @@ const Register = ({ setForm }) => {
                                 className="w-full input-bordered bg-transparent focus:border-4 focus:border-myPurple"
                                 type="text"
                                 {...register("Username", {
-                                    required: true,
-                                    min: 3,
+                                    required: "Please enter your username.",
+                                    min: { value: 3, message: "min 3 chars" },
                                     maxLength: 80,
                                 })}
                             />
@@ -47,8 +57,12 @@ const Register = ({ setForm }) => {
                                 className="w-full input-bordered bg-transparent focus:border-4 focus:border-myPurple"
                                 type="text"
                                 {...register("Email", {
-                                    required: true,
-                                    pattern: /^\S+@\S+$/i,
+                                    required: "Please enter your email.",
+                                    pattern: {
+                                        value: /^\S+@\S+$/i,
+                                        message:
+                                            "Please enter a valid email address.",
+                                    },
                                 })}
                             />
                         </div>
@@ -61,9 +75,12 @@ const Register = ({ setForm }) => {
                                 className="w-full input-bordered bg-transparent focus:border-4 focus:border-myPurple"
                                 type={show ? "text" : "password"}
                                 {...register("Password", {
-                                    required: true,
-                                    pattern:
-                                        /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/i,
+                                    required: "Please enter a password",
+                                    pattern: {
+                                        value: /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/i,
+                                        message:
+                                            "At least 8 characters,uppercase, lowercase,number & a special symbol",
+                                    },
                                 })}
                             />
                             {show ? (
@@ -95,33 +112,40 @@ const Register = ({ setForm }) => {
                                 className="w-full input-bordered bg-transparent focus:border-4 focus:border-myPurple"
                                 type={show ? "text" : "password"}
                                 {...register("Password2", {
-                                    required: true,
-                                    pattern:
-                                        /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/i,
+                                    required:
+                                        "Please enter your password again",
+                                    pattern: {
+                                        value: /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/i,
+                                    },
                                 })}
                             />
                         </div>
                     </div>
-                    <div className="w-full flex flex-col lg:flex-row lg:space-x-2">
+                    <div className="w-full flex space-x-2">
                         <div className="w-1/2">
                             <Form.Label title="City" />
 
                             <Input
                                 className="w-full input-bordered bg-transparent focus:border-4 focus:border-myPurple"
                                 type="text"
-                                {...register("City", { required: true })}
+                                {...register("City", {
+                                    required: "Please enter your location",
+                                })}
+                                // {...register("City", {})}
                             />
                         </div>
                         <div className=" w-1/2">
                             <Form.Label title="Language" />
                             <div className="flex w-full component-preview items-center justify-center gap-2 font-sans">
                                 <select
-                                    {...register("Title", { required: true })}
+                                    // {...register("Title", {})}
+                                    {...register("Title", {
+                                        required:
+                                            "Please select your main language",
+                                    })}
                                     className="select select-bordered w-full bg-transparent focus:border-4 focus:border-myPurple text-blue-600"
                                 >
-                                    <option disabled selected>
-                                        choose language
-                                    </option>
+                                    <option disabled>choose</option>
                                     {languagesList &&
                                         languagesList.map((language, i) => (
                                             <option key={i}>{language}</option>
@@ -161,3 +185,12 @@ const Register = ({ setForm }) => {
     );
 };
 export default Register;
+
+export const getServerSideProps = async()=>{
+    const {data}= await axios.get(url)
+    return{
+        props:{
+            user:data.data
+        }
+    }
+}

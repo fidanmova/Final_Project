@@ -44,7 +44,7 @@ const userSchema = mongoose.Schema({
         type: Array,
     },
     job: { type: Array },
-    
+
     project: { type: Array },
 
     since: { type: Date, default: Date.now },
@@ -58,6 +58,8 @@ userSchema.pre("save", async function (next) {
     next();
 });
 
-const userModel = mongoose.model("User", userSchema);
+const userModel = mongoose.model("User") || mongoose.model("User", userSchema);
 
 export default userModel;
+
+{value:" /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/i"; message: "At least 8 characters,uppercase, lowercase,special symbol,number"})}

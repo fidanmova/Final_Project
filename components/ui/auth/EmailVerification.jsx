@@ -1,3 +1,4 @@
+import { useRouter } from "next/router";
 import React, { useEffect, useRef, useState } from "react";
 import { Button, Card, Input } from "react-daisyui";
 
@@ -5,6 +6,7 @@ const OTP_LENGTH = 8;
 let currentOTPid;
 
 const EmailVerification = () => {
+    const router = useRouter();
     const [otp, setOtp] = useState(new Array(OTP_LENGTH).fill(""));
     const [activeOTPi, setActiveOTPi] = useState(0);
     const inputRef = useRef(null);
@@ -44,16 +46,16 @@ const EmailVerification = () => {
     }, [activeOTPi]);
 
     return (
-        <Card className="flex-shrink-0 w-full shadow-2xl border-4 border-myPurple">
+        <Card className="w-11/12 lg:flex-shrink-0 lg:w-full shadow-2xl border-4 border-myPurple">
             <Card.Body>
-                <div className="space-x-5 flex justify-center">
+                <div className="w-full space-x-1 lg:space-x-5 flex justify-center  text-blue-600">
                     {otp &&
                         otp.map((_, index) => (
                             <Input
                                 ref={activeOTPi === index ? inputRef : null}
                                 key={index}
                                 value={otp[index] || ""}
-                                className="w-full input-bordered bg-transparent border-yellow-500 focus:border-4"
+                                className="w-full input-bordered bg-transparent border-yellow-500 focus:border-pink-500 focus:border lg:focus:border-4"
                                 type="number"
                                 onChange={handleOTP}
                                 onKeyDown={(e) => handleKeyDown(e, index)}
