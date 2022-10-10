@@ -9,7 +9,7 @@ const AuthLanding = () => {
     const [form, setForm] = useState("login");
 
     return (
-        <Hero className="w-full lg:h-[50vh] bg-black bg-opacity-30 rounded-lg backdrop-blur-sm overflow-hidden">
+        <Hero className="w-full lg:h-[60vh] bg-black bg-opacity-30 rounded-lg backdrop-blur-sm overflow-hidden">
             <Hero.Content
                 className={`w-full flex-col ${
                     form === "login" || form === "register"

@@ -33,19 +33,43 @@ const userSchema = mongoose.Schema({
             "Please insert a valid password",
         ],
     },
+    // #### City with Geo Location ####
+
     city: {
         type: String,
-        required: [true, "Enter your city"],
+        min: [3, "city must be at least 3 characters long"],
+        required: [true, "City is Required"],
     },
-    events: {
-        type: Array,
-    },
+
     group: {
         type: Array,
     },
-    job: { type: Array },
-
-    project: { type: Array },
+    admin: {
+        type: Boolean,
+        default: false,
+    },
+    language: {
+        type: Array,
+        default: [],
+    },
+    profile: {
+        type: String,
+    },
+    avatar: {
+        type: String,
+    },
+    interests: {
+        type: Array,
+        default: [],
+    },
+    events: {
+        type: Array,
+        default: [],
+    },
+    jobs: {
+        type: Array,
+        default: [],
+    },
 
     since: { type: Date, default: Date.now },
     isVerified: { type: Boolean, default: false },
@@ -58,6 +82,6 @@ userSchema.pre("save", async function (next) {
     next();
 });
 
-const userModel = mongoose.model("User") || mongoose.model("User", userSchema);
+const userModel = mongoose.model.User || mongoose.model("User", userSchema);
 
 export default userModel;

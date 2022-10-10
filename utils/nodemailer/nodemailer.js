@@ -2,7 +2,7 @@ import nodemailer from "nodemailer";
 import dotenv from "dotenv";
 dotenv.config();
 
-const transport = nodemailer.createTransport({
+export const transport = nodemailer.createTransport({
     host: "smtp.mailtrap.io",
     port: 2525,
     auth: {
@@ -11,4 +11,4 @@ const transport = nodemailer.createTransport({
     },
 });
 
-export { transport };
+

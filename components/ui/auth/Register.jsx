@@ -4,12 +4,7 @@ import { Input, Form, Card, Button } from "react-daisyui";
 import languagesList from "../../../utils/list/languagesList";
 import { RiEyeCloseLine, RiEyeLine, RiArrowGoBackLine } from "react-icons/ri";
 
-import axios from "axios";
-
-
-const url = "http://localhost:3000/api/testUser";
-
-const Register = ({ setForm , props}) => {
+const Register = ({ setForm, props }) => {
     const [show, setShow] = useState(false);
     const handleShow = () => {
         setShow(!show);
@@ -21,13 +16,18 @@ const Register = ({ setForm , props}) => {
         formState: { errors },
     } = useForm();
 
-    const onSubmit = async(data) => {
+    const onSubmit = async (data) => {
+        try {
+            console.log("Register form data", data);
 
-        setForm("otp");
-        console.log(data);
+            const response = await fetch("/api/user");
+            const infos = await response.json(data);
+            setForm("otp");
+        } catch (error) {
+            console.log(error)
+        }
     };
     console.log(errors);
-
     return (
         <Card className="flex-shrink-0 shadow-md shadow-yellow-500 w-full">
             <Card.Body>
@@ -36,7 +36,7 @@ const Register = ({ setForm , props}) => {
                 <div className="text-red-500">{errors?.password?.message}</div>
                 <div className="text-red-500">{errors?.city?.message}</div>{" "}
                 <div className="text-red-500">{errors?.language?.message}</div>
-                <Form>
+                <Form onClick={handleSubmit(onSubmit)} method="POST">
                     <div className="w-full flex space-x-2">
                         <div className="w-1/2">
                             <Form.Label title="Username" />
@@ -131,15 +131,13 @@ const Register = ({ setForm , props}) => {
                                 {...register("City", {
                                     required: "Please enter your location",
                                 })}
-                                // {...register("City", {})}
                             />
                         </div>
                         <div className=" w-1/2">
                             <Form.Label title="Language" />
                             <div className="flex w-full component-preview items-center justify-center gap-2 font-sans">
                                 <select
-                                    // {...register("Title", {})}
-                                    {...register("Title", {
+                                    {...register("Language", {
                                         required:
                                             "Please select your main language",
                                     })}
@@ -175,7 +173,7 @@ const Register = ({ setForm , props}) => {
                     </div>
                     <Button
                         className="bg-gradient-to-r from-blue-900 to-purple-900  mt-4"
-                        onClick={handleSubmit(onSubmit)}
+                        type="submit"
                     >
                         enter
                     </Button>
@@ -186,11 +184,11 @@ const Register = ({ setForm , props}) => {
 };
 export default Register;
 
-export const getServerSideProps = async()=>{
-    const {data}= await axios.get(url)
-    return{
-        props:{
-            user:data.data
-        }
-    }
-}
+export const getServerSideProps = async () => {
+    const { data } = await axios.get(url);
+    return {
+        props: {
+            user: data.data,
+        },
+    };
+};
