@@ -24,6 +24,8 @@ passwordResetToken.methods.compareToken = async function (token) {
     return result;
 };
 
-const passwordRT = mongoose.model("password_reset", passwordResetToken);
+const passwordRT =
+    mongoose.model.Password_resets ||
+    mongoose.model("password_reset", passwordResetToken);
 
 export default passwordRT;

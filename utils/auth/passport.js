@@ -1,6 +1,7 @@
 import passport from "passport";
-import { Strategy } from "passport-local";
-import dbConnect from "../../utils/mongo";
+import { Strategy as LocalStrategy } from "passport-local";
+import { findUserForAuth, findUserWithEmailAndPassword } from "../db";
+import { dbConnect } from "../mongo/mongodb";
 
 passport.serializeUser((user, done) => {
     done(null, user._id);
@@ -16,19 +17,19 @@ passport.deserializeUser((req, id, done) => {
 });
 
 passport.use(
-    new Strategy(
+    new LocalStrategy(
         { usernameField: "email", passReqToCallback: true },
         async (req, email, password, done) => {
-            const database = await dbConnect();
-            const user = await database.findUserWithEmailAndPassword(
-                database,
+            const db = await dbConnect();
+            const user = await findUserWithEmailAndPassword(
+                db,
                 email,
                 password
             );
             if (user) done(null, user);
             else
                 done(null, false, {
-                    message: "User not found. Please try again.",
+                    message: "Email or password is incorrect",
                 });
         }
     )

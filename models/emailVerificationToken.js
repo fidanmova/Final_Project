@@ -24,6 +24,8 @@ emailVerificationTokenSchema.methods.compareToken = async function (token) {
     return result;
 };
 
-const emailTokenModel = mongoose.model("Token", emailVerificationTokenSchema);
+const emailTokenModel =
+    mongoose.model.Tokens ||
+    mongoose.model("Token", emailVerificationTokenSchema);
 
 export default emailTokenModel;

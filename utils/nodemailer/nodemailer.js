@@ -1,6 +1,4 @@
 import nodemailer from "nodemailer";
-import dotenv from "dotenv";
-dotenv.config();
 
 export const transport = nodemailer.createTransport({
     host: "smtp.mailtrap.io",
@@ -10,5 +8,3 @@ export const transport = nodemailer.createTransport({
         pass: process.env.NODEMAILER_PASS,
     },
 });
-
-

@@ -1,4 +1,4 @@
-export const generateOTP = (opt_length) => {
+ export const generateOTP = (opt_length) => {
     //Generate 8 digit OTP token
     let OTP = "";
     for (let i = 0; i <= opt_length; i++) {

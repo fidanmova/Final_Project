@@ -16,3 +16,7 @@ export const randomByte = () => {
         });
     });
 };
+
+export const handleNotFound = (req, res) => {
+    this.sendError(res, "Not Found", 404);
+};

@@ -41,7 +41,7 @@ const userSchema = mongoose.Schema({
         required: [true, "City is Required"],
     },
 
-    group: {
+    circle: {
         type: Array,
     },
     admin: {
@@ -49,10 +49,10 @@ const userSchema = mongoose.Schema({
         default: false,
     },
     language: {
-        type: Array,
-        default: [],
+        type: String,
+        default: "Curious",
     },
-    profile: {
+    bio: {
         type: String,
     },
     avatar: {
@@ -82,6 +82,6 @@ userSchema.pre("save", async function (next) {
     next();
 });
 
-const userModel = mongoose.model.User || mongoose.model("User", userSchema);
+const userModel = mongoose.model.Users || mongoose.model("User", userSchema);
 
 export default userModel;

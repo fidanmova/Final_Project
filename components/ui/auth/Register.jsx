@@ -1,8 +1,11 @@
-import React, { useState } from "react";
+import React, { useCallback, useState } from "react";
 import { useForm } from "react-hook-form";
 import { Input, Form, Card, Button } from "react-daisyui";
 import languagesList from "../../../utils/list/languagesList";
 import { RiEyeCloseLine, RiEyeLine, RiArrowGoBackLine } from "react-icons/ri";
+import { fetcher } from "../../../utils/fetcher";
+import { toast } from "react-hot-toast";
+import { mutate } from "swr";
 
 const Register = ({ setForm, props }) => {
     const [show, setShow] = useState(false);
@@ -16,26 +19,36 @@ const Register = ({ setForm, props }) => {
         formState: { errors },
     } = useForm();
 
-    const onSubmit = async (data) => {
-        try {
-            console.log("Register form data", data);
+    const onSubmit = useCallback(
+        async (data) => {
+            try {
+                console.log("Register form data", data);
 
-            const response = await fetch("/api/user");
-            const infos = await response.json(data);
-            setForm("otp");
-        } catch (error) {
-            console.log(error)
-        }
-    };
+                const response = await fetcher("/api/users", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({
+                        username: data.username,
+                        email: data.email,
+                        password: data.password,
+                        city: data.city,
+                        language: data.language,
+                    }),
+                });
+                mutate({ user: response.user }, false);
+                setForm("otp");
+                toast.success("Your account has been created");
+            } catch (error) {
+                toast.error(error.message);
+            }
+        },
+        [setForm]
+    );
+
     console.log(errors);
     return (
         <Card className="flex-shrink-0 shadow-md shadow-yellow-500 w-full">
             <Card.Body>
-                <div className="text-red-500">{errors?.username?.message}</div>{" "}
-                <div className="text-red-500">{errors?.email?.message}</div>{" "}
-                <div className="text-red-500">{errors?.password?.message}</div>
-                <div className="text-red-500">{errors?.city?.message}</div>{" "}
-                <div className="text-red-500">{errors?.language?.message}</div>
                 <Form onClick={handleSubmit(onSubmit)} method="POST">
                     <div className="w-full flex space-x-2">
                         <div className="w-1/2">
@@ -44,7 +57,7 @@ const Register = ({ setForm, props }) => {
                             <Input
                                 className="w-full input-bordered bg-transparent focus:border-4 focus:border-myPurple"
                                 type="text"
-                                {...register("Username", {
+                                {...register("username", {
                                     required: "Please enter your username.",
                                     min: { value: 3, message: "min 3 chars" },
                                     maxLength: 80,
@@ -52,11 +65,11 @@ const Register = ({ setForm, props }) => {
                             />
                         </div>
                         <div className="w-1/2">
-                            <Form.Label title="Email" />
+                            <Form.Label title="email" />
                             <Input
                                 className="w-full input-bordered bg-transparent focus:border-4 focus:border-myPurple"
                                 type="text"
-                                {...register("Email", {
+                                {...register("email", {
                                     required: "Please enter your email.",
                                     pattern: {
                                         value: /^\S+@\S+$/i,
@@ -69,12 +82,12 @@ const Register = ({ setForm, props }) => {
                     </div>
                     <div className="w-full flex space-x-2">
                         <div className="w-1/2">
-                            <Form.Label title="Password" />
+                            <Form.Label title="password" />
 
                             <Input
                                 className="w-full input-bordered bg-transparent focus:border-4 focus:border-myPurple"
                                 type={show ? "text" : "password"}
-                                {...register("Password", {
+                                {...register("password", {
                                     required: "Please enter a password",
                                     pattern: {
                                         value: /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/i,
@@ -111,7 +124,7 @@ const Register = ({ setForm, props }) => {
                             <Input
                                 className="w-full input-bordered bg-transparent focus:border-4 focus:border-myPurple"
                                 type={show ? "text" : "password"}
-                                {...register("Password2", {
+                                {...register("password2", {
                                     required:
                                         "Please enter your password again",
                                     pattern: {
@@ -128,7 +141,7 @@ const Register = ({ setForm, props }) => {
                             <Input
                                 className="w-full input-bordered bg-transparent focus:border-4 focus:border-myPurple"
                                 type="text"
-                                {...register("City", {
+                                {...register("city", {
                                     required: "Please enter your location",
                                 })}
                             />
@@ -137,7 +150,7 @@ const Register = ({ setForm, props }) => {
                             <Form.Label title="Language" />
                             <div className="flex w-full component-preview items-center justify-center gap-2 font-sans">
                                 <select
-                                    {...register("Language", {
+                                    {...register("language", {
                                         required:
                                             "Please select your main language",
                                     })}
@@ -151,6 +164,28 @@ const Register = ({ setForm, props }) => {
                                 </select>
                             </div>
                         </div>
+                    </div>
+                    <div className="flex  flex-wrap w-full">
+                        {errors.username && (
+                            <li className="w-1/2 text-xs text-red-500">
+                                {errors?.username?.message}
+                            </li>
+                        )}
+                        {errors.email && (
+                            <li className="w-1/2 text-xs text-red-500">
+                                {errors?.email?.message}
+                            </li>
+                        )}
+                        {errors.password && (
+                            <li className="w-1/2 text-xs text-red-500">
+                                {errors?.password?.message}
+                            </li>
+                        )}
+                        {errors.city && (
+                            <li className="w-1/2 text-xs text-red-500">
+                                {errors?.city?.message}
+                            </li>
+                        )}
                     </div>
                     <div className="flex justify-between pt-4">
                         <label
@@ -183,12 +218,3 @@ const Register = ({ setForm, props }) => {
     );
 };
 export default Register;
-
-export const getServerSideProps = async () => {
-    const { data } = await axios.get(url);
-    return {
-        props: {
-            user: data.data,
-        },
-    };
-};
