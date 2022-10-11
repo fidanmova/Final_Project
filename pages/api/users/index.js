@@ -1,6 +1,6 @@
 import nc from "next-connect";
-import { validateBody } from "../../../middlewares/ajv";
-import auths from "../../../middlewares/auth";
+import { validateBody, auths } from "../../../middlewares";
+
 import { ValidateProps } from "../../../models/schema";
 import {
     findUserByEmail,
@@ -31,19 +31,8 @@ handler.post(
         try {
             const db = await dbConnect();
 
-            let { username, city, language, email, password } = req.body;
-            console.log(
-                "username",
-                username,
-                "city",
-                city,
-                "language",
-                language,
-                "email",
-                email,
-                "password",
-                password
-            );
+            let { username, city, email, password, language } = req.body;
+
             username = slugUsername(req.body.username);
 
             // if (email) {
@@ -67,13 +56,14 @@ handler.post(
             const user = await insertUser(db, {
                 username,
                 email,
-                password,
+                originalPassword: password,
                 city,
-                language,
+                language:"",
                 circle: [],
                 bio: "",
                 events: [],
                 jobs: [],
+                admin: false,
                 isVerified: false,
             });
             req.logIn(user, (err) => {

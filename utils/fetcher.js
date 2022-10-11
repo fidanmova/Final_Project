@@ -1,5 +1,7 @@
 export const fetcher = (...args) => {
+    
     return fetch(...args).then(async (response) => {
+        console.log('response', response)
         let payload;
         try {
             if (response.status === 204) return null;

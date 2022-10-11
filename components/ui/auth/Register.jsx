@@ -22,8 +22,7 @@ const Register = ({ setForm, props }) => {
     const onSubmit = useCallback(
         async (data) => {
             try {
-                console.log("Register form data", data);
-
+                console.log(errors);
                 const response = await fetcher("/api/users", {
                     method: "POST",
                     headers: { "Content-Type": "application/json" },
@@ -32,20 +31,22 @@ const Register = ({ setForm, props }) => {
                         email: data.email,
                         password: data.password,
                         city: data.city,
-                        language: data.language,
+                        //  language: data.language
                     }),
                 });
+                console.log("RESPONSE", response);
+                toast.loading("started working on .....");
                 mutate({ user: response.user }, false);
+                toast.loading("working on .....");
                 setForm("otp");
                 toast.success("Your account has been created");
             } catch (error) {
                 toast.error(error.message);
             }
         },
-        [setForm]
+        [errors, setForm]
     );
 
-    console.log(errors);
     return (
         <Card className="flex-shrink-0 shadow-md shadow-yellow-500 w-full">
             <Card.Body>
@@ -146,7 +147,7 @@ const Register = ({ setForm, props }) => {
                                 })}
                             />
                         </div>
-                        <div className=" w-1/2">
+                        {/* <div className=" w-1/2">
                             <Form.Label title="Language" />
                             <div className="flex w-full component-preview items-center justify-center gap-2 font-sans">
                                 <select
@@ -163,7 +164,7 @@ const Register = ({ setForm, props }) => {
                                         ))}
                                 </select>
                             </div>
-                        </div>
+                        </div>  */}
                     </div>
                     <div className="flex  flex-wrap w-full">
                         {errors.username && (

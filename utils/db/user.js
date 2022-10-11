@@ -57,35 +57,34 @@ export async function insertUser(
         username,
         email,
         originalPassword,
-        bio = "",
-        city,
-        avatar,
-        language,
-        circle = [],
-        events = [],
-        jobs = [],
-        friends = [],
-        admin = false,
-    }
-) {
-    const password = await bcrypt.hash(originalPassword, 10);
-    console.log('password', password)
-
-    const user = {
-        isVerified: false,
-        username,
-        email,
-        password,
         bio,
         city,
         avatar,
-        language,
         circle,
         events,
         jobs,
         friends,
         admin,
+        isVerified,
+        language
+    }
+) {
+    const user = {
+        username,
+        email,
+        bio,
+        city,
+        avatar,
+        circle,
+        language,
+        events,
+        jobs,
+        friends,
+        admin,
+        isVerified,
     };
+    const password = await bcrypt.hash(originalPassword, 10);
+
     const { insertedId } = await db
         .collection("users")
         .insertOne({ ...user, password });
