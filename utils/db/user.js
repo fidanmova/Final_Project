@@ -66,7 +66,7 @@ export async function insertUser(
         friends,
         admin,
         isVerified,
-        language
+        language,
     }
 ) {
     const user = {

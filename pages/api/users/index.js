@@ -7,8 +7,10 @@ import {
     findUserByUsername,
     insertUser,
 } from "../../../utils/db";
+import { generateOTP } from "../../../utils/generateOTP";
 import { dbConnect } from "../../../utils/mongo/mongodb";
 import { ncOpts } from "../../../utils/nc";
+import { transport } from "../../../utils/nodemailer/nodemailer";
 import { slugUsername } from "../../../utils/user/slug";
 
 const handler = nc(ncOpts);
@@ -24,14 +26,14 @@ handler.post(
             language: ValidateProps.user.language,
         },
         required: ["username", "city", "password", "email", "language"],
-        additionalProperties: false,
+        additionalProperties: true,
     }),
     ...auths,
     async (req, res) => {
         try {
             const db = await dbConnect();
 
-            let { username, city, email, password, language } = req.body;
+            let { username, city, email, password, language, OTP } = req.body;
 
             username = slugUsername(req.body.username);
 
@@ -53,12 +55,13 @@ handler.post(
                 });
                 return;
             }
+           
             const user = await insertUser(db, {
                 username,
                 email,
                 originalPassword: password,
                 city,
-                language:"",
+                language,
                 circle: [],
                 bio: "",
                 events: [],
@@ -66,10 +69,21 @@ handler.post(
                 admin: false,
                 isVerified: false,
             });
+            transport.sendMail({
+                to: email,
+                from: "no-reply@devshed.com",
+                subject: "Welcome to DevShed .",
+                html: `
+          <div>
+            <p>Hello, ${username}</p>
+            <p>Your otp number ${OTP}.</p>
+          </div>
+          `,
+            });
             req.logIn(user, (err) => {
-                if (err) throw err;
+                if (err) console.error(err);
                 res.status(201).json({
-                    user,
+                    user,OTP
                 });
             });
         } catch (error) {

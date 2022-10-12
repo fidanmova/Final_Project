@@ -6,8 +6,9 @@ import { RiEyeCloseLine, RiEyeLine, RiArrowGoBackLine } from "react-icons/ri";
 import { fetcher } from "../../../utils/fetcher";
 import { toast } from "react-hot-toast";
 import { mutate } from "swr";
+import { generateOTP } from "../../../utils/generateOTP";
 
-const Register = ({ setForm, props }) => {
+const Register = ({ setForm, setOTP }) => {
     const [show, setShow] = useState(false);
     const handleShow = () => {
         setShow(!show);
@@ -18,11 +19,11 @@ const Register = ({ setForm, props }) => {
         handleSubmit,
         formState: { errors },
     } = useForm();
-
+    const OTP = generateOTP(7);
     const onSubmit = useCallback(
         async (data) => {
             try {
-                console.log(errors);
+                setOTP(OTP);
                 const response = await fetcher("/api/users", {
                     method: "POST",
                     headers: { "Content-Type": "application/json" },
@@ -31,15 +32,17 @@ const Register = ({ setForm, props }) => {
                         email: data.email,
                         password: data.password,
                         city: data.city,
-                        //  language: data.language
+                        language: data.language,
+                        OTP: OTP,
                     }),
                 });
+                console.log(errors);
                 console.log("RESPONSE", response);
                 toast.loading("started working on .....");
                 mutate({ user: response.user }, false);
                 toast.loading("working on .....");
                 setForm("otp");
-                toast.success("Your account has been created");
+                toast.success("Your acco                unt has been created");
             } catch (error) {
                 toast.error(error.message);
             }
@@ -50,7 +53,7 @@ const Register = ({ setForm, props }) => {
     return (
         <Card className="flex-shrink-0 shadow-md shadow-yellow-500 w-full">
             <Card.Body>
-                <Form onClick={handleSubmit(onSubmit)} method="POST">
+                <Form onSubmit={handleSubmit(onSubmit)} method="POST">
                     <div className="w-full flex space-x-2">
                         <div className="w-1/2">
                             <Form.Label title="Username" />
@@ -147,8 +150,8 @@ const Register = ({ setForm, props }) => {
                                 })}
                             />
                         </div>
-                        {/* <div className=" w-1/2">
-                            <Form.Label title="Language" />
+                        <div className=" w-1/2">
+                            <Form.Label title="Language" />{" "}
                             <div className="flex w-full component-preview items-center justify-center gap-2 font-sans">
                                 <select
                                     {...register("language", {
@@ -164,7 +167,7 @@ const Register = ({ setForm, props }) => {
                                         ))}
                                 </select>
                             </div>
-                        </div>  */}
+                        </div>
                     </div>
                     <div className="flex  flex-wrap w-full">
                         {errors.username && (
@@ -185,6 +188,11 @@ const Register = ({ setForm, props }) => {
                         {errors.city && (
                             <li className="w-1/2 text-xs text-red-500">
                                 {errors?.city?.message}
+                            </li>
+                        )}{" "}
+                        {errors.language && (
+                            <li className="w-1/2 text-xs text-red-500">
+                                {errors?.language?.message}
                             </li>
                         )}
                     </div>

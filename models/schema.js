@@ -34,7 +34,7 @@ export const ValidateProps = {
         jobs: {
             type: "array",
         },
-        isVerified: { type: "boolean" },
+        isVerified: { type: "boolean"|| "string" },
     },
     required: ["username", "email", "city", "password"],
 };

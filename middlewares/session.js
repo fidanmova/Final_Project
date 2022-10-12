@@ -2,14 +2,16 @@ import MongoStore from "connect-mongo";
 import nextSession from "next-session";
 
 import { getMongoClient } from "../utils/mongo/mongodb";
-import { promisifyStore } from 'next-session/lib/compat';
+import { promisifyStore } from "next-session/lib/compat";
 
 const mongoStore = MongoStore.create({
     clientPromise: getMongoClient(),
     stringify: false,
 });
+console.log("mongo", mongoStore);
 
 const getSession = nextSession({
+    name: "DEVSHED SESSION",
     store: promisifyStore(mongoStore),
     cookie: {
         httpOnly: true,
@@ -23,8 +25,7 @@ const getSession = nextSession({
 
 export default async function session(req, res, next) {
     await getSession(req, res);
-    console.log('Session', getSession())
-   
+
     console.log("XXXXXXX - Session started");
     next();
 }

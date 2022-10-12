@@ -5,7 +5,7 @@ import { Button, Card, Input } from "react-daisyui";
 const OTP_LENGTH = 8;
 let currentOTPid;
 
-const EmailVerification = () => {
+const EmailVerification = ({ OTP }) => {
     const router = useRouter();
     const [otp, setOtp] = useState(new Array(OTP_LENGTH).fill(""));
     const [activeOTPi, setActiveOTPi] = useState(0);
@@ -37,9 +37,12 @@ const EmailVerification = () => {
         if (key === "Backspace") prevInput(currentOTPid);
     };
 
-    const onSubmit = () => {
-        router.push("/home");
-        console.log(inputRef);
+    const onSubmit = (e) => {
+        e.preventDefault();
+        console.log("OTPS - ", otp.join('')," - ",OTP)
+
+         if (otp === OTP) router.push("/home");
+        
     };
     useEffect(() => {
         inputRef.current?.focus();

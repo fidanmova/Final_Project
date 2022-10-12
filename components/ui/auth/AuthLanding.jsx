@@ -7,6 +7,7 @@ import Register from "./Register";
 
 const AuthLanding = () => {
     const [form, setForm] = useState("login");
+    const [OTP, setOTP] = useState(null);
 
     return (
         <Hero className="w-full lg:h-[60vh] bg-black bg-opacity-30 rounded-lg backdrop-blur-sm overflow-hidden">
@@ -21,7 +22,7 @@ const AuthLanding = () => {
                     <>
                         <Banner />
                         <div className="w-full flex lg:w-1/2 lg:pr-12 px-auto">
-                            <Register setForm={setForm} />
+                            <Register setForm={setForm} setOTP={setOTP} />
                         </div>
                     </>
                 )}
@@ -42,7 +43,7 @@ const AuthLanding = () => {
                             </h1>
                         </div>
                         <div className="w-full flex justify-center items-center h-[50vh]">
-                            <EmailVerification setForm={setForm} />
+                            <EmailVerification OTP={OTP} />
                         </div>
                     </>
                 )}
