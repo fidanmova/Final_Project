@@ -1,22 +1,59 @@
-import React from "react";
+import React, { useCallback, useState } from "react";
 import { useForm } from "react-hook-form";
-import { Button, Input, Form, Card, Option, Select } from "react-daisyui";
-import languagesList from "../../../utils/languagesList";
+import { Input, Form, Card, Button } from "react-daisyui";
+import languagesList from "../../../utils/list/languagesList";
+import { RiEyeCloseLine, RiEyeLine, RiArrowGoBackLine } from "react-icons/ri";
+import { fetcher } from "../../../utils/fetcher";
+import { toast } from "react-hot-toast";
+import { generateOTP } from "../../../utils/generateOTP";
+import { useCurrentUser } from "../../../utils/user/hooks";
 
-const Register = ({ setForm }) => {
-    console.log("languagesList", languagesList);
+const Register = ({ setForm, setOTP }) => {
+    const [show, setShow] = useState(false);
+    const handleShow = () => {
+        setShow(!show);
+    };
+    const { mutate } = useCurrentUser();
     const {
         register,
         handleSubmit,
         formState: { errors },
     } = useForm();
-    const onSubmit = (data) => console.log(data);
-    console.log(errors);
+    const OTP = generateOTP(7);
+    const onSubmit = useCallback(
+        async (data) => {
+            try {
+                setOTP(OTP);
+                const response = await fetcher("/api/users", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({
+                        username: data.username,
+                        email: data.email,
+                        password: data.password,
+                        city: data.city,
+                        language: data.language,
+                        OTP: OTP,
+                    }),
+                });
+                console.log(errors);
+                console.log("RESPONSE", response);
+                toast.loading("started working on .....");
+                mutate({ user: response.user }, false);
+                toast.loading("working on .....");
+                setForm("otp");
+                toast.success("Your account has been created");
+            } catch (error) {
+                toast.error(error.message);
+            }
+        },
+        [errors, setForm]
+    );
 
     return (
-        <Card className="flex-shrink-0 w-full shadow-2xl">
+        <Card className="flex-shrink-0 shadow-md shadow-yellow-500 w-full">
             <Card.Body>
-                <Form onSubmit={handleSubmit(onSubmit)}>
+                <Form onSubmit={handleSubmit(onSubmit)} method="POST">
                     <div className="w-full flex space-x-2">
                         <div className="w-1/2">
                             <Form.Label title="Username" />
@@ -24,49 +61,79 @@ const Register = ({ setForm }) => {
                             <Input
                                 className="w-full input-bordered bg-transparent focus:border-4 focus:border-myPurple"
                                 type="text"
-                                {...register("Username", {
-                                    required: true,
-                                    min: 3,
+                                {...register("username", {
+                                    required: "Please enter your username.",
+                                    min: { value: 3, message: "min 3 chars" },
                                     maxLength: 80,
                                 })}
                             />
                         </div>
                         <div className="w-1/2">
-                            <Form.Label title="Email" />
+                            <Form.Label title="email" />
                             <Input
                                 className="w-full input-bordered bg-transparent focus:border-4 focus:border-myPurple"
                                 type="text"
-                                {...register("Email", {
-                                    required: true,
-                                    pattern: /^\S+@\S+$/i,
+                                {...register("email", {
+                                    required: "Please enter your email.",
+                                    pattern: {
+                                        value: /^\S+@\S+$/i,
+                                        message:
+                                            "Please enter a valid email address.",
+                                    },
                                 })}
                             />
                         </div>
                     </div>
                     <div className="w-full flex space-x-2">
                         <div className="w-1/2">
-                            <Form.Label title="Password" />
+                            <Form.Label title="password" />
 
                             <Input
                                 className="w-full input-bordered bg-transparent focus:border-4 focus:border-myPurple"
-                                type="password"
-                                {...register("Password", {
-                                    required: true,
-                                    pattern:
-                                        /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/i,
+                                type={show ? "text" : "password"}
+                                {...register("password", {
+                                    required: "Please enter a password",
+                                    pattern: {
+                                        value: /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/i,
+                                        message:
+                                            "At least 8 characters,uppercase, lowercase,number & a special symbol",
+                                    },
                                 })}
                             />
+                            {show ? (
+                                <div
+                                    className="flex space-x-2 py-1.5 pl-1"
+                                    onClick={handleShow}
+                                >
+                                    <RiEyeLine className="text-yellow-500" />
+                                    <p className="italic text-xs">
+                                        hide password
+                                    </p>
+                                </div>
+                            ) : (
+                                <div
+                                    className="flex space-x-2 py-1.5 pl-1"
+                                    onClick={handleShow}
+                                >
+                                    <RiEyeCloseLine className="text-yellow-500 " />
+                                    <p className="italic text-xs ">
+                                        show password
+                                    </p>
+                                </div>
+                            )}
                         </div>
                         <div className="w-1/2">
                             <Form.Label title="Repeat Password" />
 
                             <Input
                                 className="w-full input-bordered bg-transparent focus:border-4 focus:border-myPurple"
-                                type="password"
-                                {...register("Password2", {
-                                    required: true,
-                                    pattern:
-                                        /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/i,
+                                type={show ? "text" : "password"}
+                                {...register("password2", {
+                                    required:
+                                        "Please enter your password again",
+                                    pattern: {
+                                        value: /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/i,
+                                    },
                                 })}
                             />
                         </div>
@@ -78,19 +145,22 @@ const Register = ({ setForm }) => {
                             <Input
                                 className="w-full input-bordered bg-transparent focus:border-4 focus:border-myPurple"
                                 type="text"
-                                {...register("City", { pattern: /\p{L}/i })}
+                                {...register("city", {
+                                    required: "Please enter your location",
+                                })}
                             />
                         </div>
                         <div className=" w-1/2">
-                            <Form.Label title="Language" />
+                            <Form.Label title="Language" />{" "}
                             <div className="flex w-full component-preview items-center justify-center gap-2 font-sans">
                                 <select
-                                    {...register("Title", { required: true })}
-                                    className="select select-bordered w-full bg-transparent focus:border-4 focus:border-myPurple"
+                                    {...register("language", {
+                                        required:
+                                            "Please select your main language",
+                                    })}
+                                    className="select select-bordered w-full bg-transparent focus:border-4 focus:border-myPurple text-blue-600"
                                 >
-                                    <option disabled selected>
-                                        choose language
-                                    </option>
+                                    <option disabled>choose</option>
                                     {languagesList &&
                                         languagesList.map((language, i) => (
                                             <option key={i}>{language}</option>
@@ -99,22 +169,57 @@ const Register = ({ setForm }) => {
                             </div>
                         </div>
                     </div>
+                    <div className="flex  flex-wrap w-full">
+                        {errors.username && (
+                            <li className="w-1/2 text-xs text-red-500">
+                                {errors?.username?.message}
+                            </li>
+                        )}
+                        {errors.email && (
+                            <li className="w-1/2 text-xs text-red-500">
+                                {errors?.email?.message}
+                            </li>
+                        )}
+                        {errors.password && (
+                            <li className="w-1/2 text-xs text-red-500">
+                                {errors?.password?.message}
+                            </li>
+                        )}
+                        {errors.city && (
+                            <li className="w-1/2 text-xs text-red-500">
+                                {errors?.city?.message}
+                            </li>
+                        )}{" "}
+                        {errors.language && (
+                            <li className="w-1/2 text-xs text-red-500">
+                                {errors?.language?.message}
+                            </li>
+                        )}
+                    </div>
                     <div className="flex justify-between pt-4">
                         <label
                             className="label"
                             onClick={() => setForm("login")}
                         >
-                            <p className="text-xs">Back</p>
+                            <div className="text-xs hover:text-blue-500 flex items-center">
+                                <RiArrowGoBackLine />
+                                <p className="pl-1">Back</p>
+                            </div>
                         </label>
                         <label
                             className="label"
                             onClick={() => setForm("reset")}
                         >
-                            <p className="text-xs">Forgot password?</p>
+                            <p className="text-xs hover:text-blue-500">
+                                Forgot password?
+                            </p>
                         </label>
                     </div>
-                    <Button className="bg-gradient-to-r from-indigo-500 to-blue-900 mt-10">
-                        Sign Up
+                    <Button
+                        className="bg-gradient-to-r from-blue-900 to-purple-900  mt-4"
+                        type="submit"
+                    >
+                        enter
                     </Button>
                 </Form>
             </Card.Body>
