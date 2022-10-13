@@ -1,5 +1,5 @@
 import { useRouter } from "next/router";
-import React, { useState, useEffect, useRef, useCallback } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import { Button, Card, Form, Input } from "react-daisyui";
 import { RiEyeCloseLine, RiEyeLine } from "react-icons/ri";
 import { fetcher } from "../../../utils/fetcher";
@@ -7,58 +7,76 @@ import { useCurrentUser } from "../../../utils/user/hooks";
 
 const Login = ({ setForm }) => {
     const router = useRouter();
-    const { data: { user } = {}, mutate, isValidating } = useCurrentUser();
+
     const [show, setShow] = useState(false);
     const handleShow = () => {
         setShow(!show);
     };
 
-    const emailRef = useRef();
-    const passwordRef = useRef();
+    const [credential, setCredential] = useState({
+        email: "",
+        password: "",
+    });
+
+    const handler = (e) => {
+        setCredential({ ...credential, [e.target.name]: e.target.value });
+    };
+
+    const [isLoading, setIsLoading] = useState(false);
+    console.log("Loading", isLoading);
+
+    const { data: { user } = {}, mutate, isValidating } = useCurrentUser();
 
     useEffect(() => {
         if (isValidating) return;
         if (user) router.replace("/dashboard");
     }, [user, router, isValidating]);
-
     const onSubmit = useCallback(
-        async (data) => {
+        async (e) => {
+            setIsLoading(true);
+            e.preventDefault();
             try {
+                console.log("emailRef", emailRef);
+                console.log("password", passwordRef);
                 const response = await fetcher("/api/auth", {
                     method: "POST",
                     headers: { "Content-Type": "application/json" },
                     body: JSON.stringify({
-                        email: data.email,
-                        password: data.password,
+                        email: credential.email,
+                        password: credential.password,
                     }),
                 });
                 mutate({ user: response.user }, false);
-                toast.success("You have been logged in.");
-                router.push("/dashboard");
+                console.log("You have been logged in.");
             } catch (e) {
                 toast.error("Incorrect email or password.");
-                console.error("Incorrect email or password.");
+            } finally {
+                setIsLoading(false);
             }
         },
-        [mutate]
+        [mutate,credential]
     );
 
     return (
         <Card className="flex-shrink-0 w-full shadow-md shadow-yellow-500">
             <Card.Body>
-                <Form onSubmit={onSubmit}>
+                <Form onSubmit={onSubmit} method="POST">
                     <Form.Label title="Email" />
                     <Input
                         type="text"
                         className="w-full input-bordered bg-transparent focus:border-4 focus:border-myPurple"
-                        ref={emailRef}
+                        name="email"
+                        value={credential.email}
+                        onChange={handler}
                     />
 
                     <Form.Label title="Password" />
                     <Input
                         type={show ? "text" : "password"}
                         className="w-full input-bordered bg-transparent focus:border-4 focus:border-myPurple"
-                        ref={passwordRef}
+                        name="password"
+                        value={credential.password}
+                        onChange={handler}
                     />
                     <div className="w-full text-myYellow flex items-center z-50 pr-4 pt-2 lg:pr-0 ">
                         {show ? (
@@ -101,7 +119,8 @@ const Login = ({ setForm }) => {
 
                 <Button
                     className="bg-gradient-to-r from-blue-900 to-purple-900  mt-4"
-                    type="sucess"
+                    type="submit"
+                    loading={isLoading}
                 >
                     enter
                 </Button>
