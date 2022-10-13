@@ -1,14 +1,32 @@
-import React, { useRef, useState } from "react";
+import React,{ useCallback, useRef, useState } from "react";
 import { Button, Card, Form, Input } from "react-daisyui";
 import Link from "next/link";
+import { fetcher } from "../../../utils/fetcher";
 
 const ForgotPass = ({ setForm }) => {
     const [reset, setReset] = useState(false);
     const email = useRef(null);
-    const onSubmit = (data) => {
-        setReset(true);
-        console.log(data);
-    };
+
+    console.log("email", email?.current?.value);
+
+    console.log("reset", reset);
+
+    const onSubmit = useCallback(async (e) => {
+        e.preventDefault();
+        try {
+            setReset(true);
+            await fetcher("/api/user/password/resetPassword", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({
+                    email: email.current.value,
+                }),
+            });
+            setForm("newPass");
+        } catch (error) {
+            console.error(error);
+        }
+    }, [setForm]);
 
     return (
         <>
@@ -22,7 +40,7 @@ const ForgotPass = ({ setForm }) => {
                         </div>
                         <Card className="flex-shrink-0 w-full max-w-sm shadow-md shadow-yellow-500">
                             <Card.Body>
-                                <Form>
+                                <Form onSubmit={onSubmit}>
                                     <Form.Label title="Enter your email" />
                                     <Input
                                         ref={email}
@@ -52,10 +70,10 @@ const ForgotPass = ({ setForm }) => {
                                 </div>
 
                                 <Button
-                                    className="bg-gradient-to-r from-blue-900 to-purple-900 mt-2"
-                                    onClick={onSubmit}
+                                    className="bg-gradient-to-r from-blue-900 to-purple-900  mt-4"
+                                    type="submit"
                                 >
-                                    reset
+                                    reset!
                                 </Button>
                             </Card.Body>
                         </Card>

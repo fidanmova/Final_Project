@@ -8,7 +8,6 @@ const mongoStore = MongoStore.create({
     clientPromise: getMongoClient(),
     stringify: false,
 });
-console.log("mongo", mongoStore);
 
 const getSession = nextSession({
     name: "DEVSHED SESSION",
@@ -25,7 +24,5 @@ const getSession = nextSession({
 
 export default async function session(req, res, next) {
     await getSession(req, res);
-
-    console.log("XXXXXXX - Session started");
     next();
 }

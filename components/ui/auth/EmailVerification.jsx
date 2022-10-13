@@ -37,13 +37,14 @@ const EmailVerification = ({ OTP }) => {
         if (key === "Backspace") prevInput(currentOTPid);
     };
 
-    const onSubmit = (e) => {
+    const onSubmit = async (e) => {
         e.preventDefault();
-        console.log("OTPS - ", otp.join('')," - ",OTP)
+        const otpInput = otp.join("");
 
-         if (otp === OTP) router.push("/home");
-        
+        if (otpInput == OTP) router.push("/dashboard");
+        else alert("OTP input is invalid...Try again.");
     };
+
     useEffect(() => {
         inputRef.current?.focus();
     }, [activeOTPi]);

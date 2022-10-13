@@ -5,15 +5,15 @@ import languagesList from "../../../utils/list/languagesList";
 import { RiEyeCloseLine, RiEyeLine, RiArrowGoBackLine } from "react-icons/ri";
 import { fetcher } from "../../../utils/fetcher";
 import { toast } from "react-hot-toast";
-import { mutate } from "swr";
 import { generateOTP } from "../../../utils/generateOTP";
+import { useCurrentUser } from "../../../utils/user/hooks";
 
 const Register = ({ setForm, setOTP }) => {
     const [show, setShow] = useState(false);
     const handleShow = () => {
         setShow(!show);
     };
-
+    const { mutate } = useCurrentUser();
     const {
         register,
         handleSubmit,
@@ -42,7 +42,7 @@ const Register = ({ setForm, setOTP }) => {
                 mutate({ user: response.user }, false);
                 toast.loading("working on .....");
                 setForm("otp");
-                toast.success("Your acco                unt has been created");
+                toast.success("Your account has been created");
             } catch (error) {
                 toast.error(error.message);
             }

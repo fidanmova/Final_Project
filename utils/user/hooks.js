@@ -1,5 +1,6 @@
-import { fetcher } from '@/lib/fetch';
+
 import useSWR from 'swr';
+import { fetcher } from '../fetcher';
 
 export function useCurrentUser() {
   return useSWR('/api/user', fetcher);

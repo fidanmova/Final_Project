@@ -67,6 +67,7 @@ export async function insertUser(
         admin,
         isVerified,
         language,
+        since,
     }
 ) {
     const user = {
@@ -82,6 +83,7 @@ export async function insertUser(
         friends,
         admin,
         isVerified,
+        since,
     };
     const password = await bcrypt.hash(originalPassword, 10);
 

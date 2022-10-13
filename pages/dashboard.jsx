@@ -1,10 +1,9 @@
 import PageTemplate from "../components/ui/PageTemplate";
-import Homepage from '../components/Homepage';
 
-export default function Home() {
+export default function Dashboard() {
     return (
         <PageTemplate content="Dev-Shed Community" title="DevShed - Home">
-            <Homepage />
+            <div>DASHBOARD</div>
         </PageTemplate>
     );
 }

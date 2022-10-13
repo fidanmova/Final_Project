@@ -7,7 +7,6 @@ import {
     findUserByUsername,
     insertUser,
 } from "../../../utils/db";
-import { generateOTP } from "../../../utils/generateOTP";
 import { dbConnect } from "../../../utils/mongo/mongodb";
 import { ncOpts } from "../../../utils/nc";
 import { transport } from "../../../utils/nodemailer/nodemailer";
@@ -33,16 +32,10 @@ handler.post(
         try {
             const db = await dbConnect();
 
-            let { username, city, email, password, language, OTP } = req.body;
+            let { city, email, password, language, OTP } = req.body;
 
-            username = slugUsername(req.body.username);
+            let username = slugUsername(req.body.username);
 
-            // if (email) {
-            //     res.status(400).json({
-            //         error: { message: "The email you entered is invalid." },
-            //     });
-            //     return;
-            // }
             if (await findUserByEmail(db, email)) {
                 res.status(403).json({
                     error: { message: "The email has already been used." },
@@ -55,7 +48,7 @@ handler.post(
                 });
                 return;
             }
-           
+
             const user = await insertUser(db, {
                 username,
                 email,
@@ -68,6 +61,7 @@ handler.post(
                 jobs: [],
                 admin: false,
                 isVerified: false,
+                since: new Date(Date.now()) 
             });
             transport.sendMail({
                 to: email,
@@ -83,7 +77,8 @@ handler.post(
             req.logIn(user, (err) => {
                 if (err) console.error(err);
                 res.status(201).json({
-                    user,OTP
+                    user,
+                    OTP,
                 });
             });
         } catch (error) {

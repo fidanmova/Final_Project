@@ -3,6 +3,7 @@ import { Hero } from "react-daisyui";
 import EmailVerification from "./EmailVerification";
 import ForgotPass from "./ForgotPass";
 import Login from "./Login";
+import NewPass from "./NewPass";
 import Register from "./Register";
 
 const AuthLanding = () => {
@@ -48,6 +49,7 @@ const AuthLanding = () => {
                     </>
                 )}
                 {form === "reset" && <ForgotPass setForm={setForm} />}
+                {form === "newPass" && <NewPass />}
             </Hero.Content>
         </Hero>
     );

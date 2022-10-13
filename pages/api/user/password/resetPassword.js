@@ -6,7 +6,7 @@ import {
     createToken,
     findAndDeleteTokenByIdAndType,
     findUserByEmail,
-    UNSAFE_updateUserPassword,
+    updateUserPassword,
 } from "../../../../utils/db";
 import { transport } from "../../../../utils/nodemailer/nodemailer";
 import { validateBody } from "../../../../middlewares/ajv";
@@ -26,6 +26,7 @@ handler.post(
         const db = await dbConnect();
 
         const { email } = req.body;
+        console.log('XXX email', email)
         const user = await findUserByEmail(db, email);
         if (!user) {
             res.status(400).json({
@@ -69,7 +70,7 @@ handler.put(
         additionalProperties: false,
     }),
     async (req, res) => {
-        const db = await getMongoDb();
+        const db = await dbConnect();
 
         const deletedToken = await findAndDeleteTokenByIdAndType(
             db,
@@ -80,7 +81,7 @@ handler.put(
             res.status(403).end();
             return;
         }
-        await UNSAFE_updateUserPassword(
+        await updateUserPassword(
             db,
             deletedToken.creatorId,
             req.body.password
