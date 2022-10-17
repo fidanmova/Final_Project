@@ -3,7 +3,7 @@ import { dbConnect } from "../../utils/mongo/mongodb";
 import { findUserByUsername } from "../../utils/db";
 
 export default function User({ user }) {
-    console.log("user", user);
+    console.log("USERNAME-user", user);
     return (
         <PageTemplate content="Dev-Shed Community" title="DevShed - Home">
             <title>{user.username}</title>

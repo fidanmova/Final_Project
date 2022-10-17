@@ -1,7 +1,8 @@
 import React from "react";
 import Image from "next/image";
 import Link from "next/link";
-const Header = () => {
+const Header = ({user}) => {
+    console.log('NAVBARuser', user)
     return (
         <div className="w-screen h-16 sticky top-0 z-50 flex justify-between items-center px-6">
             <Link href="/">
@@ -13,6 +14,9 @@ const Header = () => {
                     className="relative m-6"
                 />
             </Link>
+        {user && <p>{user}</p>}
+        
+
         </div>
     );
 };
