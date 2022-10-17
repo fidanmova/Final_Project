@@ -11,7 +11,9 @@ const PageTemplate = ({ children, content, title }) => {
                 <meta name="description" content={content} />
                 <link rel="icon" href="/favicon.ico" />
             </Head>
-            <Header />
+            <div className="w-screen h-16 sticky top-0 z-50 flex justify-between items-center px-6 bg-black bg-opacity-50">
+                <Header />
+            </div>
             <main className="w-full">{children}</main>
 
             <Footer />

@@ -1,11 +1,10 @@
+import DashBoard from "../components/ui/dashboard/DashBoard";
 import PageTemplate from "../components/ui/PageTemplate";
-import DashBoard from "../components/DashBoard";
 
-export default function Dashboard({ user }) {
-    console.log('user page', user)
+export default function Dashboard() {
     return (
-        <PageTemplate content="Dev-Shed Community" title="DevShed - Home">
-            <DashBoard user={user} />
+        <PageTemplate content="Dev-Shed Community" title="DevShed - Dashboard">
+            <DashBoard />
         </PageTemplate>
     );
 }
