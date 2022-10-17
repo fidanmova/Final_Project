@@ -10,7 +10,10 @@ passport.serializeUser((user, done) => {
 passport.deserializeUser((req, id, done) => {
     dbConnect().then((db) => {
         findUserForAuth(db, id).then(
-            (user) => done(null, user),
+            (user) => {
+                console.log(user);
+                done(null, user);
+            },
             (err) => done(err)
         );
     });
@@ -26,6 +29,7 @@ passport.use(
                 email,
                 password
             );
+            console.log("PASSPORT user", user);
             if (user) done(null, user);
             else
                 done(null, false, {

@@ -4,7 +4,6 @@ import { Input, Form, Card, Button } from "react-daisyui";
 import languagesList from "../../../utils/list/languagesList";
 import { RiEyeCloseLine, RiEyeLine, RiArrowGoBackLine } from "react-icons/ri";
 import { fetcher } from "../../../utils/fetcher";
-import { toast } from "react-hot-toast";
 import { generateOTP } from "../../../utils/generateOTP";
 import { useCurrentUser } from "../../../utils/user/hooks";
 
@@ -37,17 +36,17 @@ const Register = ({ setForm, setOTP }) => {
                     }),
                 });
                 console.log(errors);
-                console.log("RESPONSE", response);
-                toast.loading("started working on .....");
+                console.log("RESPONSE-REGISTER", response);
+                console.log("started working on .....");
                 mutate({ user: response.user }, false);
-                toast.loading("working on .....");
+                console.log("working on .....");
                 setForm("otp");
-                toast.success("Your account has been created");
+                console.log("Your account has been created");
             } catch (error) {
-                toast.error(error.message);
+                console.error(error.message);
             }
         },
-        [errors, setForm]
+        [errors, setForm, mutate, OTP, setOTP]
     );
 
     return (

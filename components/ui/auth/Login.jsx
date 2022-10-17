@@ -17,6 +17,7 @@ const Login = ({ setForm }) => {
         email: "",
         password: "",
     });
+    console.log("UI credential", credential);
 
     const handler = (e) => {
         setCredential({ ...credential, [e.target.name]: e.target.value });
@@ -31,13 +32,12 @@ const Login = ({ setForm }) => {
         if (isValidating) return;
         if (user) router.replace("/dashboard");
     }, [user, router, isValidating]);
+
     const onSubmit = useCallback(
         async (e) => {
             setIsLoading(true);
             e.preventDefault();
             try {
-                console.log("emailRef", emailRef);
-                console.log("password", passwordRef);
                 const response = await fetcher("/api/auth", {
                     method: "POST",
                     headers: { "Content-Type": "application/json" },
@@ -54,13 +54,13 @@ const Login = ({ setForm }) => {
                 setIsLoading(false);
             }
         },
-        [mutate,credential]
+        [mutate, credential]
     );
 
     return (
         <Card className="flex-shrink-0 w-full shadow-md shadow-yellow-500">
             <Card.Body>
-                <Form onSubmit={onSubmit} method="POST">
+                <Form onSubmit={onSubmit}>
                     <Form.Label title="Email" />
                     <Input
                         type="text"
@@ -115,15 +115,15 @@ const Login = ({ setForm }) => {
                             </p>
                         </label>
                     </div>
-                </Form>
 
-                <Button
-                    className="bg-gradient-to-r from-blue-900 to-purple-900  mt-4"
-                    type="submit"
-                    loading={isLoading}
-                >
-                    enter
-                </Button>
+                    <Button
+                        className="bg-gradient-to-r from-blue-900 to-purple-900  mt-4"
+                        type="submit"
+                        loading={isLoading}
+                    >
+                        enter
+                    </Button>
+                </Form>
             </Card.Body>
         </Card>
     );

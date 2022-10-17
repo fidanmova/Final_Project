@@ -36,5 +36,6 @@ export const ValidateProps = {
         },
         isVerified: { type: "boolean"|| "string" },
     },
+  
     required: ["username", "email", "city", "password"],
 };
