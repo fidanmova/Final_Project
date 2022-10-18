@@ -1,5 +1,4 @@
 import React, { useCallback } from "react";
-import Image from "next/image";
 import Link from "next/link";
 import { useCurrentUser } from "../utils/user/hooks";
 import { ImPacman } from "react-icons/im";
@@ -13,6 +12,7 @@ const Header = () => {
     const router = useRouter();
     const { data: { user } = {}, mutate } = useCurrentUser();
     console.log("USER", user);
+    
     const logOut = useCallback(
         async (e) => {
             e.preventDefault();
@@ -34,13 +34,6 @@ const Header = () => {
     return (
         <>
             <Link href="/">
-                {/* <Image
-                    src="/logo.svg"
-                    alt="logo"
-                    width={"150px"}
-                    height={"68px"}
-                    className="relative m-6"
-                /> */}
                 <h1 className="uppercase font-extrabold text-transparent text-4xl bg-clip-text bg-gradient-to-r from-red-600 via-purple-500 to-yellow-500">
                     DevShed
                 </h1>
