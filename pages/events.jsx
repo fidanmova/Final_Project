@@ -1,4 +1,3 @@
-import React from "react";
 import PageTemplate from "../components/ui/PageTemplate";
 
 const events = () => {
