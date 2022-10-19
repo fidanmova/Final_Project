@@ -20,6 +20,8 @@ async function createIndexes(client) {
     db
       .collection("chats")
       .createIndexes([{ key: { createdAt: -1 } }, { key: { creatorId: -1 } }]),
+
+    db.collection("berlin_oct_2022"),
   ]);
   indexesCreated = true;
   return client;

@@ -9,7 +9,7 @@ const DashCard = ({ title, text, style}) => {
                 <h2 className={`text-2xl ${style}`}>{title}</h2>
 
                 <p className="text-md capitalize text-white">{text}</p>
-                <Link href="/circle">enter</Link>
+                <Link href={`/${title}`}>enter</Link>
             </div>
         </Card>
     );

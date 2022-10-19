@@ -1,11 +1,16 @@
 import { useRouter } from "next/router";
 import React, { useEffect, useRef, useState } from "react";
 import { Button, Card, Input } from "react-daisyui";
+import { toast } from "react-toastify";
+import { useCurrentUser } from "../../../utils/user/hooks";
 
 const OTP_LENGTH = 8;
 let currentOTPid;
 
-const EmailVerification = ({ OTP }) => {
+const EmailVerification = ({ OTP, credentials }) => {
+     console.log("credentials", credentials);
+    const { mutate } = useCurrentUser();
+
     const router = useRouter();
     const [otp, setOtp] = useState(new Array(OTP_LENGTH).fill(""));
     const [activeOTPi, setActiveOTPi] = useState(0);
@@ -37,12 +42,19 @@ const EmailVerification = ({ OTP }) => {
         if (key === "Backspace") prevInput(currentOTPid);
     };
 
-    const onSubmit = async (e) => {
+    const onSubmit = (e) => {
         e.preventDefault();
         const otpInput = otp.join("");
 
-        if (otpInput == OTP) router.push("/dashboard");
-        else alert("OTP input is invalid...Try again.");
+        if (otpInput == OTP) {
+            mutate({ user: credentials }, false);
+            router.push("/dashboard");
+            toast.success(
+                `Hi ${credentials.username} welcome to the DEVSHED community`
+            );
+        } else {
+            toast.error("OTP input is invalid...Try again.");
+        }
     };
 
     useEffect(() => {

@@ -4,6 +4,7 @@ import { Button, Card, Form, Input } from "react-daisyui";
 import { RiEyeCloseLine, RiEyeLine } from "react-icons/ri";
 import { fetcher } from "../../../utils/fetcher";
 import { useCurrentUser } from "../../../utils/user/hooks";
+import { toast } from "react-toastify";
 
 const Login = ({ setForm }) => {
     const router = useRouter();
@@ -48,9 +49,9 @@ const Login = ({ setForm }) => {
                     }),
                 });
                 mutate({ user: response.user }, false);
-                console.log("You have been logged in.");
+                toast.success(`Hi ${response.user.username}, Welcome to DEVSHED!`);
             } catch (e) {
-                toast.error("Incorrect email or password.");
+                toast.error("Incorrect email or password.", e);
             } finally {
                 setIsLoading(false);
             }

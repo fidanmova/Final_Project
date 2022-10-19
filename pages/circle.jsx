@@ -1,9 +1,10 @@
 import PageTemplate from "../components/ui/PageTemplate";
+import Circle from "../components/ui/circle/Circle";
 
 const circle = () => {
     return (
         <PageTemplate content="Dev-Shed Community" title="DevShed-Circle">
-            <div>circle</div>
+           <Circle/>
         </PageTemplate>
     );
 };

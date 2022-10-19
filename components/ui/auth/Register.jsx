@@ -1,18 +1,19 @@
-import React, { useCallback, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { Input, Form, Card, Button } from "react-daisyui";
 import languagesList from "../../../utils/list/languagesList";
 import { RiEyeCloseLine, RiEyeLine, RiArrowGoBackLine } from "react-icons/ri";
 import { fetcher } from "../../../utils/fetcher";
 import { generateOTP } from "../../../utils/generateOTP";
-import { useCurrentUser } from "../../../utils/user/hooks";
+import { toast} from "react-toastify";
 
-const Register = ({ setForm, setOTP }) => {
+const Register = ({ setForm, setOTP, setCredentials }) => {
     const [show, setShow] = useState(false);
+    const [location, setLocation] = useState();
+
     const handleShow = () => {
         setShow(!show);
     };
-    const { mutate } = useCurrentUser();
     const {
         register,
         handleSubmit,
@@ -35,19 +36,26 @@ const Register = ({ setForm, setOTP }) => {
                         OTP: OTP,
                     }),
                 });
-                console.log(errors);
-                console.log("RESPONSE-REGISTER", response);
-                console.log("started working on .....");
-                mutate({ user: response.user }, false);
-                console.log("working on .....");
+                toast.error(errors);
+
+                setCredentials(response.user);
                 setForm("otp");
-                console.log("Your account has been created");
+                toast("Almost there...");
             } catch (error) {
-                console.error(error.message);
+                toast.error("Ops...something went wrong!");
             }
         },
-        [errors, setForm, mutate, OTP, setOTP]
+        [errors, setForm, OTP, setOTP, setCredentials]
     );
+    useEffect(() => {
+        if ("geolocation" in navigator) {
+            // Retrieve latitude & longitude coordinates from `navigator.geolocation` Web API
+            navigator.geolocation.getCurrentPosition(({ coords }) => {
+                const { latitude, longitude } = coords;
+                setLocation({ latitude, longitude });
+            });
+        }
+    }, []);
 
     return (
         <Card className="flex-shrink-0 shadow-md shadow-yellow-500 w-full">
@@ -168,7 +176,7 @@ const Register = ({ setForm, setOTP }) => {
                             </div>
                         </div>
                     </div>
-                    <div className="flex  flex-wrap w-full">
+                    {/* <div className="flex  flex-wrap w-full">
                         {errors.username && (
                             <li className="w-1/2 text-xs text-red-500">
                                 {errors?.username?.message}
@@ -194,7 +202,7 @@ const Register = ({ setForm, setOTP }) => {
                                 {errors?.language?.message}
                             </li>
                         )}
-                    </div>
+                    </div> */}
                     <div className="flex justify-between pt-4">
                         <label
                             className="label"
