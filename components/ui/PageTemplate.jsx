@@ -14,6 +14,7 @@ const PageTemplate = ({ children, content, title }) => {
             <div className="w-screen h-16 sticky top-0 z-50 flex justify-between items-center px-6 bg-black bg-opacity-50">
                 <Header />
             </div>
+         
             <main className="w-full">{children}</main>
 
             <Footer />

@@ -8,9 +8,11 @@ const DashBoard = () => {
     const { data, error } = useCurrentUser();
     console.log("DASHBOARDdata", data, error);
     const loading = !data && !error;
+    console.log('loading', loading)
 
     return (
         <div className="w-full h-full flex items-center text-6xl uppercase space-x-4 m-4">
+            
             <LeftSide data={data}/>
            <Board data={data}/>
             {/* <h1>DashBoard</h1>

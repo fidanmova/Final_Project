@@ -5,14 +5,13 @@ import languagesList from "../../../utils/list/languagesList";
 import { RiEyeCloseLine, RiEyeLine, RiArrowGoBackLine } from "react-icons/ri";
 import { fetcher } from "../../../utils/fetcher";
 import { generateOTP } from "../../../utils/generateOTP";
-import { useCurrentUser } from "../../../utils/user/hooks";
+import { toast, Flip } from "react-toastify";
 
-const Register = ({ setForm, setOTP }) => {
+const Register = ({ setForm, setOTP, setCredentials }) => {
     const [show, setShow] = useState(false);
     const handleShow = () => {
         setShow(!show);
     };
-    const { mutate } = useCurrentUser();
     const {
         register,
         handleSubmit,
@@ -35,18 +34,16 @@ const Register = ({ setForm, setOTP }) => {
                         OTP: OTP,
                     }),
                 });
-                console.log(errors);
-                console.log("RESPONSE-REGISTER", response);
-                console.log("started working on .....");
-                mutate({ user: response.user }, false);
-                console.log("working on .....");
+                toast.error(errors);
+
+                setCredentials(response.user);
                 setForm("otp");
-                console.log("Your account has been created");
+                toast("Almost there...");
             } catch (error) {
-                console.error(error.message);
+                toast.error("Ops...something went wrong!");
             }
         },
-        [errors, setForm, mutate, OTP, setOTP]
+        [errors, setForm, OTP, setOTP, setCredentials]
     );
 
     return (
@@ -168,7 +165,7 @@ const Register = ({ setForm, setOTP }) => {
                             </div>
                         </div>
                     </div>
-                    <div className="flex  flex-wrap w-full">
+                    {/* <div className="flex  flex-wrap w-full">
                         {errors.username && (
                             <li className="w-1/2 text-xs text-red-500">
                                 {errors?.username?.message}
@@ -194,7 +191,7 @@ const Register = ({ setForm, setOTP }) => {
                                 {errors?.language?.message}
                             </li>
                         )}
-                    </div>
+                    </div> */}
                     <div className="flex justify-between pt-4">
                         <label
                             className="label"
