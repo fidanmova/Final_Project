@@ -25,23 +25,21 @@ const Circle = () => {
     useEffect(() => {
         // Fetch data from API if `location` object is set
         if (location) {
-            fetchApiData(location);
+            console.log("Location: " + location.latitude, location.longitude);
         }
     }, [location]);
 
     return (
-        <div>
-            {mensen?.length > 0 &&
-                mensen.map((mensa) => (
-                    <Link href={`/mensen/${mensa.id}`} key={mensa.id}>
-                        <a>
-                            <h3>{mensa.name}</h3>
-                        </a>
-                    </Link>
-                ))}
+        <div className="flex justify-center items-center">
+            {location && (
+                <>
+                    <p>{location.latitude}</p> -<p>{location.longitude}</p>
+                </>
+            )}
         </div>
     );
 };
 
 export default Circle;
-
+//
+//https://www.google.pl/maps/@51.5088233,-0.1296787,13z

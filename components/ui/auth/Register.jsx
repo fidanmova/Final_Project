@@ -1,14 +1,16 @@
-import React, { useCallback, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { Input, Form, Card, Button } from "react-daisyui";
 import languagesList from "../../../utils/list/languagesList";
 import { RiEyeCloseLine, RiEyeLine, RiArrowGoBackLine } from "react-icons/ri";
 import { fetcher } from "../../../utils/fetcher";
 import { generateOTP } from "../../../utils/generateOTP";
-import { toast, Flip } from "react-toastify";
+import { toast} from "react-toastify";
 
 const Register = ({ setForm, setOTP, setCredentials }) => {
     const [show, setShow] = useState(false);
+    const [location, setLocation] = useState();
+
     const handleShow = () => {
         setShow(!show);
     };
@@ -45,6 +47,15 @@ const Register = ({ setForm, setOTP, setCredentials }) => {
         },
         [errors, setForm, OTP, setOTP, setCredentials]
     );
+    useEffect(() => {
+        if ("geolocation" in navigator) {
+            // Retrieve latitude & longitude coordinates from `navigator.geolocation` Web API
+            navigator.geolocation.getCurrentPosition(({ coords }) => {
+                const { latitude, longitude } = coords;
+                setLocation({ latitude, longitude });
+            });
+        }
+    }, []);
 
     return (
         <Card className="flex-shrink-0 shadow-md shadow-yellow-500 w-full">
