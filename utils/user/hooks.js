@@ -1,9 +1,8 @@
-
-import useSWR from 'swr';
-import { fetcher } from '../fetcher';
+import useSWR from "swr";
+import { fetcher } from "../fetcher";
 
 export function useCurrentUser() {
-  return useSWR('/api/user', fetcher);
+  return useSWR("/api/user", fetcher);
 }
 
 export function useUser(id) {
