@@ -12,7 +12,7 @@ const Header = () => {
     const router = useRouter();
     const { data: { user } = {}, mutate } = useCurrentUser();
     console.log("USER", user);
-    
+
     const logOut = useCallback(
         async (e) => {
             e.preventDefault();
@@ -50,11 +50,11 @@ const Header = () => {
                         />
                     </>
                 ) : (
-                    <Link href="/">
-                        <Button className=" bg-gradient-to-r from-blue-900 to-purple-900  mt-4">
+                    <div className="w-12 h-10 flex justify-center items-center rounded-lg bg-gradient-to-r from-blue-900 to-purple-900  mt-4">
+                        <Link href="/">
                             <CgLogIn className="text-yellow-500 text-2xl font-bold" />
-                        </Button>
-                    </Link>
+                        </Link>
+                    </div>
                 )}
             </div>
         </>

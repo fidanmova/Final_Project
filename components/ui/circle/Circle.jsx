@@ -1,31 +1,25 @@
 import { useEffect, useState } from "react";
 import Link from "next/link";
-const Circle = () => {
-    const [mensen, setMensen] = useState([]);
-    const [location, setLocation] = useState();
+import mapboxgl from "mapbox-gl";
+import "mapbox-gl/dist/mapbox-gl.css";
+import { Maps } from "./Maps";
 
-    const fetchApiData = async ({ latitude, longitude }) => {
-        const res = await fetch(
-            `https://openmensa.org/api/v2/canteens?near[lat]=${latitude}&near[lng]=${longitude}&near[dist]=5000`
-        );
-        const data = await res.json();
-        setMensen(data);
-    };
+const Circle = () => {
+    const [location, setLocation] = useState();
 
     useEffect(() => {
         if ("geolocation" in navigator) {
             // Retrieve latitude & longitude coordinates from `navigator.geolocation` Web API
             navigator.geolocation.getCurrentPosition(({ coords }) => {
                 const { latitude, longitude } = coords;
-                setLocation({ latitude, longitude });
+                setLocation({ lat: latitude, lng: longitude });
             });
-        }
-    }, []);
-
-    useEffect(() => {
-        // Fetch data from API if `location` object is set
-        if (location) {
-            console.log("Location: " + location.latitude, location.longitude);
+            if (location) {
+                console.log(
+                    "Location: " + location.latitude,
+                    location.longitude
+                );
+            }
         }
     }, [location]);
 
@@ -33,6 +27,12 @@ const Circle = () => {
         <div className="flex justify-center items-center">
             {location && (
                 <>
+                    <Maps
+                        setCoordinates={setCoordinates}
+                        coordinates={coordinates}
+                        setBounds={setBounds}
+                        places={filteredPlaces.length ? filteredPlaces : places}
+                    />
                     <p>{location.latitude}</p> -<p>{location.longitude}</p>
                 </>
             )}

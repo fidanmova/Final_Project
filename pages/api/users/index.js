@@ -24,7 +24,7 @@ handler.post(
             city: ValidateProps.user.city,
             language: ValidateProps.user.language,
         },
-        required: ["username", "city", "password", "email", "language"],
+        required: ["username", "password", "email"],
         additionalProperties: true,
     }),
     ...auths,
@@ -32,7 +32,8 @@ handler.post(
         try {
             const db = await dbConnect();
 
-            let { city, email, password, language, OTP } = req.body;
+            let { city, email, password, language, OTP, location } = req.body;
+            //console.log("XXXlocation", location.lat, location.lon);
 
             let username = slugUsername(req.body.username);
 
@@ -54,6 +55,7 @@ handler.post(
                 email,
                 originalPassword: password,
                 city,
+                location: [location.lat, location.lng],
                 language,
                 circle: [],
                 bio: "",
@@ -61,7 +63,7 @@ handler.post(
                 jobs: [],
                 admin: false,
                 isVerified: false,
-                since: new Date(Date.now()) 
+                since: new Date(Date.now()),
             });
             transport.sendMail({
                 to: email,

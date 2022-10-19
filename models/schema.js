@@ -13,6 +13,7 @@ export const ValidateProps = {
         city: {
             type: "string",
         },
+        location: { lat: { type: "string" }, lng: { type: "string" } },
         circle: {
             type: "array",
         },
@@ -36,7 +37,7 @@ export const ValidateProps = {
         },
         isVerified: { type: "boolean" || "string" },
     },
-    required: ["username", "email", "city", "password"],
+    required: ["username", "email", "password"],
 
     events: {
         event_title: {
