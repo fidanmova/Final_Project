@@ -1,4 +1,3 @@
-import React from "react";
 import PageTemplate from "../components/ui/PageTemplate";
 import { getAllEvents } from "../utils/db/events";
 import { dbConnect } from "../utils/mongo/mongodb";
