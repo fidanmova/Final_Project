@@ -6,7 +6,6 @@ import ChatContact from "./ChatContact";
 import { messages, chats } from "./data";
 
 const MyChats = ({ fetchAgain, user, selectedChat }) => {
-  console.log("HERE IS THE USER DATA", user);
   // let avatar = defaultProfilePicture();
   return (
     <div

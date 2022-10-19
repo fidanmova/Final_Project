@@ -1,4 +1,5 @@
 export const ValidateProps = {
+  // user
   user: {
     username: {
       type: "string",
@@ -38,7 +39,8 @@ export const ValidateProps = {
   },
   required: ["username", "email", "city", "password"],
 
-  chats: {
+  // chat
+  chat: {
     chatName: { type: String },
     isGroupChat: { type: Boolean, default: false },
 
@@ -55,14 +57,16 @@ export const ValidateProps = {
           type: "string",
           required: true,
         },
-        date: { type: Date },
+        // date: { type: Date },
       },
     ],
     latestMessage: {
       type: "string",
     },
   },
+  required: ["chatName", "sender", "receiver"],
 
+  // events
   events: {
     event_title: {
       type: String,
