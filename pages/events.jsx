@@ -21,16 +21,18 @@ const renderEvents = (eventsAsString) => {
       <p> Cost: {el.cost}</p>
       <hr />
       <br /> */}
-      <div className="card m-4 w-64 h-96 bg-slate-700 shadow-xl">
+      <div className="card m-4 w-64 h-96 bg-slate-700 shadow-xl  hover:scale-95 transition duration-200 ease-in-out ">
         <figure className="px-2 pt-4">
-          <Image
-            src={el.image}
-            width="250px"
-            height="160px"
-            // layout="fill"
-            alt="image"
-            className="rounded-xl"
-          />
+          <a href={el.event_link} rel="noreferrer" target="_blank">
+            <Image
+              src={el.image}
+              width="250px"
+              height="160px"
+              // layout="fill"
+              alt="image"
+              className="rounded-xl hover:scale-95 transition duration-200 ease-in-out"
+            />
+          </a>
         </figure>
         <div className="card-body items-center text-center px-4">
           <p className="card-title text-xs ">{el.event_title}</p>
@@ -54,7 +56,7 @@ export default function Events({ eventsAsString }) {
 
   return (
     <PageTemplate content="Dev-Shed Community" title="DevShed-Events">
-      <div className="m-4">
+      <div className="m-4 scrollbar-thin scrollbar-thumb-slate-700 ">
         <h1>Events</h1>
         <br />
         <div
