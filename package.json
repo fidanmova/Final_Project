@@ -16,6 +16,7 @@
     "cloudinary": "^1.32.0",
     "connect-mongo": "^4.6.0",
     "express-session": "^1.17.3",
+    "google-search-results-nodejs": "^2.1.0",
     "mapbox-gl": "^2.10.0",
     "mongodb": "^4.10.0",
     "mongoose": "^6.6.2",
