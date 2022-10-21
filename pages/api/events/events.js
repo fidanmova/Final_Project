@@ -1,5 +1,6 @@
 import nc from "next-connect";
 import { dbConnect } from "../../../utils/mongo/mongodb";
+import { ncOpts } from "../../../utils/nc";
 
 const handler = nc(ncOpts);
 // ## Events Handler ##

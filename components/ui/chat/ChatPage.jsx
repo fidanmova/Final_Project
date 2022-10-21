@@ -1,14 +1,19 @@
 import React, { useState, useEffect } from "react";
 import { useCurrentUser } from "../../../utils/user/hooks";
+// import { useAllChats } from "../../../utils/chats/hooks";
+
 import Chats from "./Chats";
 import MyChats from "./MyChats";
 
 // mock data
-import { messages, chats } from "./data";
+// import { messages, chats } from "./data";
 
-const ChatPage = () => {
+const ChatPage = ({ allChats }) => {
   const { data, error } = useCurrentUser();
-  console.log("Chatpage data", data, error);
+  const user = data?.user;
+  console.log("Chatpage data", user, error);
+  console.log("allChats", allChats);
+
   const loading = !data && !error;
 
   //! I add these atm here as we don't have a context for the chats
@@ -16,9 +21,7 @@ const ChatPage = () => {
   const [fetchAgain, setFetchAgain] = useState(false);
   const [currentUser, setCurrentUser] = useState({});
   const [selectedChat, setSelectedChat] = useState({});
-  const [chats, setChats] = useState();
-
-  const { data: { user } = {}, mutate, isValidating } = useCurrentUser();
+  // const [chats, setChats] = useState();
 
   useEffect(() => {
     setCurrentUser(user);
@@ -30,6 +33,7 @@ const ChatPage = () => {
         <MyChats
           fetchAgain={fetchAgain}
           user={user}
+          allChats={allChats}
           setSelectedChat={setSelectedChat}
         />
       )}
@@ -38,6 +42,7 @@ const ChatPage = () => {
           fetchAgain={fetchAgain}
           setFetchAgain={setFetchAgain}
           user={user}
+          allChats={allChats}
           selectedChat={selectedChat}
         />
       )}
