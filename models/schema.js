@@ -41,30 +41,29 @@ export const ValidateProps = {
 
   // chat
   chat: {
-    chatName: { type: String },
-    isGroupChat: { type: Boolean, default: false },
+    chatName: { type: "string" },
+    // isGroupChat: { type: "boolean", default: false },
 
-    users: [
-      {
-        type: "string",
-      },
-    ],
-    messages: [
-      {
-        content: { type: "string", required: true },
-        sender: { type: "string", required: true },
-        receiver: {
-          type: "string",
-          required: true,
-        },
-        // date: { type: Date },
-      },
-    ],
-    latestMessage: {
+    users: {
       type: "string",
     },
+    messages: {
+      content: { type: "string" },
+      sender: { type: "string" },
+      receiver: {
+        type: "string",
+      },
+
+      // type: "array",
+      // items: messageSchema,
+
+      // date: { type: Date },
+    },
+    // latestMessage: {
+    //   type: "string",
+    // },
   },
-  required: ["chatName", "sender", "receiver"],
+  // required: ["chatName", "sender", "receiver"],
 
   // events
   events: {
@@ -79,37 +78,9 @@ export const ValidateProps = {
     },
 
     created_at: Date,
+  },
 
-    email: {
-      type: "string",
-    },
-    password: {
-      type: "string",
-    },
-    city: {
-      type: "string",
-    },
-    circle: {
-      type: "array",
-    },
-    admin: {
-      type: "boolean",
-    },
-    language: {
-      type: "string",
-    },
-    bio: {
-      type: "string",
-    },
-    avatar: {
-      type: "string",
-    },
-    events: {
-      type: "array",
-    },
-    jobs: {
-      type: "array",
-    },
-    isVerified: { type: "boolean" || "string" },
+  chat: {
+    chatName: {},
   },
 };

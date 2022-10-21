@@ -1,3 +1,10 @@
+// ##  All Events Function ##
+export async function getAllChats(db) {
+  return db.collection("chats").find();
+}
+
+// #############################################################
+
 import { ObjectId } from "mongodb";
 
 export async function findChatById(db, chatId) {
@@ -14,6 +21,20 @@ export async function findChatByChatName(db, chatName) {
     .then((chat) => chat || null);
 }
 
+export async function findChatsByUserId(db, userId) {
+  return db
+    .collection("chats")
+    .find({ "chat.users": { $elemMatch: { userId } } })
+    .then((chat) => chat || null);
+}
+
+export async function findAllChats(db) {
+  return db
+    .collection("chats")
+    .findOne()
+    .then((chat) => chat || null);
+}
+
 // ! UPDATE CHAT ? ... changes needed
 // export async function updateChatById(db, id, data) {
 //   return db
@@ -26,7 +47,7 @@ export async function findChatByChatName(db, chatName) {
 //     .then(({ value }) => value);
 // }
 
-//! Later maybe needed, modified for "chats"
+//! Later maybe needed if modified for "chats"
 // export async function insertUser(
 //   db,
 //   {
