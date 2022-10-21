@@ -13,12 +13,10 @@ export const ValidateProps = {
         city: {
             type: "string",
         },
-        location: { lat: { type: "string" }, lng: { type: "string" } },
-        circle: {
-            type: "array",
-        },
+        location: [],
+        circle: [],
         admin: {
-            type: "boolean",
+            type: Boolean,
         },
         language: {
             type: "string",
@@ -30,58 +28,26 @@ export const ValidateProps = {
             type: "string",
         },
         events: {
-            type: "array",
+            type: Array,
         },
         jobs: {
-            type: "array",
+            type: Array,
         },
-        isVerified: { type: "boolean" || "string" },
+        isVerified: { type: Boolean || "string" },
     },
     required: ["username", "email", "password"],
 
     events: {
         event_title: {
-            type: String,
+            type: "string",
         },
         when: {
-            type: String,
+            type: "string",
         },
         location: {
-            type: String,
+            type: "string",
         },
 
         created_at: Date,
-
-        email: {
-            type: "string",
-        },
-        password: {
-            type: "string",
-        },
-        city: {
-            type: "string",
-        },
-        circle: {
-            type: "array",
-        },
-        admin: {
-            type: "boolean",
-        },
-        language: {
-            type: "string",
-        },
-        bio: {
-            type: "string",
-        },
-        avatar: {
-            type: "string",
-        },
-        events: {
-            type: "array",
-        },
-        jobs: {
-            type: "array",
-        },
-        isVerified: { type: "boolean" || "string" },
     },
 };

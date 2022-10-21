@@ -15,6 +15,10 @@ class MyDocument extends Document {
                         href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;700&display=swap"
                         rel="stylesheet"
                     />
+                    <script
+                        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDz94hT1k-jq_HG7g219tPBHX4LijpumIs&callback=initMap&v=weekly"
+                        defer
+                    ></script>
                 </Head>
                 <body>
                     <Main />

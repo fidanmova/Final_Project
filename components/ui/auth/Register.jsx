@@ -10,7 +10,7 @@ import { toast } from "react-toastify";
 const Register = ({ setForm, setOTP, setCredentials }) => {
     const [show, setShow] = useState(false);
     const [location, setLocation] = useState([]);
-    console.log("location", location);
+   // console.log("location", location);
 
     const handleShow = () => {
         setShow(!show);

@@ -1,39 +1,21 @@
 import { useEffect, useState } from "react";
-import Link from "next/link";
-import mapboxgl from "mapbox-gl";
-import "mapbox-gl/dist/mapbox-gl.css";
-import { Maps } from "./Maps";
+import dynamic from "next/dynamic";
+import Maps from "./Maps";
+import { useCurrentUser } from "../../../utils/user/hooks";
 
 const Circle = () => {
-    const [location, setLocation] = useState();
-
-    useEffect(() => {
-        if ("geolocation" in navigator) {
-            // Retrieve latitude & longitude coordinates from `navigator.geolocation` Web API
-            navigator.geolocation.getCurrentPosition(({ coords }) => {
-                const { latitude, longitude } = coords;
-                setLocation({ lat: latitude, lng: longitude });
-            });
-            if (location) {
-                console.log(
-                    "Location: " + location.latitude,
-                    location.longitude
-                );
-            }
-        }
-    }, [location]);
+    const { data, error } = useCurrentUser();
+    console.log('data', data)
+    const [test, setTest] = useState();
 
     return (
-        <div className="flex justify-center items-center">
-            {location && (
+        <div className="flex flex-col justify-center items-center bg-black/50">
+            {data.user.location && (
                 <>
-                    <Maps
-                        setCoordinates={setCoordinates}
-                        coordinates={coordinates}
-                        setBounds={setBounds}
-                        places={filteredPlaces.length ? filteredPlaces : places}
-                    />
-                    <p>{location.latitude}</p> -<p>{location.longitude}</p>
+                    <div className="w-full h-full flex justify-center items-center p-8">
+                        <Maps location={data.user.location} w={1000} h={600} />
+                    </div>
+                    {/* <p>{data.user.location[0]}</p> - <p>{data.user.location[1]}</p> */}
                 </>
             )}
         </div>
@@ -41,5 +23,3 @@ const Circle = () => {
 };
 
 export default Circle;
-//
-//https://www.google.pl/maps/@51.5088233,-0.1296787,13z
