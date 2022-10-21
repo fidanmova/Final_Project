@@ -2,8 +2,8 @@ import nc from "next-connect";
 import { dbConnect } from "../../../utils/mongo/mongodb";
 
 const handler = nc(ncOpts);
-// ## Events Handler ##
 
+// ## Events Handler ##
 handler.get(async (req, res) => {
   await dbConnect();
   return db
