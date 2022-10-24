@@ -40,30 +40,13 @@ export const ValidateProps = {
   required: ["username", "email", "city", "password"],
 
   // chat
-  chat: {
-    chatName: { type: "string" },
-    // isGroupChat: { type: "boolean", default: false },
 
-    users: {
-      type: "string",
-    },
-    messages: {
-      content: { type: "string" },
-      sender: { type: "string" },
-      receiver: {
-        type: "string",
-      },
-
-      // type: "array",
-      // items: messageSchema,
-
-      // date: { type: Date },
-    },
-    // latestMessage: {
-    //   type: "string",
-    // },
+  post: {
+    content: { type: "string", minLength: 1 },
   },
-  // required: ["chatName", "sender", "receiver"],
+  comment: {
+    content: { type: "string", minLength: 1 },
+  },
 
   // events
   events: {
@@ -78,9 +61,5 @@ export const ValidateProps = {
     },
 
     created_at: Date,
-  },
-
-  chat: {
-    chatName: {},
   },
 };
