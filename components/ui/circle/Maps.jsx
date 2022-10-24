@@ -6,17 +6,16 @@ const Maps = ({ location, w, h }) => {
         const [viewport, setViewport] = useState({
             latitude: 52.4859,
             longitude: 13.4426,
-            zoom: 12,
         });
     
 
     return (
-        <div className="w-full h-full flex justify-center items-center rounded-xl border border-red-500 xl:border-none">
+        <div className="w-full flex justify-center items-center rounded-xlp-4">
             <Map
                 initialViewState={{
                     latitude: viewport.latitude,
                     longitude: viewport.longitude,
-                    zoom: 12,
+                    zoom: 10,
                 }}
                 style={{ width: w, height: h }}
                 mapStyle="mapbox://styles/incptd/cl9iciho8003v15nwppn42k0w"

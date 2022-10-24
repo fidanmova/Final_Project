@@ -41,14 +41,18 @@ const Header = () => {
 
             <div className="flex items-center space-x-4">
                 {user !== null ? (
-                    <>
-                        <ImPacman className="text-yellow-500 text-lg" />
-                        <p className="font-bold uppercase">{user?.username}</p>
-                        <IoMdLogOut
-                            className="text-myRed text-xl"
-                            onClick={logOut}
-                        />
-                    </>
+                    <Link href="/dashboard">
+                        <>
+                            <ImPacman className="text-yellow-500 text-lg" />
+                            <p className="font-bold uppercase">
+                                {user?.username}
+                            </p>
+                            <IoMdLogOut
+                                className="text-myRed text-xl"
+                                onClick={logOut}
+                            />
+                        </>
+                    </Link>
                 ) : (
                     <div className="w-12 h-10 flex justify-center items-center rounded-lg bg-gradient-to-r from-blue-900 to-purple-900  mt-4">
                         <Link href="/">
