@@ -2,48 +2,68 @@ import { useEffect, useState } from "react";
 
 export default function Jobs() {
   const [searchResults, setSearchResults] = useState([]);
-  // console.log("search", searchResults[0]?.jobs_results);
+
   const [isLoading, setLoading] = useState(false);
-  console.log("isLoading", isLoading);
+  // console.log("isLoading", isLoading);
+  const [searchTerms, setSearchTerms] = useState({
+    job: "",
+    location: "",
+  });
 
   const [error, setError] = useState(null);
   console.log("error", error);
 
-  useEffect(() => {
-    setLoading(true);
-    fetch(`/api/job/search`)
+  function jobSearchHandler(e) {
+    e.preventDefault();
+    // setLoading(true);
+    console.log("Search Job 1==>", searchTerms.job);
+    console.log("Search Location 1==>", searchTerms.location);
+
+    fetch(`/api/job/search/${searchTerms.job}/${searchTerms.location}`)
       .then((res) => res.json())
       .then(
         (results) => {
           setSearchResults(results);
           setLoading(false);
           setError(null);
-          console.log("ResultsJobSearch", results[0].jobs_results);
+          console.log("ResultsjobSearchHandler", results[0].jobs_results);
         },
         (error) => {
           setError(error);
         }
       );
-  }, []);
+  }
 
   return (
     <div className="m-4 ">
       <h1 className="p-4 text-2xl capitalize">job search top 10 results</h1>
       <hr />
       <div className="Search">
-        <input
-          type="text"
-          placeholder="Position"
-          id="job"
-          className="input input-bordered m-2 w-full max-w-xs opacity-80"
-        />{" "}
-        <input
-          type="text"
-          placeholder="City / Country"
-          id="location"
-          className="input input-bordered m-2 w-full max-w-xs opacity-80"
-        />{" "}
-        <button className="btn btn-sm bg-cyan-700">Search</button>
+        <form onSubmit={jobSearchHandler}>
+          <input
+            type="text"
+            placeholder="Position"
+            name="job"
+            id="job"
+            className="input input-bordered m-2 w-full max-w-xs opacity-80"
+            onChange={(e) =>
+              setSearchTerms({ ...searchTerms, job: e.target.value })
+            }
+          />{" "}
+          <input
+            type="text"
+            placeholder="City or Country"
+            name="location"
+            id="location"
+            className="input input-bordered m-2 w-full max-w-xs opacity-80"
+            onChange={(e) =>
+              setSearchTerms({ ...searchTerms, location: e.target.value })
+            }
+          />{" "}
+          <button className="btn btn-sm  bg-cyan-700" type="submit">
+            Search
+          </button>
+        </form>
       </div>
       <hr />
       <div className="flex flex-wrap">
