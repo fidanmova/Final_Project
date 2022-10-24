@@ -55,17 +55,21 @@ const Circle = () => {
                                         ) : (
                                             <p>{user.language}</p>
                                         )}
-                                        {user.since && (
-                                            <p className="italic font-light text-sm capitalize">
-                                                {moment(user.since).format("L")}
-                                            </p>
-                                        )}
-                                        {user.location && (
-                                            <p className="text-[8px] text-green-500">
-                                                {user.location[0]}-
-                                                {user.location[1]}
-                                            </p>
-                                        )}
+                                        <div>
+                                            {user.since && (
+                                                <p className="italic font-light text-sm capitalize">
+                                                    {moment(user.since).format(
+                                                        "L"
+                                                    )}
+                                                </p>
+                                            )}
+                                            {user.location && (
+                                                <p className="text-[8px] text-green-500">
+                                                    {user.location[0]}-
+                                                    {user.location[1]}
+                                                </p>
+                                            )}
+                                        </div>
                                     </div>
                                 ))}
                         </div>

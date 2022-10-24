@@ -49,42 +49,6 @@ export async function updateUserById(db, id, data) {
 }
 
 export async function insertUser(
-<<<<<<< HEAD
-  db,
-  {
-    username,
-    email,
-    originalPassword,
-    bio,
-    city,
-    avatar,
-    circle,
-    events,
-    jobs,
-    friends,
-    admin,
-    isVerified,
-    language,
-    since,
-  }
-) {
-  const user = {
-    username,
-    email,
-    bio,
-    city,
-    avatar,
-    circle,
-    language,
-    events,
-    jobs,
-    friends,
-    admin,
-    isVerified,
-    since,
-  };
-  const password = await bcrypt.hash(originalPassword, 10);
-=======
     db,
     {
         username,
@@ -121,7 +85,6 @@ export async function insertUser(
         since,
     };
     const password = await bcrypt.hash(originalPassword, 10);
->>>>>>> naty-circle-geolocation
 
   const { insertedId } = await db
     .collection("users")

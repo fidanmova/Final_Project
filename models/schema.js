@@ -1,11 +1,4 @@
 export const ValidateProps = {
-<<<<<<< HEAD
-  // user
-  user: {
-    username: {
-      type: "string",
-    },
-=======
     user: {
         username: {
             type: "string",
@@ -43,77 +36,28 @@ export const ValidateProps = {
         isVerified: { type: Boolean || "string" },
     },
     required: ["username", "email", "password"],
->>>>>>> naty-circle-geolocation
 
-    email: {
-      type: "string",
+    // chat
+
+    post: {
+        content: { type: "string", minLength: 1 },
     },
-    password: {
-      type: "string",
+    comment: {
+        content: { type: "string", minLength: 1 },
     },
-    city: {
-      type: "string",
-    },
-    circle: {
-      type: "array",
-    },
-    admin: {
-      type: "boolean",
-    },
-    language: {
-      type: "string",
-    },
-    bio: {
-      type: "string",
-    },
-    avatar: {
-      type: "string",
-    },
+
+    // events
     events: {
-<<<<<<< HEAD
-      type: "array",
-    },
-    jobs: {
-      type: "array",
-    },
-    isVerified: { type: "boolean" || "string" },
-  },
-  required: ["username", "email", "city", "password"],
-
-  // chat
-
-  post: {
-    content: { type: "string", minLength: 1 },
-  },
-  comment: {
-    content: { type: "string", minLength: 1 },
-  },
-
-  // events
-  events: {
-    event_title: {
-      type: String,
-=======
         event_title: {
-            type: "string",
+            type: String,
         },
         when: {
-            type: "string",
+            type: String,
         },
         location: {
-            type: "string",
+            type: String,
         },
 
         created_at: Date,
->>>>>>> naty-circle-geolocation
     },
-    when: {
-      type: String,
-    },
-    location: {
-      type: String,
-    },
-
-    created_at: Date,
-  },
 };
