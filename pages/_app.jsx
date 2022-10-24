@@ -1,6 +1,7 @@
 import "../styles/globals.css";
 import Layout from "../components/ui/Layout";
 import "react-toastify/dist/ReactToastify.css";
+import 'mapbox-gl/dist/mapbox-gl.css';
 import { ToastContainer, Flip } from "react-toastify";
 
 function MyApp({ Component, pageProps }) {

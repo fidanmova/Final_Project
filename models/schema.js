@@ -1,9 +1,49 @@
 export const ValidateProps = {
+<<<<<<< HEAD
   // user
   user: {
     username: {
       type: "string",
     },
+=======
+    user: {
+        username: {
+            type: "string",
+        },
+
+        email: {
+            type: "string",
+        },
+        password: {
+            type: "string",
+        },
+        city: {
+            type: "string",
+        },
+        location: [],
+        circle: [],
+        admin: {
+            type: Boolean,
+        },
+        language: {
+            type: "string",
+        },
+        bio: {
+            type: "string",
+        },
+        avatar: {
+            type: "string",
+        },
+        events: {
+            type: Array,
+        },
+        jobs: {
+            type: Array,
+        },
+        isVerified: { type: Boolean || "string" },
+    },
+    required: ["username", "email", "password"],
+>>>>>>> naty-circle-geolocation
 
     email: {
       type: "string",
@@ -30,6 +70,7 @@ export const ValidateProps = {
       type: "string",
     },
     events: {
+<<<<<<< HEAD
       type: "array",
     },
     jobs: {
@@ -52,6 +93,19 @@ export const ValidateProps = {
   events: {
     event_title: {
       type: String,
+=======
+        event_title: {
+            type: "string",
+        },
+        when: {
+            type: "string",
+        },
+        location: {
+            type: "string",
+        },
+
+        created_at: Date,
+>>>>>>> naty-circle-geolocation
     },
     when: {
       type: String,

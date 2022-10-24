@@ -5,11 +5,12 @@ import languagesList from "../../../utils/list/languagesList";
 import { RiEyeCloseLine, RiEyeLine, RiArrowGoBackLine } from "react-icons/ri";
 import { fetcher } from "../../../utils/fetcher";
 import { generateOTP } from "../../../utils/generateOTP";
-import { toast} from "react-toastify";
+import { toast } from "react-toastify";
 
 const Register = ({ setForm, setOTP, setCredentials }) => {
     const [show, setShow] = useState(false);
-    const [location, setLocation] = useState();
+    const [location, setLocation] = useState([]);
+   // console.log("location", location);
 
     const handleShow = () => {
         setShow(!show);
@@ -33,6 +34,7 @@ const Register = ({ setForm, setOTP, setCredentials }) => {
                         password: data.password,
                         city: data.city,
                         language: data.language,
+                        location: location,
                         OTP: OTP,
                     }),
                 });
@@ -45,14 +47,14 @@ const Register = ({ setForm, setOTP, setCredentials }) => {
                 toast.error("Ops...something went wrong!");
             }
         },
-        [errors, setForm, OTP, setOTP, setCredentials]
+        [errors, setForm, OTP, setOTP, setCredentials, location]
     );
     useEffect(() => {
         if ("geolocation" in navigator) {
             // Retrieve latitude & longitude coordinates from `navigator.geolocation` Web API
             navigator.geolocation.getCurrentPosition(({ coords }) => {
                 const { latitude, longitude } = coords;
-                setLocation({ latitude, longitude });
+                setLocation([latitude, longitude]);
             });
         }
     }, []);

@@ -13,6 +13,7 @@ import { slugUsername } from "../../../utils/user/slug";
 
 const handler = nc(ncOpts);
 handler.post(
+<<<<<<< HEAD
   validateBody({
     type: "object",
     properties: {
@@ -31,6 +32,27 @@ handler.post(
       const db = await dbConnect();
 
       let { city, email, password, language, OTP } = req.body;
+=======
+    validateBody({
+        type: "object",
+        properties: {
+            username: ValidateProps.user.username,
+            email: ValidateProps.user.email,
+            password: ValidateProps.user.password,
+            city: ValidateProps.user.city,
+            language: ValidateProps.user.language,
+        },
+        required: ["username", "password", "email"],
+        additionalProperties: true,
+    }),
+    ...auths,
+    async (req, res) => {
+        try {
+            const db = await dbConnect();
+
+            let { city, email, password, language, OTP, location } = req.body;
+            //console.log("XXXlocation", location.lat, location.lon);
+>>>>>>> naty-circle-geolocation
 
       let username = slugUsername(req.body.username);
 
@@ -47,6 +69,7 @@ handler.post(
         return;
       }
 
+<<<<<<< HEAD
       const user = await insertUser(db, {
         username,
         email,
@@ -66,6 +89,28 @@ handler.post(
         from: "no-reply@devshed.com",
         subject: "Welcome to DevShed .",
         html: `
+=======
+            const user = await insertUser(db, {
+                username,
+                email,
+                originalPassword: password,
+                city,
+                location: [location.lat, location.lng],
+                language,
+                circle: [],
+                bio: "",
+                events: [],
+                jobs: [],
+                admin: false,
+                isVerified: false,
+                since: new Date(Date.now()),
+            });
+            transport.sendMail({
+                to: email,
+                from: "no-reply@devshed.com",
+                subject: "Welcome to DevShed .",
+                html: `
+>>>>>>> naty-circle-geolocation
           <div>
             <p>Hello, ${username}</p>
             <p>Your otp number ${OTP}.</p>

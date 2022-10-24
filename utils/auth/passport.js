@@ -29,7 +29,6 @@ passport.use(
                 email,
                 password
             );
-            console.log("PASSPORT user", user);
             if (user) done(null, user);
             else
                 done(null, false, {

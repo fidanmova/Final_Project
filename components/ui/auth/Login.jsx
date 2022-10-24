@@ -8,7 +8,7 @@ import { toast } from "react-toastify";
 
 const Login = ({ setForm }) => {
     const router = useRouter();
-
+    const [location, setLocation] = useState([]);
     const [show, setShow] = useState(false);
     const handleShow = () => {
         setShow(!show);
@@ -19,18 +19,25 @@ const Login = ({ setForm }) => {
         password: "",
 
     });
-    console.log("UI credential", credential);
+    //console.log("UI credential", credential);
 
     const handler = (e) => {
         setCredential({ ...credential, [e.target.name]: e.target.value });
     };
 
     const [isLoading, setIsLoading] = useState(false);
-    console.log("Loading", isLoading);
+    //console.log("Loading", isLoading);
 
     const { data: { user } = {}, mutate, isValidating } = useCurrentUser();
 
     useEffect(() => {
+        if ("geolocation" in navigator) {
+            // Retrieve latitude & longitude coordinates from `navigator.geolocation` Web API
+            navigator.geolocation.getCurrentPosition(({ coords }) => {
+                const { latitude, longitude } = coords;
+                setLocation([latitude, longitude]);
+            });
+        }
         if (isValidating) return;
         if (user) router.replace("/dashboard");
     }, [user, router, isValidating]);
@@ -46,6 +53,7 @@ const Login = ({ setForm }) => {
                     body: JSON.stringify({
                         email: credential.email,
                         password: credential.password,
+                        location:location
                     }),
                 });
                 mutate({ user: response.user }, false);
@@ -56,7 +64,7 @@ const Login = ({ setForm }) => {
                 setIsLoading(false);
             }
         },
-        [mutate, credential]
+        [mutate, credential,location]
     );
 
     return (
