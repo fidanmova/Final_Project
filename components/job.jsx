@@ -16,8 +16,8 @@ export default function Jobs() {
   function jobSearchHandler(e) {
     e.preventDefault();
     // setLoading(true);
-    console.log("Search Job 1==>", searchTerms.job);
-    console.log("Search Location 1==>", searchTerms.location);
+    // console.log("Search Job 1==>", searchTerms.job);
+    // console.log("Search Location 1==>", searchTerms.location);
 
     fetch(`/api/job/search/${searchTerms.job}/${searchTerms.location}`)
       .then((res) => res.json())
