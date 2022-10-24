@@ -1374,6 +1374,11 @@
     "merge2" "^1.4.1"
     "slash" "^3.0.0"
 
+"google-search-results-nodejs@^2.1.0":
+  "integrity" "sha512-7jEAoAV/Ful7Q2BxrYrkOst14aqwUvkEUwlRBrYATUylpp/bf3uE9lDgyk9brqbDt61hA2xkAm2sog9orHImVw=="
+  "resolved" "https://registry.npmjs.org/google-search-results-nodejs/-/google-search-results-nodejs-2.1.0.tgz"
+  "version" "2.1.0"
+
 "graceful-fs@^4.1.6", "graceful-fs@^4.2.0":
   "integrity" "sha512-9ByhssR2fPVsNZj478qUUbKfmL0+t5BDVyjShtyZZLiK7ZDAArFFfopyOTj0M05wE2tJPisA4iTnnXl2YoPvOA=="
   "resolved" "https://registry.npmjs.org/graceful-fs/-/graceful-fs-4.2.10.tgz"
