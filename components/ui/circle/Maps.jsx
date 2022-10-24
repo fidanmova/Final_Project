@@ -19,7 +19,7 @@ const Maps = ({ location, w, h }) => {
                 }}
                 style={{ width: w, height: h }}
                 mapStyle="mapbox://styles/incptd/cl9iciho8003v15nwppn42k0w"
-                mapboxAccessToken="pk.eyJ1IjoiaW5jcHRkIiwiYSI6ImNsOWZuOGtyZTA4Znczb2syaW1rYjlva20ifQ.i498IcTJnARrFJ8EcRoWFQ"
+                mapboxAccessToken={process.env.mapbox_key}
                 onViewportChange={(nextViewport) => setViewport(nextViewport)}
             />
         </div>

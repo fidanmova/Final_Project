@@ -25,11 +25,11 @@ const LeftSide = ({ data }) => {
         }
     }, [location]);
     return (
-        <div className="flex flex-col items-center bg-black/50 rounded-lg w-[15vw] h-[80vh]  shadow-red-500 shadow-md text-xs lowercase">
+        <div className="w-11/12 lg:w-[15vw] lg:h-[80vh] flex flex-col items-center bg-black/50 rounded-lg shadow-red-500 shadow-md text-xs lowercase">
             <h1 className="text-3xl my-6 capitalize">
                 Hi {data?.user?.username}
             </h1>
-            <div className="w-11/12 h-full flex flex-col space-y-12">
+            <div className="w-11/12 h-full flex flex-col space-y-4 lg:space-y-12">
                 <div className="flex items-center justify-center space-x-2">
                     {" "}
                     <MdOutlineLocationCity className="text-green-500 text-4xl" />
