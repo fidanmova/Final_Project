@@ -1,4 +1,4 @@
-import Maps from "./Maps";
+import { MainMap } from "./Maps";
 import { useCurrentUser } from "../../../utils/user/hooks";
 import { useEffect, useState } from "react";
 import moment from "moment";
@@ -75,7 +75,8 @@ const Circle = () => {
                         </div>
                     </div>
                     <div className="w-4/5 h-full flex justify-center items-center px-8">
-                        <Maps users={allUsers}
+                        <MainMap
+                            users={allUsers}
                             location={data?.user?.location}
                             w="100%"
                             h="60vh"

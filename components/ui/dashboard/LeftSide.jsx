@@ -2,7 +2,7 @@ import { MdOutlineLocationCity } from "react-icons/md";
 // import Maps from "../circle/Maps";
 import dynamic from "next/dynamic";
 import { useState, useEffect } from "react";
-import Maps from "../circle/Maps";
+import {Maps} from "../circle/Maps";
 
 
 const LeftSide = ({ data }) => {
