@@ -1,13 +1,11 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Map from "react-map-gl";
 
-const Maps = ({ location, w, h }) => {
-   
-        const [viewport, setViewport] = useState({
-            latitude: 52.4859,
-            longitude: 13.4426,
-        });
-    
+const Maps = ({ location, w, h, users }) => {
+    const [viewport, setViewport] = useState({
+        latitude: location[0],
+        longitude: location[1],
+    });
 
     return (
         <div className="w-full flex justify-center items-center rounded-xlp-4">

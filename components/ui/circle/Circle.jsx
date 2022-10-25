@@ -11,7 +11,7 @@ const Circle = () => {
         console.log("CIRCLE USER DATA:", data);
     }
     const [loading, setLoading] = useState(false);
-    const [allUsers, setAllUsers] = useState();
+    const [allUsers, setAllUsers] = useState([]);
     console.log("allUsers", allUsers);
 
     useEffect(() => {
@@ -75,7 +75,7 @@ const Circle = () => {
                         </div>
                     </div>
                     <div className="w-4/5 h-full flex justify-center items-center px-8">
-                        <Maps
+                        <Maps users={allUsers}
                             location={data?.user?.location}
                             w="100%"
                             h="60vh"
