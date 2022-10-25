@@ -10,7 +10,12 @@ const Post = ({ post }) => {
     return `${format(diff, true)} ago`;
   }, [post.createdAt]);
   return (
-    <div className="">
+    // <DashCard
+    //       text="discover, join or create a circle of developers"
+    //       title="circle"
+    //       style="text-red-500 shadow-red-500"
+    //     />
+    <div className="w-32 h-32 bg-black rounded">
       <Link href={`/user/${post.creator.username}`}>
         <a>
           <div className="">
@@ -28,6 +33,7 @@ const Post = ({ post }) => {
       </Link>
       <div className="">
         <div className="">{post.content}</div>
+        <div className="">{post.postName}</div>
       </div>
       <div className="">
         <time dateTime={String(post.createdAt)} className="">

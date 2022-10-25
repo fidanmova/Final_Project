@@ -6,7 +6,7 @@ import Link from "next/link";
 
 const PostList = () => {
   const { data, size, setSize, isLoadingMore, isReachingEnd } = usePostPages();
-  console.log("data from PostList", data);
+  // console.log("data from PostList", data);
   const posts = data
     ? data.reduce((acc, val) => [...acc, ...val.posts], [])
     : [];

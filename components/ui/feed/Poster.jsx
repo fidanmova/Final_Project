@@ -3,25 +3,49 @@ import { Button, Input, Text } from "react-daisyui";
 import { fetcher } from "../../../utils/fetcher";
 import { usePostPages } from "../../../utils/post/hooks";
 import { useCurrentUser } from "../../../utils/user/hooks";
+import { useForm } from "react-hook-form";
+
 import Link from "next/link";
 import { useCallback, useRef, useState } from "react";
 import { toast } from "react-toastify";
 
 const PosterInner = ({ user }) => {
+  // const [userInput, setUserInput] = useState({
+  //   content: "",
+  //   postName: "",
+  // });
+
   const contentRef = useRef();
   const [isLoading, setIsLoading] = useState(false);
 
   const { mutate } = usePostPages();
 
+  const onChangeHandler = (e) => {
+    setUserInput((prevUser) => ({
+      ...prevUser,
+      [e.target.name]: e.target.value,
+    }));
+    console.log();
+  };
+
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm();
+
   const onSubmit = useCallback(
-    async (e) => {
+    async (data, e) => {
       e.preventDefault();
       try {
         setIsLoading(true);
         await fetcher("/api/posts", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ content: contentRef.current.value }),
+          body: JSON.stringify({
+            content: data.content,
+            postName: data.postName,
+          }),
         });
         toast.success("You have posted successfully");
         contentRef.current.value = "";
@@ -51,6 +75,16 @@ const PosterInner = ({ user }) => {
         </Button>
       </div>
     </form>
+    // <form onSubmit={handleSubmit(onSubmit)}>
+    //   <Input
+    //     type="text"
+    //     placeholder="content"
+    //     {...register("content", { required: true })}
+    //   />
+    //   <Input type="undefined" placeholder="postName" {...register} />
+
+    //   <Button type="success">Post</Button>
+    // </form>
   );
 };
 

@@ -43,6 +43,7 @@ export const ValidateProps = {
 
   post: {
     content: { type: "string", minLength: 1 },
+    postName: { type: "string", minLength: 1 },
   },
   comment: {
     content: { type: "string", minLength: 1 },

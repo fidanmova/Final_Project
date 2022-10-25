@@ -26,6 +26,7 @@ handler.post(
     type: "object",
     properties: {
       content: ValidateProps.post.content,
+      // postName: ValidateProps.post.postName,
     },
     required: ["content"],
     additionalProperties: false,
@@ -39,6 +40,7 @@ handler.post(
 
     const post = await insertPost(db, {
       content: req.body.content,
+      // postName: req.body.postName,
       creatorId: req.user._id,
     });
 
