@@ -10,7 +10,7 @@ import { CgLogIn } from "react-icons/cg";
 const Header = () => {
     const router = useRouter();
     const { data: { user } = {}, mutate } = useCurrentUser();
-    console.log("USER", user);
+    //console.log("USER", user);
 
     const logOut = useCallback(
         async (e) => {

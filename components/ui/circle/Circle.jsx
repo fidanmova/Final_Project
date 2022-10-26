@@ -7,12 +7,12 @@ import { useRouter } from "next/router";
 const Circle = () => {
     //const router = useRouter();
     const { data, error } = useCurrentUser();
-    if (data) {
-        console.log("CIRCLE USER DATA:", data);
-    }
+    // if (data) {
+    //     console.log("CIRCLE USER DATA:", data);
+    // }
     const [loading, setLoading] = useState(false);
     const [allUsers, setAllUsers] = useState([]);
-    console.log("allUsers", allUsers);
+    //console.log("allUsers", allUsers);
 
     useEffect(() => {
         setLoading(true);
@@ -20,7 +20,7 @@ const Circle = () => {
             .then((res) => res.json())
             .then(
                 (results) => {
-                    console.log("CIRCLE RESULTS", results);
+                    //console.log("CIRCLE RESULTS", results);
                     setAllUsers(results);
                     setLoading(false);
                 },
@@ -79,7 +79,7 @@ const Circle = () => {
                             users={allUsers}
                             location={data?.user?.location}
                             w="100%"
-                            h="60vh"
+                            h="80vh"
                         />
                     </div>
                     {/* <p>{data.user.location[0]}</p> - <p>{data.user.location[1]}</p> */}
