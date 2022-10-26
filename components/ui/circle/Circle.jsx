@@ -5,14 +5,17 @@ import moment from "moment";
 import { useRouter } from "next/router";
 
 const Circle = () => {
-    //const router = useRouter();
+    const router = useRouter();
     const { data, error } = useCurrentUser();
-    // if (data) {
-    //     console.log("CIRCLE USER DATA:", data);
-    // }
+
     const [loading, setLoading] = useState(false);
     const [allUsers, setAllUsers] = useState([]);
     //console.log("allUsers", allUsers);
+    useEffect(() => {
+        if (!data) {
+            router.push("/");
+        }
+    }, [data, router]);
 
     useEffect(() => {
         setLoading(true);
