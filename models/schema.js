@@ -13,7 +13,7 @@ export const ValidateProps = {
         city: {
             type: "string",
         },
-        location: [],
+        location: { type: Array },
         circle: [],
         admin: {
             type: Boolean,
