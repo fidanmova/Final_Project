@@ -12,6 +12,7 @@ import Map, {
 
 export const Maps = ({ location, w, h }) => {
     //console.log("location", location);
+
     const [viewport, setViewport] = useState({
         latitude: location[0],
         longitude: location[1],
@@ -26,7 +27,7 @@ export const Maps = ({ location, w, h }) => {
                     zoom: 10,
                 }}
                 style={{ width: w, height: h }}
-                mapStyle="mapbox://styles/incptd/cl9iciho8003v15nwppn42k0w"
+                mapStyle="mapbox://styles/incptd/cl9pl9omx000314nx0pmuq15g"
                 mapboxAccessToken={process.env.mapbox_key}
                 onViewportChange={(nextViewport) => setViewport(nextViewport)}
             />
@@ -41,6 +42,8 @@ export const MainMap = ({ users }) => {
         height: "80vh",
         zoom: 6,
     });
+    const [selectedUser, setSelectedUser] = useState(null);
+
     const [usersCoords, setUsersCoords] = useState(null);
     // console.log("XXXCoords", usersCoords);
     const [popupInfo, setPopupInfo] = useState(null);
@@ -98,33 +101,42 @@ export const MainMap = ({ users }) => {
                 <ScaleControl />
                 {usersCoords &&
                     usersCoords.map((user, i) => (
-                        <Marker
-                            key={i}
-                            latitude={user.location[0]}
-                            longitude={user.location[1]}
-                            offsetLeft={-20}
-                            offsetTop={-10}
-                            onClick={(e) => {
-                                // If we let the click event propagates to the map, it will immediately close the popup
-                                // with `closeOnClick: true`
-                                // e.originalEvent.stopPropagation();
-                                setPopupInfo(user.username);
-                            }}
-                        >
-                            <a
-                                onClick={() => {
-                                    //console.log("CLICK");
-                                }}
+                        <div key={i}>
+                            <Marker
+                                latitude={user.location[0]}
+                                longitude={user.location[1]}
+                                offsetLeft={-20}
+                                offsetTop={-10}
                             >
-                                <p
-                                    role="img"
-                                    className="cursor-pointer text-2xl"
-                                    aria-label="push-pin"
+                                <a
+                                    onClick={() => {
+                                        setSelectedUser(user);
+                                    }}
                                 >
-                                    <ImConnection className="text-2xl text-cyan-500" />
-                                </p>
-                            </a>
-                        </Marker>
+                                    <p
+                                        role="img"
+                                        className="cursor-pointer text-2xl"
+                                        aria-label="push-pin"
+                                    >
+                                        <ImConnection className="text-2xl text-cyan-500" />
+                                    </p>
+                                </a>
+                            </Marker>
+
+                            {selectedUser &&
+                            selectedUser.location === user.location ? (
+                                <Popup
+                                    onClose={() => setSelectedUser({})}
+                                    closeOnClick={true}
+                                    latitude={user.location[0]}
+                                    longitude={user.location[1]}
+                                >
+                                    {user.username}
+                                </Popup>
+                            ) : (
+                                false
+                            )}
+                        </div>
                     ))}
             </Map>
         </div>
