@@ -39,11 +39,23 @@ export const ValidateProps = {
   },
   required: ["username", "email", "city", "password"],
 
-  // chat
+  // ######################
+  // CHAT components
+  // ######################
 
+  chatGroup: {
+    users: { type: Array },
+  },
+  // chat => corresponds to "post"
+  chat: {
+    content: { type: "string", minLength: 1 },
+  },
+  // message => corresponds to "comment"
+  message: {
+    content: { type: "string", minLength: 1 },
+  },
   post: {
     content: { type: "string", minLength: 1 },
-    postName: { type: "string", minLength: 1 },
   },
   comment: {
     content: { type: "string", minLength: 1 },

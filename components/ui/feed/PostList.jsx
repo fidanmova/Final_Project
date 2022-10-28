@@ -21,15 +21,16 @@ const PostList = () => {
             href={`/user/${post.creator.username}/post/${post._id}`}
             passHref
           >
-            <div className="">
-              <Post post={post} />
-            </div>
+            <a>
+              <div className="">
+                <Post post={post} />
+              </div>
+            </a>
           </Link>
-          // <div key={i}></div>
         ))}
         <div>
           {isReachingEnd ? (
-            <Text>No more posts are found</Text>
+            <div>No more posts are found</div>
           ) : (
             <Button
               variant="ghost"

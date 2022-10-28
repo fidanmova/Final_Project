@@ -3,7 +3,6 @@ import { dbConnect } from "../../../utils/mongo/mongodb";
 import { findUserByUsername } from "../../../utils/db";
 
 export default function User({ userNew }) {
-  console.log("USERNAME-user", userNew);
   return (
     <PageTemplate content="Dev-Shed Community" title="DevShed - Home">
       <title>{userNew.username}</title>
@@ -23,6 +22,6 @@ export async function getServerSideProps(context) {
   }
   let userNew = await JSON.parse(JSON.stringify(user));
 
-  // user._id = String(user._id);
+  // user._id = String(user._id); => does NOT work!
   return { props: { userNew } };
 }

@@ -1,31 +1,9 @@
 import { ObjectId } from "mongodb";
 import { dbProjectionUsers } from "./user";
 
-export async function findPChatById(db, id) {
-  const chats = await db
-    .collection("chats")
-    .aggregate([
-      { $match: { _id: new ObjectId(id) } },
-      { $limit: 1 },
-      {
-        $lookup: {
-          from: "users",
-          localField: "creatorId",
-          foreignField: "_id",
-          as: "creator",
-        },
-      },
-      { $unwind: "$creator" },
-      { $project: dbProjectionUsers("creator.") },
-    ])
-    .toArray();
-  if (!chats[0]) return null;
-  return chats[0];
-}
-
 export async function findChats(db, before, by, limit = 10) {
   return db
-    .collection("posts")
+    .collection("chats")
     .aggregate([
       {
         $match: {
@@ -49,15 +27,43 @@ export async function findChats(db, before, by, limit = 10) {
     .toArray();
 }
 
-export async function insertPost(db, { content, creatorId }) {
-  const post = {
+export async function findChatById(db, id) {
+  const chats = await db
+    .collection("chats")
+    .aggregate([
+      { $match: { _id: new ObjectId(id) } },
+      { $limit: 1 },
+      {
+        $lookup: {
+          from: "users",
+          localField: "creatorId",
+          foreignField: "_id",
+          as: "creator",
+        },
+      },
+      { $unwind: "$creator" },
+      { $project: dbProjectionUsers("creator.") },
+    ])
+    .toArray();
+  if (!chats[0]) return null;
+  return chats[0];
+}
+
+export async function insertChat(
+  db,
+  { chatName, isGroupChat, users, content, creatorId }
+) {
+  const chat = {
+    chatName,
+    isGroupChat,
+    users,
     content,
     creatorId,
     createdAt: new Date(),
   };
-  const { insertedId } = await db.collection("posts").insertOne(post);
-  post._id = insertedId;
-  return post;
+  const { insertedId } = await db.collection("chats").insertOne(chat);
+  chat._id = insertedId;
+  return chat;
 }
 
 // // ##  All Events Function ##

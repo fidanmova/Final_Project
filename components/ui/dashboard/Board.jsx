@@ -1,4 +1,4 @@
-import DashCard from "../Card";
+import { DashCard } from "../Card";
 import Link from "next/link";
 
 const Board = ({ data }) => {

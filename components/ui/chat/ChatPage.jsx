@@ -11,8 +11,6 @@ import MyChats from "./MyChats";
 const ChatPage = ({ allChats }) => {
   const { data, error } = useCurrentUser();
   const user = data?.user;
-  console.log("Chatpage data", user, error);
-  console.log("allChats", allChats);
 
   const loading = !data && !error;
 

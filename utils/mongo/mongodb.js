@@ -18,8 +18,16 @@ async function createIndexes(client) {
     ]),
 
     db
+      .collection("chatGroups")
+      .createIndexes([{ key: { createdAt: -1 } }, { key: { creatorId: -1 } }]),
+
+    db
       .collection("chats")
       .createIndexes([{ key: { createdAt: -1 } }, { key: { creatorId: -1 } }]),
+
+    db
+      .collection("messages")
+      .createIndexes([{ key: { createdAt: -1 } }, { key: { postId: -1 } }]),
 
     db
       .collection("posts")

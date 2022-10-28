@@ -10,11 +10,7 @@ import { useCallback, useRef, useState } from "react";
 import { toast } from "react-toastify";
 
 const PosterInner = ({ user }) => {
-  // const [userInput, setUserInput] = useState({
-  //   content: "",
-  //   postName: "",
-  // });
-
+  console.log("user from Inner Poster", user);
   const contentRef = useRef();
   const [isLoading, setIsLoading] = useState(false);
 

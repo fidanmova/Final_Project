@@ -2,6 +2,8 @@
 import { format } from "@lukeed/ms";
 import Link from "next/link";
 import { useMemo } from "react";
+import { PostCard } from "../Card";
+import { Button, Card } from "react-daisyui";
 
 const Post = ({ post }) => {
   const timestampTxt = useMemo(() => {
@@ -10,37 +12,53 @@ const Post = ({ post }) => {
     return `${format(diff, true)} ago`;
   }, [post.createdAt]);
   return (
-    // <DashCard
-    //       text="discover, join or create a circle of developers"
-    //       title="circle"
-    //       style="text-red-500 shadow-red-500"
-    //     />
-    <div className="w-32 h-32 bg-black rounded">
-      <Link href={`/user/${post.creator.username}`}>
-        <a>
-          <div className="">
-            {/* <Avatar
+    <>
+      <PostCard post={post} timestampTxt={timestampTxt} style="" />
+
+      {/* {post ? (
+        <div className="border-b border-grey-lighter flex-1 overflow-auto">
+          {post.map((el, i) => {
+            console.log("ALL ELS =>", el);
+            return (
+              // <PostCard
+              //   key={i}
+              //   post={post}
+              //   timestampTxt={timestampTxt}
+              //   style=""
+              // />
+              <div key={i}>TEST</div>
+            );
+          })}
+        </div>
+      ) : (
+        <div>LOADING</div>
+      )} */}
+
+      {/* <div className="">
+        <Link href={`/user/${post.creator.username}`}>
+          <a>
+            <div className="">
+              <Avatar
               size={36}
               url={post.creator.profilePicture}
               username={post.creator.username}
-            /> */}
-            <div className="">
-              <p className="">{post.creator.name}</p>
-              <p className="">{post.creator.username}</p>
+            />
+              <div className="">
+                <p className="">{post.creator.username}</p>
+              </div>
             </div>
-          </div>
-        </a>
-      </Link>
-      <div className="">
-        <div className="">{post.content}</div>
-        <div className="">{post.postName}</div>
-      </div>
-      <div className="">
-        <time dateTime={String(post.createdAt)} className="">
-          {timestampTxt}
-        </time>
-      </div>
-    </div>
+          </a>
+        </Link>
+        <div className="">
+          <div className="">{post.content}</div>
+        </div>
+        <div className="">
+          <time dateTime={String(post.createdAt)} className="">
+            {timestampTxt}
+          </time>
+        </div>
+      </div> */}
+    </>
   );
 };
 
