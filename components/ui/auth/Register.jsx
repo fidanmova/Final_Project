@@ -10,7 +10,17 @@ import { toast } from "react-toastify";
 const Register = ({ setForm, setOTP, setCredentials }) => {
     const [show, setShow] = useState(false);
     const [location, setLocation] = useState([]);
-   // console.log("location", location);
+    console.log("location", location);
+
+    useEffect(() => {
+        if ("geolocation" in navigator) {
+            // Retrieve latitude & longitude coordinates from `navigator.geolocation` Web API
+            navigator.geolocation.getCurrentPosition(({ coords }) => {
+                const { latitude, longitude } = coords;
+                setLocation([latitude, longitude]);
+            });
+        }
+    }, []);
 
     const handleShow = () => {
         setShow(!show);
@@ -20,6 +30,7 @@ const Register = ({ setForm, setOTP, setCredentials }) => {
         handleSubmit,
         formState: { errors },
     } = useForm();
+
     const OTP = generateOTP(7);
     const onSubmit = useCallback(
         async (data) => {

@@ -5,14 +5,17 @@ import moment from "moment";
 import { useRouter } from "next/router";
 
 const Circle = () => {
-    //const router = useRouter();
+    const router = useRouter();
     const { data, error } = useCurrentUser();
-    // if (data) {
-    //     console.log("CIRCLE USER DATA:", data);
-    // }
+
     const [loading, setLoading] = useState(false);
     const [allUsers, setAllUsers] = useState([]);
     //console.log("allUsers", allUsers);
+    useEffect(() => {
+        if (!data) {
+            router.push("/");
+        }
+    }, [data, router]);
 
     useEffect(() => {
         setLoading(true);
@@ -31,10 +34,10 @@ const Circle = () => {
     }, []);
 
     return (
-        <div className="w-full h-full flex justify-center items-center bg-red-500/10 p-2">
+        <div className="w-full h-full flex justify-center items-center bg-red-500/10 px-2">
             {data?.user?.location && (
                 <>
-                    <div className="flex flex-col items-center w-1/5 h-full border border-purple-500/50 bg-black/50">
+                    <div className="flex flex-col items-center w-1/5 h-full border border-red-500/50 bg-black/50 rounded-2xl">
                         <h2 className="uppercase font-bold text-center pt-4">
                             Devs in this area
                             {loading && <p>LOADING...</p>}
@@ -58,9 +61,10 @@ const Circle = () => {
                                         <div>
                                             {user.since && (
                                                 <p className="italic font-light text-sm capitalize">
-                                                    {moment(user.since).format(
-                                                        "L"
-                                                    )}
+                                                    {moment(
+                                                        user.since,
+                                                        "YYYYMMDD"
+                                                    ).fromNow()}
                                                 </p>
                                             )}
                                             {user.location && (

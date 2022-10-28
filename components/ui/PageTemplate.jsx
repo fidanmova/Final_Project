@@ -15,7 +15,7 @@ const PageTemplate = ({ children, content, title }) => {
                 <Header />
             </div>
          
-            <main className="w-full">{children}</main>
+            <main className="w-full h-full">{children}</main>
 
             <Footer />
         </div>

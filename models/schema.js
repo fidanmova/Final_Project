@@ -14,7 +14,9 @@ export const ValidateProps = {
             type: "string",
         },
         location: { type: Array },
-        circle: [],
+        circle: {
+            type: Array,
+        },
         admin: {
             type: Boolean,
         },
@@ -59,5 +61,13 @@ export const ValidateProps = {
         },
 
         created_at: Date,
+    },
+
+    //message
+    message: {
+        sender: { type: String },
+        receiver: { type: String },
+        message: { type: String },
+        created_at: { type: Date },
     },
 };
