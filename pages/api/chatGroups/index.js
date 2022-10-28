@@ -10,6 +10,7 @@ import nc from "next-connect";
 
 const handler = nc(ncOpts);
 
+// work to get all chatGroups
 handler.get(async (req, res) => {
   const db = await dbConnect();
   const chatGroups = await findAllChatGroups(db);

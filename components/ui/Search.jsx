@@ -22,8 +22,8 @@ function SearchComponent() {
       // const CancelToken = axios.CancelToken;
       // const token = cookie.get("token");
 
-      const res = await fetcher(`/api/search/${value}`, {
-        // const res = await fetcher(`/api/users/${value}`, {
+      // const res = await fetcher(`/api/search/${value}`, {
+      const res = await fetcher(`/api/users/${value}`, {
         method: "GET",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(value),
@@ -70,7 +70,7 @@ const ResultRenderer = ({ _id, profilePicUrl, name }) => {
         <li>
           {/* <Image src={profilePicUrl} alt="ProfilePic" /> */}
           {/* <div header={name} as="a" /> */}
-          <p>{}</p>
+          <p>{name}</p>
         </li>
       </ul>
     </div>
