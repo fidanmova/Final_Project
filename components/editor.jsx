@@ -22,11 +22,18 @@ const MONACO_OPTIONS = {
 };
 
 export default function CodeEditor() {
-  const [postBody, setPostBody] = useState("");
+  const [codeWindow, setCodeWindow] = useState("");
+
+  const handleEditorChange = (value) => {
+    console.log("Value ==>", value);
+    setCodeWindow(value);
+    // onChange(value);
+    console.log("Code ==>", codeWindow);
+  };
 
   return (
     <div className="m-4 p-4 text-2xl capitalize ">
-      <h1>Basic Monoco Code Editor</h1>
+      <h1>Welcome To Your Code Editor</h1>
       <hr />
       <div className=" ">
         <div className="my-6 ">
@@ -39,6 +46,7 @@ export default function CodeEditor() {
             theme="vs-dark" // or "light"
             loading="A moment please while I Load..."
             options={MONACO_OPTIONS}
+            onChange={handleEditorChange}
             // options={{
             //   minimap: {
             //     enabled: false,
