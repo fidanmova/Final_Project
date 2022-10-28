@@ -35,7 +35,7 @@ export default function Jobs() {
   }
 
   return (
-    <div className="m-4 ">
+    <div className="m-4 h-full">
       <h1 className="p-4 text-2xl capitalize">job search top 10 results</h1>
       <hr />
       <div className="Search">
