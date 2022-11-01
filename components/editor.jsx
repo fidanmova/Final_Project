@@ -1,6 +1,7 @@
 import React from "react";
 import { useState } from "react";
 import Editor from "@monaco-editor/react";
+import { useCurrentUser } from "../utils/user/hooks";
 
 const MONACO_OPTIONS = {
   autoIndent: "full",
@@ -23,6 +24,8 @@ const MONACO_OPTIONS = {
 
 export default function CodeEditor() {
   const [codeWindow, setCodeWindow] = useState("");
+  const { data: { user } = {}, mutate } = useCurrentUser();
+  console.log("USER ==>", user);
 
   const handleEditorChange = (value) => {
     console.log("Value ==>", value);
