@@ -12,17 +12,17 @@ const Board = ({ data }) => {
           style="text-red-500 shadow-red-500 hover:scale-95 transition duration-200 ease-in-out"
         />
         <DashCard
-          text="check all events around you"
+          text="check events near you"
           title="events"
           style="text-blue-500 shadow-blue-500 hover:scale-95 transition duration-200 ease-in-out"
         />
         <DashCard
-          text="chat with your friend and with your circle"
+          text="chat with friends or your circle"
           title="chat"
           style="text-purple-500 shadow-purple-500 hover:scale-95 transition duration-200 ease-in-out"
         />
         <DashCard
-          text="looking for a job? check last listenings"
+          text="looking for a job? check latest listings"
           title="job"
           style="text-pink-500 shadow-pink-500 hover:scale-95 transition duration-200 ease-in-out"
         />

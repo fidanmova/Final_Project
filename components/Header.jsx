@@ -20,7 +20,7 @@ const Header = () => {
         const response = await fetcher("/api/auth", {
           method: "DELETE",
         });
-        console.log("response", response);
+        // console.log("response", response);
         mutate({ user: null }, false);
         router.replace("/");
       } catch (e) {
