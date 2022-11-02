@@ -1,4 +1,4 @@
-import {  useState } from "react";
+import { useState } from "react";
 
 export default function Jobs() {
   const [searchResults, setSearchResults] = useState([]);
@@ -35,17 +35,17 @@ export default function Jobs() {
   }
 
   return (
-    <div className="m-4 h-full">
+    <div className="m-4  ">
       <h1 className="p-4 text-2xl capitalize">job search top 10 results</h1>
       <hr />
-      <div className="Search">
+      <div className="Search m-2">
         <form onSubmit={jobSearchHandler}>
           <input
             type="text"
             placeholder="Position"
             name="job"
             id="job"
-            className="input input-bordered m-2 w-full max-w-xs opacity-80"
+            className="input input-bordered  bg-slate-800 m-2 w-full max-w-xs opacity-80 hover:scale-95 transition duration-200 ease-in-out"
             onChange={(e) =>
               setSearchTerms({ ...searchTerms, job: e.target.value })
             }
@@ -55,7 +55,7 @@ export default function Jobs() {
             placeholder="City or Country"
             name="location"
             id="location"
-            className="input input-bordered m-2 w-full max-w-xs opacity-80"
+            className="input input-bordered  bg-slate-800 m-2 w-full max-w-xs opacity-80 hover:scale-95 transition duration-200 ease-in-out"
             onChange={(e) =>
               setSearchTerms({ ...searchTerms, location: e.target.value })
             }
