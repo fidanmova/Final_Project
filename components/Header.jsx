@@ -62,6 +62,11 @@ const Header = () => {
                   JOBS
                 </p>
               </Link>
+              <Link href="/editor">
+                <p className="text-yellow-500 text-xl rounded-lg hover:bg-yellow-500/50 hover:text-gray-300 p-2">
+                  CODE
+                </p>
+              </Link>
             </div>
             <div className="flex space-x-4 items-center p-2 border-4 border-yellow-500/50 rounded-xl">
               <ImPacman className="text-yellow-500 text-lg" href="/dashboard" />
