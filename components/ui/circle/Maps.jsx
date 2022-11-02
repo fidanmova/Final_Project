@@ -1,8 +1,8 @@
 import { getCenter } from "geolib";
 import { useState, useEffect } from "react";
-import { Button, Tooltip } from "react-daisyui";
+import { Button, Tooltip, Drawer } from "react-daisyui";
 import { CgPinAlt } from "react-icons/cg";
-import { FaPlus, FaRocketchat } from "react-icons/fa";
+import { FaPlus } from "react-icons/fa";
 import { RiChatSmile2Line } from "react-icons/ri";
 
 import Map, {
@@ -59,7 +59,7 @@ export const Maps = ({ location, w, h }) => {
         </div>
     );
 };
-export const MainMap = ({ users, }) => {
+export const MainMap = ({ users }) => {
     const [viewport, setViewport] = useState({
         latitude: 51,
         longitude: 12,
@@ -76,6 +76,12 @@ export const MainMap = ({ users, }) => {
     //console.log("showPopup", showPopup);
 
     const [chatOpen, setChatOpen] = useState(false);
+    //deawer for add friend
+    const [visible, setVisible] = useState(false);
+
+    const toggleVisible = () => {
+        setVisible(!visible);
+    };
 
     useEffect(() => {
         if (users !== 0 && users !== undefined && users !== null) {
@@ -186,27 +192,37 @@ export const MainMap = ({ users, }) => {
                                                 </div>
                                             </div>
                                             <div className="flex justify-between">
-                                                <Button className="text-green-500 w-1/2">
+                                                <Button
+                                                    className="text-green-500 w-1/2"
+                                                    onClick={toggleVisible}
+                                                >
                                                     <FaPlus />
                                                 </Button>
                                                 <Button className="text-green-500 w-1/2">
                                                     <RiChatSmile2Line
                                                         className="text-2xl"
                                                         onClick={() =>
-                                                            setChatOpen(!chatOpen)
+                                                            setChatOpen(
+                                                                !chatOpen
+                                                            )
                                                         }
                                                     />
                                                 </Button>
                                             </div>
                                         </div>
                                     </div>
+                                        {visible && (
+                                            <div classNam="absolute z-50 top-0 right-0 w-64 bg-black h-64">
+                                                lol
+                                            </div>
+                                        )}
                                 </Popup>
                             ) : (
                                 false
                             )}
                         </div>
                     ))}
-            {/* {chatOpen && <Message toUser={selecedUser} myself={}/>} */}
+                {/* {chatOpen && <Message toUser={selecedUser} myself={}/>} */}
             </Map>
         </div>
     );
