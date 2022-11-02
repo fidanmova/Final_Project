@@ -4,7 +4,6 @@ import { toast } from "react-toastify";
 import { useForm } from "react-hook-form";
 import { useCurrentUser } from "../utils/user/hooks";
 import { fetcher } from "../utils/fetcher";
-import SearchComponent from "./ui/Search";
 
 export default function Test() {
   const { data, error } = useCurrentUser();
@@ -20,7 +19,7 @@ export default function Test() {
     data.creator = user.username;
     console.log("THE DATA", data);
     try {
-      const response = await fetcher("/api/chatGroups", {
+      const response = await fetcher("/api/chats/", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(data),
@@ -35,7 +34,6 @@ export default function Test() {
 
   return (
     <div>
-      {/* <SearchComponent /> */}
       <Form onSubmit={handleSubmit(onSubmit)}>
         <Input
           type="text"

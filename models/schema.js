@@ -43,12 +43,11 @@ export const ValidateProps = {
   // CHAT components
   // ######################
 
-  chatGroup: {
-    users: { type: Array },
-  },
   // chat => corresponds to "post"
   chat: {
-    content: { type: "string", minLength: 1 },
+    // content: { type: "string", minLength: 1 },
+    chatName: { type: "string", minLength: 1 },
+    users: { type: Array },
   },
   // message => corresponds to "comment"
   message: {

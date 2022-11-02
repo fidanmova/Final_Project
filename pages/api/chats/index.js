@@ -13,8 +13,8 @@ handler.get(async (req, res) => {
   const chats = await findChats(
     db,
     req.query.before ? new Date(req.query.before) : undefined,
-    req.query.by
-    // req.query.limit ? parseInt(req.query.limit, 10) : undefined
+    req.query.by,
+    req.query.limit ? parseInt(req.query.limit, 10) : undefined
   );
 
   if (chats === null) {
