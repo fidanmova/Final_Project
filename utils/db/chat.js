@@ -72,20 +72,20 @@ export async function isUserChatAdmin(db, chatId, currentUser) {
 }
 
 // ! Works:
-// @desc    Add user to Group
+// @desc    creates a chat with username
 // @route   POST /api/chats/createChat
 // @access  Protected
-
 export async function insertChat(db, { users, creatorId }) {
-  const chatGroup = {
+  const chat = {
     users,
     creatorId,
     createdAt: new Date(),
   };
-  const { insertedId } = await db.collection("chatGroups").insertOne(chatGroup);
-  chatGroup._id = insertedId;
-  return chatGroup;
+  const { insertedId } = await db.collection("chats").insertOne(chat);
+  chat._id = insertedId;
+  return chat;
 }
+
 // export async function insertChat(
 //   db,
 //   { chatName, isGroupChat, users, content, creatorId }
