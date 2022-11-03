@@ -7,24 +7,15 @@ import nc from "next-connect";
 
 const handler = nc(ncOpts);
 
-// works to get all chatGroups:
-// handler.get(async (req, res) => {
-//   const db = await dbConnect();
-//   const chatGroups = await findAllChats(db);
-//   res.json(chatGroups);
-// });
-
-// works to get all chatGroups:
+// works to get all chats:
 handler.get(async (req, res) => {
   const db = await dbConnect();
-
   const chats = await findAllChats(
     db
     // req.query.before ? new Date(req.query.before) : undefined,
     // req.query.by,
     // req.query.limit ? parseInt(req.query.limit, 10) : undefined
   );
-
   if (chats === null) {
     res.json("NO DATA");
   }

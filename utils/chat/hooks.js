@@ -1,5 +1,6 @@
 import { fetcher } from "../fetcher";
 import useSWRInfinite from "swr/infinite";
+import useSWR from "swr";
 
 export function useChatPages({ creatorId } = {}) {
   const { data, error, size, ...props } = useSWRInfinite(
@@ -52,6 +53,15 @@ export function useChatPages({ creatorId } = {}) {
   };
 }
 
+export function useAllChats() {
+  return useSWR("/api/chats", fetcher);
+}
+
+export function useChat(id) {
+  return useSWR(`/api/chats/${id}`, fetcher);
+}
+
+// ! from comments:
 // export function useCommentPages({ postId, limit = 10 } = {}) {
 //   const { data, error, size, ...props } = useSWRInfinite(
 //     (index, previousPageData) => {

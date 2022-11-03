@@ -12,8 +12,6 @@ handler.use(...auths);
 //! Works:
 handler.get(async (req, res) => {
   const db = await dbConnect();
-
-  console.log("chatId => ", req.query?.chatId);
   let id = req.query?.chatId;
   const chat = await findChatById(db, id);
   res.json({ chat });

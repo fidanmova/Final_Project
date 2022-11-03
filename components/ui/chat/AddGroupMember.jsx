@@ -1,7 +1,7 @@
 import React from "react";
 import { Input, Form } from "react-daisyui";
 import { useForm } from "react-hook-form";
-import { useAllChats, useChat } from "../../../utils/chats/hooks";
+import { useAllChats, useChat } from "../../../utils/chat/hooks";
 import { useCurrentUser } from "../../../utils/user/hooks";
 import { fetcher } from "../../../utils/fetcher";
 
