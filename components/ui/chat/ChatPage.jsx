@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useCurrentUser } from "../../../utils/user/hooks";
-// import { useAllChats } from "../../../utils/chats/hooks";
+// import { useAllChats } from "../../../utils/chat/hooks";
 
 import Chats from "./Chats";
 import MyChats from "./MyChats";
@@ -11,8 +11,6 @@ import MyChats from "./MyChats";
 const ChatPage = ({ allChats }) => {
   const { data, error } = useCurrentUser();
   const user = data?.user;
-  console.log("Chatpage data", user, error);
-  console.log("allChats", allChats);
 
   const loading = !data && !error;
 

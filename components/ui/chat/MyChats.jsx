@@ -1,14 +1,49 @@
-import React from "react";
+import React, { useState } from "react";
 import Image from "next/image";
 import ChatContact from "./ChatContact";
+import { Form, Input } from "react-daisyui";
 import { MdMessage } from "react-icons/md";
 import { BiDotsVerticalRounded } from "react-icons/bi";
+import { toast } from "react-toastify";
+import { useUser } from "../../../utils/user/hooks";
 
 // Mock Data
 import { messages, chats } from "./data";
 
 const MyChats = ({ fetchAgain, user, selectedChat }) => {
+  const [search, setSearch] = useState("");
+  const [searchResult, setSearchResult] = useState([]);
+  const [loading, setLoading] = useState(false);
   // let avatar = defaultProfilePicture();
+
+  // let test = useUser("fidan");
+  // console.log("test", test);
+
+  const handleSearch = async (query) => {
+    setSearch(query);
+    if (!query) {
+      return;
+    }
+
+    try {
+      setLoading(true);
+
+      const { data } = await axios.get(`/api/user?search=${search}`);
+      console.log(data);
+      setLoading(false);
+      setSearchResult(data);
+    } catch (error) {
+      toast({
+        title: "Error Occured!",
+        description: "Failed to Load the Search Results",
+        status: "error",
+        duration: 5000,
+        isClosable: true,
+        position: "bottom-left",
+      });
+    }
+  };
+
   return (
     <div
       className="w-1/4 h-full p-6 mr-4
@@ -32,10 +67,11 @@ const MyChats = ({ fetchAgain, user, selectedChat }) => {
       <div className="py-3 bg-grey-lighter flex flex-row justify-between items-center">
         {/* SEARCH START */}
         <div className="py-2 pr-2">
-          <input
+          <Input
             type="text"
             className="w-full px-2 py-2 text-sm rounded bg-gray-700"
             placeholder="Search or start new chat"
+            // onChange={(e) => handleSearch(e.target.value)}
           />
         </div>
         {/* SEARCH END */}

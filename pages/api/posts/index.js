@@ -28,7 +28,7 @@ handler.post(
       content: ValidateProps.post.content,
     },
     required: ["content"],
-    additionalProperties: false,
+    additionalProperties: true,
   }),
   async (req, res) => {
     if (!req.user) {
