@@ -20,7 +20,9 @@ export async function findUserById(db, userId) {
   return db
     .collection("users")
     .findOne({ _id: new ObjectId(userId) }, { projection: dbProjectionUsers() })
-    .then((user) => user || null);
+    .then((user) => {
+      return user || null;
+    });
 }
 
 export async function findUserByUsername(db, username) {
@@ -49,42 +51,42 @@ export async function updateUserById(db, id, data) {
 }
 
 export async function insertUser(
-    db,
-    {
-        username,
-        email,
-        originalPassword,
-        bio,
-        city,
-        location,
-        avatar,
-        circle,
-        events,
-        jobs,
-        friends,
-        admin,
-        isVerified,
-        language,
-        since,
-    }
+  db,
+  {
+    username,
+    email,
+    originalPassword,
+    bio,
+    city,
+    location,
+    avatar,
+    circle,
+    events,
+    jobs,
+    friends,
+    admin,
+    isVerified,
+    language,
+    since,
+  }
 ) {
-    const user = {
-        username,
-        email,
-        bio,
-        city,
-        location,
-        avatar,
-        circle,
-        language,
-        events,
-        jobs,
-        friends,
-        admin,
-        isVerified,
-        since,
-    };
-    const password = await bcrypt.hash(originalPassword, 10);
+  const user = {
+    username,
+    email,
+    bio,
+    city,
+    location,
+    avatar,
+    circle,
+    language,
+    events,
+    jobs,
+    friends,
+    admin,
+    isVerified,
+    since,
+  };
+  const password = await bcrypt.hash(originalPassword, 10);
 
   const { insertedId } = await db
     .collection("users")

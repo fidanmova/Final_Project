@@ -5,7 +5,8 @@ import { Form, Input } from "react-daisyui";
 import { MdMessage } from "react-icons/md";
 import { BiDotsVerticalRounded } from "react-icons/bi";
 import { toast } from "react-toastify";
-import { useUser } from "../../../utils/user/hooks";
+import { useCurrentUser } from "../../../utils/user/hooks";
+import { useChatPages, useChat } from "../../../utils/chat/hooks";
 
 // Mock Data
 import { messages, chats } from "./data";
@@ -14,10 +15,47 @@ const MyChats = ({ fetchAgain, user, selectedChat }) => {
   const [search, setSearch] = useState("");
   const [searchResult, setSearchResult] = useState([]);
   const [loading, setLoading] = useState(false);
+
+  const { data: currentUser, error } = useCurrentUser();
+
+  const { data, size, setSize, isLoadingMore, isReachingEnd } = useChatPages();
+  console.log("ChatPages", useChatPages());
+
+  const chats = data
+    ? data.reduce((acc, val) => [...acc, ...val.usersChats], [])
+    : [];
+
+  //? One Chat:
+  // const { data: oneChat, error: chatErrorAll } = useChat(
+  //   "63628774de7ecc27a0a73f79"
+  // );
+  // console.log("DATA_ONE =>", oneChat);
+
   // let avatar = defaultProfilePicture();
 
-  // let test = useUser("fidan");
-  // console.log("test", test);
+  //! From Piyush fetching chats:
+  // const fetchChats = async () => {
+  //   // console.log(user._id);
+  //   try {
+  //     const config = {
+  //       headers: {
+  //         Authorization: `Bearer ${user.token}`,
+  //       },
+  //     };
+
+  //     const { data } = await axios.get("/api/chat", config);
+  //     setChats(data);
+  //   } catch (error) {
+  //     toast({
+  //       title: "Error Occured!",
+  //       description: "Failed to Load the chats",
+  //       status: "error",
+  //       duration: 5000,
+  //       isClosable: true,
+  //       position: "bottom-left",
+  //     });
+  //   }
+  // };
 
   const handleSearch = async (query) => {
     setSearch(query);
@@ -94,6 +132,12 @@ const MyChats = ({ fetchAgain, user, selectedChat }) => {
       {chats ? (
         <div className="border-b border-grey-lighter flex-1 overflow-auto">
           {chats.map((chat, i) => {
+            console.log("chat from JSX", chat);
+            // return (
+            //   <div key={i}>
+            //     <div>{chat.content}</div>
+            //   </div>
+            // );
             return <ChatContact key={i} user={user} chat={chat} i={i} />;
           })}
         </div>

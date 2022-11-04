@@ -22,10 +22,37 @@ export async function findChatById(db, id) {
 }
 
 // ! Works:
-// @desc    Add user to Group
+// @desc   fetch only users chats
 // @route   GET /api/chats/getUsersChats
 // @access  Protected
 export async function findUsersChats(db, currentUser) {
+  // currentUser => "634db22538ea5aba7b60a1dd" needed as String here!
+  const usersPosts = await db
+    .collection("chats")
+    .aggregate([
+      {
+        $match: {
+          $or: [
+            { users: currentUser.toString() },
+            { creatorId: currentUser.toString() },
+          ],
+        },
+      },
+      { $sort: { _id: -1 } },
+      //! Projection can't be used here:
+      // { projection: dbProjectionUsers() },
+    ])
+    .toArray();
+  if (usersPosts.length === 0) return null;
+  return usersPosts;
+}
+
+// ! Works:
+// @desc   fetch only users chats
+// @route   GET /api/chats/getUsersChats
+// @access  Protected
+export async function findUsersChatsOld(db, currentUser) {
+  console.log("findPostsOfUser => ", currentUser);
   const usersChats = await db
     .collection("chats")
     .aggregate([
@@ -45,6 +72,32 @@ export async function findUsersChats(db, currentUser) {
   if (usersChats.length === 0) return null;
   return usersChats;
 }
+
+//! #############################
+//? TRIAL of UseSWRInfinite
+// @desc    Add user to Group
+// @route   GET /api/chats/getUsersChatsBy/:userId
+// @access  Protected
+export async function findUsersChatsBy(db, userId) {
+  console.log("usersId from getUsersChatsBy =>", userId);
+  const usersChats = await db
+    .collection("chats")
+    .aggregate([
+      {
+        $match: {
+          $or: [{ users: userId.toString() }, { creatorId: userId.toString() }],
+        },
+      },
+      { $sort: { _id: -1 } },
+      //! Projection can't be used here:
+      // { projection: dbProjectionUsers() },
+    ])
+    .toArray();
+  console.log("usersChats from getUsersChatsBy =>", usersChats);
+  if (usersChats.length === 0) return null;
+  return usersChats;
+}
+//! #############################
 
 // ! Works:
 // @desc    CHECK if user is creator/admin of chat
@@ -75,26 +128,9 @@ export async function isUserChatAdmin(db, chatId, currentUser) {
 // @desc    creates a chat with username
 // @route   POST /api/chats/createChat
 // @access  Protected
-export async function insertChat(db, { users, creatorId }) {
-  const chat = {
-    users,
-    creatorId,
-    createdAt: new Date(),
-  };
-  const { insertedId } = await db.collection("chats").insertOne(chat);
-  chat._id = insertedId;
-  return chat;
-}
-
-// export async function insertChat(
-//   db,
-//   { chatName, isGroupChat, users, content, creatorId }
-// ) {
+// export async function insertChat(db, { users, creatorId }) {
 //   const chat = {
-//     chatName,
-//     isGroupChat,
 //     users,
-//     content,
 //     creatorId,
 //     createdAt: new Date(),
 //   };
@@ -102,6 +138,22 @@ export async function insertChat(db, { users, creatorId }) {
 //   chat._id = insertedId;
 //   return chat;
 // }
+
+// @desc    creates a chat with username
+// @route   POST /api/chats/createChat
+// @access  Protected
+export async function insertChat(db, { chatName, users, content, creatorId }) {
+  const chat = {
+    chatName,
+    users,
+    content,
+    creatorId,
+    createdAt: new Date(),
+  };
+  const { insertedId } = await db.collection("chats").insertOne(chat);
+  chat._id = insertedId;
+  return chat;
+}
 
 // ! Works:
 // @desc    Add user to Group

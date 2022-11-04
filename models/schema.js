@@ -1,43 +1,43 @@
 export const ValidateProps = {
-    user: {
-        username: {
-            type: "string",
-        },
-
-        email: {
-            type: "string",
-        },
-        password: {
-            type: "string",
-        },
-        city: {
-            type: "string",
-        },
-        location: { type: Array },
-        circle: {
-            type: Array,
-        },
-        admin: {
-            type: Boolean,
-        },
-        language: {
-            type: "string",
-        },
-        bio: {
-            type: "string",
-        },
-        avatar: {
-            type: "string",
-        },
-        events: {
-            type: Array,
-        },
-        jobs: {
-            type: Array,
-        },
-        isVerified: { type: Boolean || "string" },
+  user: {
+    username: {
+      type: "string",
     },
-    required: ["username", "email", "password"],
+
+    email: {
+      type: "string",
+    },
+    password: {
+      type: "string",
+    },
+    city: {
+      type: "string",
+    },
+    location: { type: Array },
+    circle: {
+      type: Array,
+    },
+    admin: {
+      type: Boolean,
+    },
+    language: {
+      type: "string",
+    },
+    bio: {
+      type: "string",
+    },
+    avatar: {
+      type: "string",
+    },
+    events: {
+      type: Array,
+    },
+    jobs: {
+      type: Array,
+    },
+    isVerified: { type: Boolean || "string" },
+  },
+  required: ["username", "email", "password"],
 
   // ######################
   // CHAT components
@@ -71,13 +71,13 @@ export const ValidateProps = {
     location: {
       type: String,
     },
-    },
+  },
 
-    //message
-    message: {
-        sender: { type: String },
-        receiver: { type: String },
-        message: { type: String },
-        created_at: { type: Date },
-    },
+  //message Natasha
+  // message: {
+  //     sender: { type: String },
+  //     receiver: { type: String },
+  //     message: { type: String },
+  //     created_at: { type: Date },
+  // },
 };

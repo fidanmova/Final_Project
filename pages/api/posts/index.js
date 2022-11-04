@@ -1,5 +1,5 @@
 import { ValidateProps } from "../../../models/schema";
-import { findPosts, insertPost } from "../../../utils/db/post";
+import { findPosts, insertPost, findUsersPosts } from "../../../utils/db/post";
 import { auths, validateBody } from "../../../middlewares";
 import { dbConnect } from "./../../../utils/mongo/mongodb";
 import { ncOpts } from "../../../utils/nc";
@@ -7,16 +7,18 @@ import nc from "next-connect";
 
 const handler = nc(ncOpts);
 
+handler.use(...auths);
+
 handler.get(async (req, res) => {
   const db = await dbConnect();
-
-  const posts = await findPosts(
+  const currentUser = await req.user._id;
+  const posts = await findUsersPosts(
     db,
-    req.query.before ? new Date(req.query.before) : undefined,
-    req.query.by,
-    req.query.limit ? parseInt(req.query.limit, 10) : undefined
+    currentUser,
+    // req.query.before ? new Date(req.query.before) : undefined,
+    req.query.by
+    // req.query.limit ? parseInt(req.query.limit, 10) : undefined
   );
-
   res.json({ posts });
 });
 
