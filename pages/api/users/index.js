@@ -55,6 +55,7 @@ handler.post(
                 location: [location[0], location[1]],
                 language,
                 circle: [],
+                friends: [],
                 bio: "",
                 events: [],
                 jobs: [],

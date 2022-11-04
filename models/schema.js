@@ -17,6 +17,7 @@ export const ValidateProps = {
         circle: {
             type: Array,
         },
+        friends: { type: Array },
         admin: {
             type: Boolean,
         },
@@ -35,49 +36,50 @@ export const ValidateProps = {
         jobs: {
             type: Array,
         },
+        code: { type: Array },
         isVerified: { type: Boolean || "string" },
     },
     required: ["username", "email", "password"],
 
-  // ######################
-  // CHAT components
-  // ######################
+    // ######################
+    // CHAT components
+    // ######################
 
-  // chat => corresponds to "post"
-  chat: {
-    // content: { type: "string", minLength: 1 },
-    chatName: { type: "string", minLength: 1 },
-    users: { type: Array },
-  },
-  // message => corresponds to "comment"
-  message: {
-    content: { type: "string", minLength: 1 },
-  },
-  post: {
-    content: { type: "string", minLength: 1 },
-  },
-  comment: {
-    content: { type: "string", minLength: 1 },
-  },
-
-  // events
-  events: {
-    event_title: {
-      type: String,
+    // chat => corresponds to "post"
+    chat: {
+        // content: { type: "string", minLength: 1 },
+        chatName: { type: "string", minLength: 1 },
+        users: { type: Array },
     },
-    when: {
-      type: String,
-    },
-    location: {
-      type: String,
-    },
-    },
-
-    //message
+    // message => corresponds to "comment"
     message: {
-        sender: { type: String },
-        receiver: { type: String },
-        message: { type: String },
-        created_at: { type: Date },
+        content: { type: "string", minLength: 1 },
     },
+    post: {
+        content: { type: "string", minLength: 1 },
+    },
+    comment: {
+        content: { type: "string", minLength: 1 },
+    },
+
+    // events
+    events: {
+        event_title: {
+            type: String,
+        },
+        when: {
+            type: String,
+        },
+        location: {
+            type: String,
+        },
+    },
+
+    // //message
+    // message: {
+    //     sender: { type: String },
+    //     receiver: { type: String },
+    //     message: { type: String },
+    //     created_at: { type: Date },
+    // },
 };

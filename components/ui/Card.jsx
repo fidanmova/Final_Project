@@ -9,11 +9,15 @@ const DashCard = ({ title, text, style }) => {
             <div className="w-full h-full flex flex-col justify-between items-center py-8">
                 <h2 className={`text-2xl`}>{title}</h2>
 
-        <p className="text-md capitalize text-white">{text}</p>
-        <Link href={`/${title}`}>enter</Link>
-      </div>
-    </Card>
-  );
+                <p className="text-md capitalize text-white">{text}</p>
+                {title === "code" ? (
+                    <Link href={`/editor`}>enter</Link>
+                ) : (
+                    <Link href={`/${title}`}>enter</Link>
+                )}
+            </div>
+        </Card>
+    );
 };
 
 const PostCard = ({ i, post, timestampTxt, style }) => {

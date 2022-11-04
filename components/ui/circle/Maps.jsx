@@ -2,7 +2,7 @@ import { getCenter } from "geolib";
 import { useState, useEffect } from "react";
 import { Button, Tooltip, Drawer } from "react-daisyui";
 import { CgPinAlt } from "react-icons/cg";
-import { FaPlus } from "react-icons/fa";
+import { FaPlus, FaMinus } from "react-icons/fa";
 import { RiChatSmile2Line } from "react-icons/ri";
 
 import Map, {
@@ -59,29 +59,31 @@ export const Maps = ({ location, w, h }) => {
         </div>
     );
 };
-export const MainMap = ({ users }) => {
+
+export const MainMap = ({
+    users,
+    singleUser,
+    setSingleUser,
+    visible,
+    toggleVisible,
+}) => {
     const [viewport, setViewport] = useState({
         latitude: 51,
         longitude: 12,
         width: "100%",
-        height: "80vh",
+        height: "90vh",
         zoom: 6,
     });
     const [selectedUser, setSelectedUser] = useState(null);
-    //console.log("selected", selectedUser);
+    console.log("selected", selectedUser);
 
     const [usersCoords, setUsersCoords] = useState(null);
 
     const [showPopup, setShowPopup] = useState(true);
-    //console.log("showPopup", showPopup);
+    console.log("showPopup", showPopup);
 
     const [chatOpen, setChatOpen] = useState(false);
     //deawer for add friend
-    const [visible, setVisible] = useState(false);
-
-    const toggleVisible = () => {
-        setVisible(!visible);
-    };
 
     useEffect(() => {
         if (users !== 0 && users !== undefined && users !== null) {
@@ -97,8 +99,8 @@ export const MainMap = ({ users }) => {
                     longitude: center.longitude,
                     latitude: center.latitude,
                     width: "100%",
-                    height: "80vh",
-                    zoom: 4,
+                    height: "90vh",
+                    zoom: 3.5,
                 });
             }
             setUsersCoords(users);
@@ -106,17 +108,8 @@ export const MainMap = ({ users }) => {
     }, [users]);
 
     return (
-        <div className="w-full flex justify-center items-center rounded-xlp-4">
+        <div className="w-full h-full flex flex-col justify-center items-center rounded-xl">
             <Map
-                initialViewState={{
-                    latitude: viewport.latitude,
-                    longitude: viewport.longitude,
-                    width: "100%",
-                    height: "90vh",
-                    zoom: 6,
-                    bearing: 0,
-                    pitch: 0,
-                }}
                 {...viewport}
                 style={{
                     width: "100%",
@@ -126,11 +119,11 @@ export const MainMap = ({ users }) => {
                 }}
                 mapStyle="mapbox://styles/incptd/cl9iciho8003v15nwppn42k0w"
                 mapboxAccessToken={process.env.mapbox_key}
-                onViewportChange={(nextViewport) => setViewport(nextViewport)}
+                onMove={(nextViewport) => setViewport(nextViewport.viewport)}
             >
                 <GeolocateControl position="top-left" visualizePitch={true} />
                 <FullscreenControl position="top-left" />
-                <NavigationControl position="top-left" />
+                <NavigationControl position="top-left" visualizePitch={true} />
                 <ScaleControl />
                 {usersCoords &&
                     usersCoords.map((user, i) => (
@@ -145,6 +138,7 @@ export const MainMap = ({ users }) => {
                                     onClick={() => {
                                         setSelectedUser(user);
                                         setShowPopup(true);
+                                        setSingleUser(null);
                                     }}
                                 >
                                     <p
@@ -158,13 +152,83 @@ export const MainMap = ({ users }) => {
                             </Marker>
 
                             {selectedUser !== null &&
-                            selectedUser.username === user.username &&
-                            showPopup ? (
+                                selectedUser === user.username &&
+                                showPopup && (
+                                    <Popup
+                                        onClose={() => setSelectedUser({})}
+                                        closeOnClick={true}
+                                        latitude={selectedUser.location[0]}
+                                        longitude={selectedUser.location[1]}
+                                    >
+                                        <div className="flex flex-col p-4">
+                                            <div className="flex flex-col space-y-8 ">
+                                                <div className="space-y-1">
+                                                    <div className="flex justify-between ">
+                                                        <p className="text-green-500">
+                                                            username:
+                                                        </p>
+
+                                                        <p className="text-blue-500 uppercase pl-2">
+                                                            {
+                                                                selectedUser.username
+                                                            }
+                                                        </p>
+                                                    </div>
+                                                    <div className="flex justify-between ">
+                                                        <p className="text-green-500">
+                                                            language:
+                                                        </p>
+
+                                                        <p className="text-blue-500 uppercase pl-2">
+                                                            {selectedUser.language ===
+                                                            "JavaScript (React.js and Node.js)"
+                                                                ? "Javascript"
+                                                                : selectedUser.language}
+                                                        </p>
+                                                    </div>
+                                                </div>
+                                                <div className="flex justify-between">
+                                                    {!visible ? (
+                                                        <Button
+                                                            className="text-green-500 w-1/2"
+                                                            onClick={
+                                                                toggleVisible
+                                                            }
+                                                        >
+                                                            <FaPlus />
+                                                        </Button>
+                                                    ) : (
+                                                        <Button
+                                                            className="text-green-500 w-1/2"
+                                                            onClick={
+                                                                toggleVisible
+                                                            }
+                                                        >
+                                                            <FaMinus />
+                                                        </Button>
+                                                    )}
+
+                                                    <Button className="text-green-500 w-1/2">
+                                                        <RiChatSmile2Line
+                                                            className="text-2xl"
+                                                            onClick={() =>
+                                                                setChatOpen(
+                                                                    !chatOpen
+                                                                )
+                                                            }
+                                                        />
+                                                    </Button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </Popup>
+                                )}
+                            {singleUser !== null && (
                                 <Popup
-                                    onClose={() => setSelectedUser({})}
-                                    closeOnClick={false}
-                                    latitude={selectedUser.location[0]}
-                                    longitude={selectedUser.location[1]}
+                                    onClose={() => setSingleUser(null)}
+                                    closeOnClick={true}
+                                    latitude={singleUser.location[0]}
+                                    longitude={singleUser.location[1]}
                                 >
                                     <div className="flex flex-col p-4">
                                         <div className="flex flex-col space-y-8 ">
@@ -175,7 +239,7 @@ export const MainMap = ({ users }) => {
                                                     </p>
 
                                                     <p className="text-blue-500 uppercase pl-2">
-                                                        {selectedUser.username}
+                                                        {singleUser.username}
                                                     </p>
                                                 </div>
                                                 <div className="flex justify-between ">
@@ -184,20 +248,30 @@ export const MainMap = ({ users }) => {
                                                     </p>
 
                                                     <p className="text-blue-500 uppercase pl-2">
-                                                        {selectedUser.language ===
+                                                        {singleUser.language ===
                                                         "JavaScript (React.js and Node.js)"
                                                             ? "Javascript"
-                                                            : selectedUser.language}
+                                                            : singleUser.language}
                                                     </p>
                                                 </div>
                                             </div>
                                             <div className="flex justify-between">
-                                                <Button
-                                                    className="text-green-500 w-1/2"
-                                                    onClick={toggleVisible}
-                                                >
-                                                    <FaPlus />
-                                                </Button>
+                                                {!visible ? (
+                                                    <Button
+                                                        className="text-green-500 w-1/2"
+                                                        onClick={toggleVisible}
+                                                    >
+                                                        <FaPlus />
+                                                    </Button>
+                                                ) : (
+                                                    <Button
+                                                        className="text-green-500 w-1/2"
+                                                        onClick={toggleVisible}
+                                                    >
+                                                        <FaMinus />
+                                                    </Button>
+                                                )}
+
                                                 <Button className="text-green-500 w-1/2">
                                                     <RiChatSmile2Line
                                                         className="text-2xl"
@@ -211,14 +285,7 @@ export const MainMap = ({ users }) => {
                                             </div>
                                         </div>
                                     </div>
-                                        {visible && (
-                                            <div classNam="absolute z-50 top-0 right-0 w-64 bg-black h-64">
-                                                lol
-                                            </div>
-                                        )}
                                 </Popup>
-                            ) : (
-                                false
                             )}
                         </div>
                     ))}

@@ -12,7 +12,7 @@ const AuthLanding = () => {
   const [credentials, setCredentials] = useState();
 
   return (
-    <Hero className="w-full h-full flex items-center justify-center bg-black bg-opacity-30 rounded-lg backdrop-blur-sm overflow-hidden">
+    <Hero className="w-full h-full min-h-[90vh] flex items-center justify-center bg-black bg-opacity-30 rounded-lg backdrop-blur-sm overflow-hidden scrollbar-hide">
       <Hero.Content
         className={`w-full flex-col ${
           form === "login" || form === "register"
