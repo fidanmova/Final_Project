@@ -17,6 +17,7 @@ export const ValidateProps = {
         circle: {
             type: Array,
         },
+        friends: { type: Array },
         admin: {
             type: Boolean,
         },
@@ -35,6 +36,7 @@ export const ValidateProps = {
         jobs: {
             type: Array,
         },
+        code: { type: Array },
         isVerified: { type: Boolean || "string" },
     },
     required: ["username", "email", "password"],
