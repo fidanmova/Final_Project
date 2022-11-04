@@ -155,7 +155,7 @@ export const MainMap = ({
                                 selectedUser === user.username &&
                                 showPopup && (
                                     <Popup
-                                        onClose={() => setSelectedUser(null)}
+                                        onClose={() => setSelectedUser({})}
                                         closeOnClick={true}
                                         latitude={selectedUser.location[0]}
                                         longitude={selectedUser.location[1]}
@@ -188,12 +188,26 @@ export const MainMap = ({
                                                     </div>
                                                 </div>
                                                 <div className="flex justify-between">
-                                                    <Button
-                                                        className="text-green-500 w-1/2"
-                                                        onClick={toggleVisible}
-                                                    >
-                                                        <FaPlus />
-                                                    </Button>
+                                                    {!visible ? (
+                                                        <Button
+                                                            className="text-green-500 w-1/2"
+                                                            onClick={
+                                                                toggleVisible
+                                                            }
+                                                        >
+                                                            <FaPlus />
+                                                        </Button>
+                                                    ) : (
+                                                        <Button
+                                                            className="text-green-500 w-1/2"
+                                                            onClick={
+                                                                toggleVisible
+                                                            }
+                                                        >
+                                                            <FaMinus />
+                                                        </Button>
+                                                    )}
+
                                                     <Button className="text-green-500 w-1/2">
                                                         <RiChatSmile2Line
                                                             className="text-2xl"
@@ -209,7 +223,7 @@ export const MainMap = ({
                                         </div>
                                     </Popup>
                                 )}
-                            {/* {singleUser !== null && (
+                            {singleUser !== null && (
                                 <Popup
                                     onClose={() => setSingleUser(null)}
                                     closeOnClick={true}
@@ -272,7 +286,7 @@ export const MainMap = ({
                                         </div>
                                     </div>
                                 </Popup>
-                            )} */}
+                            )}
                         </div>
                     ))}
                 {/* {chatOpen && <Message toUser={selecedUser} myself={}/>} */}
