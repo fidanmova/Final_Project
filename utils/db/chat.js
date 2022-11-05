@@ -33,7 +33,7 @@ export async function findUsersChats(db, currentUser) {
       {
         $match: {
           $or: [
-            // { users: { $elemMatch: { $eq: currentUser.toString() } } },
+            { users: { $elemMatch: { $eq: currentUser.toString() } } },
             { creatorId: new ObjectId(currentUser) },
           ],
         },
@@ -49,32 +49,6 @@ export async function findUsersChats(db, currentUser) {
   if (usersChats.length === 0) return null;
   return usersChats;
 }
-
-//! #############################
-//? TRIAL of UseSWRInfinite
-// @desc    Add user to Group
-// @route   GET /api/chats/getUsersChatsBy/:userId
-// @access  Protected
-// export async function findUsersChatsBy(db, userId) {
-//   console.log("usersId from getUsersChatsBy =>", userId);
-//   const usersChats = await db
-//     .collection("chats")
-//     .aggregate([
-//       {
-//         $match: {
-//           $or: [{ users: userId.toString() }, { creatorId: userId.toString() }],
-//         },
-//       },
-//       { $sort: { _id: -1 } },
-//       //! Projection can't be used here:
-//       // { projection: dbProjectionUsers() },
-//     ])
-//     .toArray();
-//   console.log("usersChats from getUsersChatsBy =>", usersChats);
-//   if (usersChats.length === 0) return null;
-//   return usersChats;
-// }
-//! #############################
 
 // ! Works:
 // @desc    CHECK if user is creator/admin of chat
@@ -181,38 +155,3 @@ export async function updateChatById(db, id, data) {
     )
     .then(({ value }) => value);
 }
-
-// ! Does NOT WORK:
-// export async function findChats(db, before, by, limit = 10) {
-//   return db
-//     .collection("chats")
-//     .aggregate([
-//       {
-//         $match: {
-//           ...(by && { creatorId: new ObjectId(by) }),
-//           ...(before && { createdAt: { $lt: before } }),
-//         },
-//       },
-//       { $sort: { _id: -1 } },
-//       { $limit: limit },
-//       {
-//         $lookup: {
-//           from: "users",
-//           localField: "creatorId",
-//           foreignField: "_id",
-//           as: "creator",
-//         },
-//       },
-//       { $unwind: "$creator" },
-//       { $project: dbProjectionUsers("creator.") },
-//     ])
-//     .toArray();
-// }
-
-// export function dbProjectionChats(prefix = "") {
-//   return {
-//     [`${prefix}password`]: 0,
-//     [`${prefix}email`]: 0,
-//     [`${prefix}emailVerified`]: 0,
-//   };
-// }

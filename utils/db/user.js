@@ -30,7 +30,7 @@ export async function findUserById(db, userId) {
 export async function findUserByUsername(db, username) {
   return db
     .collection("users")
-    .findOne({ username }, { projection: dbProjectionUsersChat() })
+    .findOne({ username }, { projection: dbProjectionUsers() })
     .then((user) => {
       console.log("user from findUserByUsername", user);
       return user || null;
@@ -147,17 +147,5 @@ export function dbProjectionUsers(prefix = "") {
     [`${prefix}password`]: 0,
     [`${prefix}email`]: 0,
     [`${prefix}emailVerified`]: 0,
-  };
-}
-
-export function dbProjectionUsersChat(prefix = "") {
-  return {
-    [`${prefix}password`]: 0,
-    [`${prefix}email`]: 0,
-    [`${prefix}emailVerified`]: 0,
-    [`${prefix}bio`]: 0,
-    [`${prefix}circle`]: 0,
-    [`${prefix}language`]: 0,
-    [`${prefix}events`]: 0,
   };
 }
