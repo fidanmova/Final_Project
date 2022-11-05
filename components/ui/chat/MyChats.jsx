@@ -17,16 +17,16 @@ const MyChats = ({ fetchAgain, user, selectedChat }) => {
   // const [searchResult, setSearchResult] = useState([]);
   // const [loading, setLoading] = useState(false);
 
-  console.log("MyChats currentUser =>", currentUser);
+  // console.log("MyChats currentUser =>", currentUser);
 
   const { data, size, setSize, isLoadingMore, isReachingEnd } = useChatPages();
-  console.log("MyChats data =>", useChatPages());
+  // console.log("MyChats data =>", useChatPages());
 
   const chats = data
     ? data.reduce((acc, val) => [...acc, ...val.usersChats], [])
     : [];
 
-  console.log("======================== chats", chats);
+  // console.log("======================== chats", chats);
 
   //? One Chat:
   // const { data: oneChat, error: chatErrorAll } = useChat(
@@ -87,10 +87,7 @@ const MyChats = ({ fetchAgain, user, selectedChat }) => {
 
   return (
     <div
-      className="w-1/4 h-full p-6 mr-4
-      flex flex-col
-      text-xl uppercase
-      bg-opacity-90 bg-gray-800
+      className="w-1/4 h-full p-6 flex flex-col text-xl uppercase bg-opacity-90 bg-gray-800
       rounded-3xl  border-2 border-gray-600"
     >
       {/* HEADER START */}
@@ -133,9 +130,9 @@ const MyChats = ({ fetchAgain, user, selectedChat }) => {
 
       {/* CHATS START */}
       {chats ? (
-        <div className="border-b border-grey-lighter flex-1 overflow-auto">
+        <div className="border-b border-grey-lighter flex-1  overflow-auto">
           {chats.map((chat, i) => {
-            console.log("chat from JSX", chat);
+            // console.log("chat from JSX", chat);
             // return (
             //   <div key={i}>
             //     <div>{chat.content}</div>

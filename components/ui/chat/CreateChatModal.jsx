@@ -46,7 +46,7 @@ const CreateChatModal = () => {
       setIsLoading(true);
       // data in Origin is {data};
       const data = await fetcher(`/api/users/search?search=${search}`);
-      console.log("FE Data search 2 => ", data);
+      // console.log("FE Data search 2 => ", data);
       // ! data is Array of Objects! / also in piyushs example
       // ! need not to modify resultList showing (UserListItem.jsx)
       setIsLoading(false);
@@ -81,12 +81,12 @@ const CreateChatModal = () => {
         }),
       });
       setChats([data, ...chats]);
-      console.log("chats => ?", chats);
-      console.log("data from CreateChat => ?", data);
+      // console.log("chats => ?", chats);
+      // console.log("data from CreateChat => ?", data);
       // mutate();
       toast("New group chat created.");
     } catch (error) {
-      console.log("error createChatModal =>", error);
+      // console.log("error createChatModal =>", error);
       toast.error("Failed to create the chat");
       // }
       // [mutate];
@@ -161,7 +161,7 @@ const CreateChatModal = () => {
           <div>Loading...</div>
         ) : (
           searchResult?.slice(0, 4).map((user, i) => {
-            console.log("user from searchResult", user);
+            // console.log("user from searchResult", user);
             <UserListItem
               key={i}
               user={user}
