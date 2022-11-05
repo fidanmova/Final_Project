@@ -11,7 +11,7 @@ const Chats = ({ fetchAgain, setFetchAgain, user, selectedChat }) => {
   let isGroupChat = true;
 
   return (
-    <div className="w-3/4 p-4 bg-opacity-90 bg-gray-900 rounded-3xl text-xl uppercase h-full min-h-screen border-2 border-gray-600">
+    <div className="w-3/4 p-4 bg-opacity-90 bg-gray-900 rounded-3xl text-xl uppercase h-full border-2 border-gray-600">
       {/* HEADER START */}
       <div className="py-2 px-3 rounded-3xl rounded-b-none bg-gray-700 flex flex-row justify-between items-center">
         <div className="flex items-center">
