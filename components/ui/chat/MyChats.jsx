@@ -9,21 +9,24 @@ import { useCurrentUser } from "../../../utils/user/hooks";
 import { useChatPages, useChat } from "../../../utils/chat/hooks";
 
 // Mock Data
-import { messages, chats } from "./data";
+// import { messages, chats } from "./data";
 
 const MyChats = ({ fetchAgain, user, selectedChat }) => {
-  const [search, setSearch] = useState("");
-  const [searchResult, setSearchResult] = useState([]);
-  const [loading, setLoading] = useState(false);
-
   const { data: currentUser, error } = useCurrentUser();
+  // const [search, setSearch] = useState("");
+  // const [searchResult, setSearchResult] = useState([]);
+  // const [loading, setLoading] = useState(false);
+
+  console.log("MyChats currentUser =>", currentUser);
 
   const { data, size, setSize, isLoadingMore, isReachingEnd } = useChatPages();
-  console.log("ChatPages", useChatPages());
+  console.log("MyChats data =>", useChatPages());
 
   const chats = data
     ? data.reduce((acc, val) => [...acc, ...val.usersChats], [])
     : [];
+
+  console.log("======================== chats", chats);
 
   //? One Chat:
   // const { data: oneChat, error: chatErrorAll } = useChat(
@@ -57,30 +60,30 @@ const MyChats = ({ fetchAgain, user, selectedChat }) => {
   //   }
   // };
 
-  const handleSearch = async (query) => {
-    setSearch(query);
-    if (!query) {
-      return;
-    }
+  // const handleSearch = async (query) => {
+  //   setSearch(query);
+  //   if (!query) {
+  //     return;
+  //   }
 
-    try {
-      setLoading(true);
+  //   try {
+  //     setLoading(true);
 
-      const { data } = await axios.get(`/api/user?search=${search}`);
-      console.log(data);
-      setLoading(false);
-      setSearchResult(data);
-    } catch (error) {
-      toast({
-        title: "Error Occured!",
-        description: "Failed to Load the Search Results",
-        status: "error",
-        duration: 5000,
-        isClosable: true,
-        position: "bottom-left",
-      });
-    }
-  };
+  //     const { data } = await axios.get(`/api/user?search=${search}`);
+  //     console.log(data);
+  //     setLoading(false);
+  //     setSearchResult(data);
+  //   } catch (error) {
+  //     toast({
+  //       title: "Error Occured!",
+  //       description: "Failed to Load the Search Results",
+  //       status: "error",
+  //       duration: 5000,
+  //       isClosable: true,
+  //       position: "bottom-left",
+  //     });
+  //   }
+  // };
 
   return (
     <div

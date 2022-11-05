@@ -25,7 +25,9 @@ export function usePostPages({ currentUser, limit = 10 } = {}) {
         searchParams.set("before", before.toJSON());
       }
 
-      return `/api/posts?${searchParams.toString()}`;
+      console.log("searchParams from usePostPages", searchParams.toString());
+
+      return `/api/posts/getUsersPosts?${searchParams.toString()}`;
     },
     fetcher,
     {

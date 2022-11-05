@@ -2,12 +2,12 @@ import Link from "next/link";
 import { Card } from "react-daisyui";
 
 const DashCard = ({ title, text, style }) => {
-    return (
-        <Card
-            className={`bg-black/70 w-[42vw] lg:w-[30vw] h-[25vh] m-1 text-sm border-blue-500/50 hover:scale-95 shadow-md ${style}`}
-        >
-            <div className="w-full h-full flex flex-col justify-between items-center py-8">
-                <h2 className={`text-2xl`}>{title}</h2>
+  return (
+    <Card
+      className={`bg-black/70 w-[42vw] lg:w-[30vw] h-[25vh] m-1 text-sm border-blue-500/50 hover:scale-95 shadow-md ${style}`}
+    >
+      <div className="w-full h-full flex flex-col justify-between items-center py-8">
+        <h2 className={`text-2xl`}>{title}</h2>
 
         <p className="text-md capitalize text-white">{text}</p>
         <Link href={`/${title}`}>enter</Link>
@@ -24,9 +24,9 @@ const PostCard = ({ i, post, timestampTxt, style }) => {
       <div
         className={`first-letter:w-full h-full flex flex-col justify-between items-center py-8 `}
       >
-        <Link href={`/user/${post.creator.username}`}>
+        <Link href={`/user/${post.username}`}>
           <a>
-            <h2 className={`text-lg bold ${style}`}>{post.creator.username}</h2>
+            <h2 className={`text-lg bold ${style}`}>{post.username}</h2>
 
             <p className="text-md capitalize text-white">{post.content}</p>
             {/* <Link href={`/${title}`}>enter</Link> */}

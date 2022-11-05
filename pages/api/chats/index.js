@@ -1,4 +1,4 @@
-import { ValidateProps } from "../../../models/schema";
+// import { ValidateProps } from "../../../models/schema";
 import { findAllChats, insertChat } from "../../../utils/db/chat";
 import { auths, validateBody } from "../../../middlewares";
 import { dbConnect } from "./../../../utils/mongo/mongodb";
@@ -6,6 +6,8 @@ import { ncOpts } from "../../../utils/nc";
 import nc from "next-connect";
 
 const handler = nc(ncOpts);
+
+handler.use(...auths);
 
 // works to get all chats:
 handler.get(async (req, res) => {
@@ -27,7 +29,7 @@ handler.post(
   // validateBody({
   //   type: "object",
   //   properties: {
-  //     users: ValidateProps.chatGroup.users,
+  //     users: ValidateProps.chat.users,
   //   },
   //   additionalProperties: true,
   // }),
@@ -36,17 +38,28 @@ handler.post(
     if (!req.body) {
       return res.status(401).end();
     }
-    const usersArray = [req.body.username];
-    // console.log("!", usersArray);
+    // let users = req.body.users;
+    let users = [req.body.users];
+
+    // users.push(req.user.username);
+    const chatName = req.body.chatName;
+    // const usersArray = [req.body.users];
+    // const usersArray = [...usersArray, req.body.username];
+
+    console.log("chatName =====>", chatName);
+    console.log("users =====>", users);
+
     const db = await dbConnect();
 
-    const chatGroup = await insertChat(db, {
-      users: usersArray,
-      creatorId: req.body.creator,
-      // creatorId: req.user._id,
+    const chat = await insertChat(db, {
+      chatName,
+      // users: usersArray,
+      users: users,
+      // creatorId: req.body.creator,
+      creatorId: req.user._id,
     });
 
-    return res.json({ chatGroup });
+    return res.json({ chat });
   }
 );
 

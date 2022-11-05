@@ -1,6 +1,14 @@
 import { ObjectId } from "mongodb";
 import { dbProjectionUsers } from "./user";
 
+// ! Works:
+// @desc    find all chats
+// @route   GET api/posts/
+// @access  NOT Protected
+export async function findAllPosts(db) {
+  return db.collection("posts").find().toArray();
+}
+
 export async function findPostById(db, id) {
   console.log("findPostById => ", id);
   const posts = await db
@@ -26,6 +34,7 @@ export async function findPostById(db, id) {
 }
 
 // @route   GET /api/chats/getUsersChats
+// @route   GET /api/posts/getUsersPosts
 // @route   GET /api/posts/ => can get post of user; also are sent to route.
 export async function findUsersPosts(db, currentUser) {
   // currentUser => new ObjectId("634db22538ea5aba7b60a1dd")
@@ -33,12 +42,7 @@ export async function findUsersPosts(db, currentUser) {
     .collection("posts")
     .aggregate([
       {
-        $match: {
-          $or: [
-            // { users: new ObjectId(currentUser) },
-            { creatorId: new ObjectId(currentUser) },
-          ],
-        },
+        $match: { creatorId: new ObjectId(currentUser) },
       },
       { $sort: { _id: -1 } },
       //! Projection can't be used here:
@@ -46,6 +50,9 @@ export async function findUsersPosts(db, currentUser) {
     ])
     .toArray();
   if (usersPosts.length === 0) return null;
+  // console.log("#####################################");
+  // console.log("utils/db/post findUsersPosts =>", usersPosts);
+  // result is [{},{}, ...]
   return usersPosts;
 }
 

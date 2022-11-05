@@ -9,6 +9,6 @@ export function useUser(id) {
   return useSWR(`/api/users/${id}`, fetcher);
 }
 
-// export function useUser(username) {
-//   return useSWR(`/api/users/${username}`, fetcher);
-// }
+export function useUserUsername(username) {
+  return useSWR(`/api/users/${username}`, fetcher);
+}

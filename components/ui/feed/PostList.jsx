@@ -7,14 +7,14 @@ import Link from "next/link";
 
 const PostList = ({ user }) => {
   const { data: currentUser, error } = useCurrentUser();
-  console.log("USER POST LIST", currentUser);
-  // let currentUserId = currentUser ? currentUser.user._id : "not there";
-  console.log("PostPages", usePostPages());
+  console.log("Post currentUser=>", currentUser);
+  // console.log("PostPages =>", usePostPages());
 
   const { data, size, setSize, isLoadingMore, isReachingEnd } = usePostPages();
-  console.log("data from PostList", data);
+  console.log("postPages() => ", usePostPages());
+  console.log("DATA from PostList =======================>", data);
   const posts = data
-    ? data.reduce((acc, val) => [...acc, ...val.posts], [])
+    ? data.reduce((acc, val) => [...acc, ...val.usersPosts], [])
     : [];
 
   console.log("======================== POSTS", posts);
@@ -23,13 +23,17 @@ const PostList = ({ user }) => {
     <div className="">
       {/* <Spacer axis="vertical" size={1} /> */}
       <div>
-        {posts.map((post, i) => (
-          <div className="" key={i}>
-            {/* <Post post={post} />    */}
-            <div>{post.creatorId}</div>
-            <div>{post.content}</div>
-          </div>
-        ))}
+        <h1>THESE ARE THE POSTS:</h1>
+        {posts.map((post, i) => {
+          console.log("One Post", post.content);
+          return (
+            <div className="" key={i}>
+              <Post post={post} />
+              {/* <div>{post.creatorId}</div> */}
+              {/* <div>{post.content}</div> */}
+            </div>
+          );
+        })}
         <div>
           {/* {isReachingEnd ? (
             <div>No more posts are found</div>

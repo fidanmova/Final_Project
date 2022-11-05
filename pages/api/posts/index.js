@@ -1,5 +1,5 @@
 import { ValidateProps } from "../../../models/schema";
-import { findPosts, insertPost, findUsersPosts } from "../../../utils/db/post";
+import { findAllPosts, insertPost } from "../../../utils/db/post";
 import { auths, validateBody } from "../../../middlewares";
 import { dbConnect } from "./../../../utils/mongo/mongodb";
 import { ncOpts } from "../../../utils/nc";
@@ -9,16 +9,10 @@ const handler = nc(ncOpts);
 
 handler.use(...auths);
 
+// finds all Posts
 handler.get(async (req, res) => {
   const db = await dbConnect();
-  const currentUser = await req.user._id;
-  const posts = await findUsersPosts(
-    db,
-    currentUser,
-    // req.query.before ? new Date(req.query.before) : undefined,
-    req.query.by
-    // req.query.limit ? parseInt(req.query.limit, 10) : undefined
-  );
+  const posts = await findAllPosts(db);
   res.json({ posts });
 });
 

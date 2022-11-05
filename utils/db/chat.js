@@ -26,41 +26,15 @@ export async function findChatById(db, id) {
 // @route   GET /api/chats/getUsersChats
 // @access  Protected
 export async function findUsersChats(db, currentUser) {
-  // currentUser => "634db22538ea5aba7b60a1dd" needed as String here!
-  const usersPosts = await db
-    .collection("chats")
-    .aggregate([
-      {
-        $match: {
-          $or: [
-            { users: currentUser.toString() },
-            { creatorId: currentUser.toString() },
-          ],
-        },
-      },
-      { $sort: { _id: -1 } },
-      //! Projection can't be used here:
-      // { projection: dbProjectionUsers() },
-    ])
-    .toArray();
-  if (usersPosts.length === 0) return null;
-  return usersPosts;
-}
-
-// ! Works:
-// @desc   fetch only users chats
-// @route   GET /api/chats/getUsersChats
-// @access  Protected
-export async function findUsersChatsOld(db, currentUser) {
-  console.log("findPostsOfUser => ", currentUser);
+  // currentUser => new ObjectId("634db22538ea5aba7b60a1dd")
   const usersChats = await db
     .collection("chats")
     .aggregate([
       {
         $match: {
           $or: [
-            { users: currentUser._id.toString() },
-            { creatorId: currentUser._id.toString() },
+            // { users: { $elemMatch: { $eq: currentUser.toString() } } },
+            { creatorId: new ObjectId(currentUser) },
           ],
         },
       },
@@ -69,6 +43,9 @@ export async function findUsersChatsOld(db, currentUser) {
       // { projection: dbProjectionUsers() },
     ])
     .toArray();
+  // console.log("#####################################");
+  // console.log("utils/db/chat findUsersChats =>", usersChats);
+  // result is [{},{}, ...]
   if (usersChats.length === 0) return null;
   return usersChats;
 }
@@ -78,25 +55,25 @@ export async function findUsersChatsOld(db, currentUser) {
 // @desc    Add user to Group
 // @route   GET /api/chats/getUsersChatsBy/:userId
 // @access  Protected
-export async function findUsersChatsBy(db, userId) {
-  console.log("usersId from getUsersChatsBy =>", userId);
-  const usersChats = await db
-    .collection("chats")
-    .aggregate([
-      {
-        $match: {
-          $or: [{ users: userId.toString() }, { creatorId: userId.toString() }],
-        },
-      },
-      { $sort: { _id: -1 } },
-      //! Projection can't be used here:
-      // { projection: dbProjectionUsers() },
-    ])
-    .toArray();
-  console.log("usersChats from getUsersChatsBy =>", usersChats);
-  if (usersChats.length === 0) return null;
-  return usersChats;
-}
+// export async function findUsersChatsBy(db, userId) {
+//   console.log("usersId from getUsersChatsBy =>", userId);
+//   const usersChats = await db
+//     .collection("chats")
+//     .aggregate([
+//       {
+//         $match: {
+//           $or: [{ users: userId.toString() }, { creatorId: userId.toString() }],
+//         },
+//       },
+//       { $sort: { _id: -1 } },
+//       //! Projection can't be used here:
+//       // { projection: dbProjectionUsers() },
+//     ])
+//     .toArray();
+//   console.log("usersChats from getUsersChatsBy =>", usersChats);
+//   if (usersChats.length === 0) return null;
+//   return usersChats;
+// }
 //! #############################
 
 // ! Works:
@@ -140,7 +117,8 @@ export async function isUserChatAdmin(db, chatId, currentUser) {
 // }
 
 // @desc    creates a chat with username
-// @route   POST /api/chats/createChat
+// // @route   POST /api/chats/createChat
+// @route   POST /api/chats/
 // @access  Protected
 export async function insertChat(db, { chatName, users, content, creatorId }) {
   const chat = {

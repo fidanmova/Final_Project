@@ -31,15 +31,16 @@ export function useChatPages({ currentUser, limit = 10 } = {}) {
         // before (hence the .getTime()) the last post's createdAt
         const before = new Date(
           new Date(
-            previousPageData.posts[previousPageData.posts.length - 1].createdAt
+            previousPageData.chats[previousPageData.chats.length - 1].createdAt
           ).getTime()
         );
 
         searchParams.set("before", before.toJSON());
       }
-      console.log("searchParams from useChatPages", searchParams);
+      console.log("searchParams from useChatPages", searchParams.toString());
 
       return `/api/chats/getUsersChats?${searchParams.toString()}`;
+      // return `/api/chats/getUsersChats`;
     },
     fetcher,
     { refreshInterval: 10000, revalidateAll: false }
@@ -51,7 +52,7 @@ export function useChatPages({ currentUser, limit = 10 } = {}) {
     (size > 0 && data && typeof data[size - 1] === "undefined");
   const isEmpty = data?.[0]?.length === 0;
   const isReachingEnd =
-    isEmpty || (data && data[data.length - 1]?.posts?.length < limit);
+    isEmpty || (data && data[data.length - 1]?.chats?.length < limit);
 
   return {
     data,
