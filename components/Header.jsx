@@ -71,7 +71,7 @@ const Header = () => {
             <div className="flex space-x-4 items-center p-2 border-4 border-yellow-500/50 rounded-xl">
               <ImPacman className="text-yellow-500 text-lg" href="/dashboard" />
               <Link href="dashboard">
-                <p className="font-bold uppercase hover:scale-95 transition duration-200 ease-in-out">
+                <p className="font-bold capitalize hover:scale-95 transition duration-200 ease-in-out">
                   {user?.username}
                 </p>
               </Link>
