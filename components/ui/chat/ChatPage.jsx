@@ -26,8 +26,7 @@ const ChatPage = ({ allChats }) => {
   }, [user]);
 
   return (
-    // <div className="container mx-auto h-full w-full uppercase text-4xl flex shadow-lg pt-2">
-    <div className="w-full flex flex-col lg:flex-row items-start text-6xl uppercase space-y-4 lg:space-y-0 lg:space-x-4 lg:m-4">
+    <div className="w-full h-full p-4 flex flex-col lg:flex-row items-start text-6xl uppercase">
       {user && (
         <MyChats
           fetchAgain={fetchAgain}

@@ -8,12 +8,10 @@ import { FaRegSmile, FaMicrophone } from "react-icons/fa";
 import { messages, chats } from "./data";
 
 const Chats = ({ fetchAgain, setFetchAgain, user, selectedChat }) => {
-  let isGroupChat = true;
-
   return (
-    <div className="w-3/4 p-4 bg-opacity-90 bg-gray-900 rounded-3xl text-xl uppercase h-full border-2 border-gray-600">
+    <div className="w-3/4 h-full flex flex-col p-4 ml-4 bg-opacity-90 bg-gray-900 rounded-3xl text-xl uppercase border-2 border-gray-600">
       {/* HEADER START */}
-      <div className="py-2 px-3 rounded-3xl rounded-b-none bg-gray-700 flex flex-row justify-between items-center">
+      <div className="h-1/10 py-2 px-3 rounded-3xl rounded-b-none bg-gray-700 flex flex-row justify-between items-center">
         <div className="flex items-center">
           <div className="w-14 h-14 bg-green-600 rounded-full m-0.5">
             <Image
@@ -50,7 +48,7 @@ const Chats = ({ fetchAgain, setFetchAgain, user, selectedChat }) => {
       {/* HEADER END */}
       {/* MESSAGE WINDOW START */}
       {messages ? (
-        <div className="py-2 px-3 h-screen bg-gray-800 flex-1 overflow-auto justify-between items-center">
+        <div className="flex flex-col h-full py-2 px-3 bg-gray-800 flex-1 overflow-auto justify-between items-center">
           {/* MESSAGE DATA NEEDED */}
           {messages.map((message, i) => (
             <Message

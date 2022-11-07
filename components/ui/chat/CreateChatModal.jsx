@@ -41,8 +41,6 @@ const CreateChatModel = () => {
     try {
       setIsLoading(true);
       const data = await fetcher(`/api/users/search?search=${search}`);
-      // ! data is Array of Objects! / also in piyushs example
-      // ! need not to modify resultList showing (UserListItem.jsx)
       setIsLoading(false);
       setSearchResult(data);
     } catch (error) {
@@ -69,11 +67,11 @@ const CreateChatModel = () => {
       });
       setChats([data, ...chats]);
 
-      mutate();
+      // mutate();
       toast("New group chat created.");
     } catch (error) {
-      console.log("error createChatModal SUBMIT =>", error);
-      toast("Chat group created");
+      // console.log("error createChatModal =>", error);
+      toast.error("Failed to create the chat");
       // }
       [mutate];
     }
@@ -119,17 +117,17 @@ const CreateChatModel = () => {
               className="text-m border-2 bg-blue-900 p-4 rounded-xl w-full"
             />
           </form>
-      
+
           <div>
-       <div className="w-full h-20">
-                  {selectedUsers.map((u) => (
-                    <UserBadge
-                      key={u._id}
-                      user={u}
-                      handleFunction={() => handleDelete(u)}
-                    />
-                  ))}
-                </div> 
+            <div className="w-full h-20">
+              {selectedUsers.map((u) => (
+                <UserBadge
+                  key={u._id}
+                  user={u}
+                  handleFunction={() => handleDelete(u)}
+                />
+              ))}
+            </div>
             {isLoading ? (
               // <ChatLoading />
               <div></div>
@@ -163,7 +161,7 @@ const CreateChatModel = () => {
               className="text-m  bg-pink-600 p-3 rounded-xl hover:bg-gray-900"
               type="button"
               onClick={handleSubmit}
-             
+
               // loading={isLoading}
             >
               Create Chat
@@ -179,7 +177,6 @@ const CreateChatModel = () => {
           </div>
         </div>
       </div>
-              
     </>
   );
 };

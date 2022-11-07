@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import Image from "next/image";
 import ChatContact from "./ChatContact";
 import { Form, Input, Button } from "react-daisyui";
 import { MdMessage } from "react-icons/md";
@@ -7,39 +6,23 @@ import { BiDotsVerticalRounded } from "react-icons/bi";
 import { useCurrentUser } from "../../../utils/user/hooks";
 import { useChatPages, useChat } from "../../../utils/chat/hooks";
 import { fetcher } from "../../../utils/fetcher";
-import { toast } from "react-toastify";
-import UserListItem from "./UserListItem";
 import CreateChatModal from "./CreateChatModal";
 
 
 
-// Mock Data
-// import { messages, chats } from "./data";
 
 const MyChats = ({ fetchAgain, user, selectedChat }) => {
   const { data: currentUser, error } = useCurrentUser();
-
-  const { mutate } = useChatPages();
-
-
-
-  // console.log("MyChats currentUser =>", currentUser);
-
   const { data, size, setSize, isLoadingMore, isReachingEnd } = useChatPages();
-  // console.log("MyChats data =>", useChatPages());
+
 
   const chats = data
     ? data.reduce((acc, val) => [...acc, ...val.usersChats], [])
     : [];
 
-  // console.log("======================== chats", chats);
-
   return (
     <div
-      className="w-1/4 h-full p-6 mr-4
-      flex flex-col
-      text-xl uppercase
-      bg-opacity-90 bg-gray-800
+      className="w-1/4 h-full p-6 flex flex-col text-xl uppercase bg-opacity-90 bg-gray-800
       rounded-3xl  border-2 border-gray-600"
     >
       {/* HEADER START */}
@@ -96,7 +79,7 @@ const MyChats = ({ fetchAgain, user, selectedChat }) => {
 
       {/* CHATS START */}
       {chats ? (
-        <div className="border-b border-grey-lighter flex-1 overflow-auto">
+        <div className="border-b border-grey-lighter flex-1  overflow-auto">
           {chats.map((chat, i) => {
             // console.log("chat from JSX", chat);
             // return (
