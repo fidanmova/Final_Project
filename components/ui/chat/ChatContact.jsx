@@ -2,9 +2,9 @@ import React from "react";
 import Image from "next/image";
 
 const ChatContact = ({ user, chat, i }) => {
-  console.log("chat from chatContact", chat);
-  console.log("user from chatContact", user);
-  console.log("i from chatContact", i);
+  // console.log("chat from chatContact", chat);
+  // console.log("user from chatContact", user);
+  // console.log("i from chatContact", i);
 
   return (
     <div

@@ -1,89 +1,38 @@
 import React, { useState } from "react";
 import Image from "next/image";
 import ChatContact from "./ChatContact";
-import { Form, Input } from "react-daisyui";
+import { Form, Input, Button } from "react-daisyui";
 import { MdMessage } from "react-icons/md";
 import { BiDotsVerticalRounded } from "react-icons/bi";
-import { toast } from "react-toastify";
 import { useCurrentUser } from "../../../utils/user/hooks";
 import { useChatPages, useChat } from "../../../utils/chat/hooks";
+import { fetcher } from "../../../utils/fetcher";
+import { toast } from "react-toastify";
+import UserListItem from "./UserListItem";
+import CreateChatModal from "./CreateChatModal";
+
+
 
 // Mock Data
 // import { messages, chats } from "./data";
 
 const MyChats = ({ fetchAgain, user, selectedChat }) => {
   const { data: currentUser, error } = useCurrentUser();
-  // const [search, setSearch] = useState("");
-  // const [searchResult, setSearchResult] = useState([]);
-  // const [loading, setLoading] = useState(false);
 
-  console.log("MyChats currentUser =>", currentUser);
+  const { mutate } = useChatPages();
+
+
+
+  // console.log("MyChats currentUser =>", currentUser);
 
   const { data, size, setSize, isLoadingMore, isReachingEnd } = useChatPages();
-  console.log("MyChats data =>", useChatPages());
+  // console.log("MyChats data =>", useChatPages());
 
   const chats = data
     ? data.reduce((acc, val) => [...acc, ...val.usersChats], [])
     : [];
 
-  console.log("======================== chats", chats);
-
-  //? One Chat:
-  // const { data: oneChat, error: chatErrorAll } = useChat(
-  //   "63628774de7ecc27a0a73f79"
-  // );
-  // console.log("DATA_ONE =>", oneChat);
-
-  // let avatar = defaultProfilePicture();
-
-  //! From Piyush fetching chats:
-  // const fetchChats = async () => {
-  //   // console.log(user._id);
-  //   try {
-  //     const config = {
-  //       headers: {
-  //         Authorization: `Bearer ${user.token}`,
-  //       },
-  //     };
-
-  //     const { data } = await axios.get("/api/chat", config);
-  //     setChats(data);
-  //   } catch (error) {
-  //     toast({
-  //       title: "Error Occured!",
-  //       description: "Failed to Load the chats",
-  //       status: "error",
-  //       duration: 5000,
-  //       isClosable: true,
-  //       position: "bottom-left",
-  //     });
-  //   }
-  // };
-
-  // const handleSearch = async (query) => {
-  //   setSearch(query);
-  //   if (!query) {
-  //     return;
-  //   }
-
-  //   try {
-  //     setLoading(true);
-
-  //     const { data } = await axios.get(`/api/user?search=${search}`);
-  //     console.log(data);
-  //     setLoading(false);
-  //     setSearchResult(data);
-  //   } catch (error) {
-  //     toast({
-  //       title: "Error Occured!",
-  //       description: "Failed to Load the Search Results",
-  //       status: "error",
-  //       duration: 5000,
-  //       isClosable: true,
-  //       position: "bottom-left",
-  //     });
-  //   }
-  // };
+  // console.log("======================== chats", chats);
 
   return (
     <div
@@ -94,15 +43,20 @@ const MyChats = ({ fetchAgain, user, selectedChat }) => {
       rounded-3xl  border-2 border-gray-600"
     >
       {/* HEADER START */}
+      
       <div className="flex justify-between items-center flex-nowrap">
         {/* <img
           className="w-10 h-10 rounded-full"
           src="http://andressantibanez.com/res/avatar.png"
         /> */}
         <h1 className="text-2xl">My Chats</h1>
-        <div className="text-sm border-2 bg-blue-900 p-2 rounded-xl">
-          Add Group Chat <button>+</button>
-        </div>
+        <div className="">
+          {/* For opening Modal from CreateModal Component */}
+        <label htmlFor="my-modal" className="btn text-sm border-2 bg-blue-900 p-2 rounded-xl">Add Group Chat + </label>
+   <CreateChatModal/> 
+    </div>
+      
+      
       </div>
 
       <div className="py-3 bg-grey-lighter flex flex-row justify-between items-center">
@@ -112,8 +66,17 @@ const MyChats = ({ fetchAgain, user, selectedChat }) => {
             type="text"
             className="w-full px-2 py-2 text-sm rounded bg-gray-700"
             placeholder="Search or start new chat"
+            // value={search}
             // onChange={(e) => handleSearch(e.target.value)}
           />
+          {/* <Button
+            // htmlType="submit"
+            className=""
+            type="success"
+            loading={isLoading}
+          >
+            Create Chat
+          </Button> */}
         </div>
         {/* SEARCH END */}
 
@@ -135,7 +98,7 @@ const MyChats = ({ fetchAgain, user, selectedChat }) => {
       {chats ? (
         <div className="border-b border-grey-lighter flex-1 overflow-auto">
           {chats.map((chat, i) => {
-            console.log("chat from JSX", chat);
+            // console.log("chat from JSX", chat);
             // return (
             //   <div key={i}>
             //     <div>{chat.content}</div>
@@ -145,7 +108,7 @@ const MyChats = ({ fetchAgain, user, selectedChat }) => {
           })}
         </div>
       ) : (
-        <div>LOADING</div>
+          <div>Loading...</div>
       )}
       {/* CHATS END */}
     </div>
@@ -153,3 +116,4 @@ const MyChats = ({ fetchAgain, user, selectedChat }) => {
 };
 
 export default MyChats;
+
