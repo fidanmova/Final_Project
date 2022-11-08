@@ -1,51 +1,21 @@
 import React, { useState, useEffect } from "react";
 import { useCurrentUser } from "../../../utils/user/hooks";
-// import { useAllChats } from "../../../utils/chat/hooks";
 
 import Chats from "./Chats";
 import MyChats from "./MyChats";
 
-// mock data
-// import { messages, chats } from "./data";
+const ChatPage = () => {
+  const { data, error } = useCurrentUser();
+  const user = data?.user;
 
-const ChatPage = ({ allChats }) => {
-    const { data, error } = useCurrentUser();
-    const user = data?.user;
+  const loading = !data && !error;
 
-    const loading = !data && !error;
-
-    //! I add these atm here as we don't have a context for the chats
-    // if changed to true, will display clicked chat.
-    const [fetchAgain, setFetchAgain] = useState(false);
-    const [currentUser, setCurrentUser] = useState({});
-    const [selectedChat, setSelectedChat] = useState({});
-    // const [chats, setChats] = useState();
-
-    useEffect(() => {
-        setCurrentUser(user);
-    }, [user]);
-
-    return (
-        <div className="w-full h-full p-4 flex flex-col lg:flex-row items-start text-6xl uppercase">
-            {user && (
-                <MyChats
-                    fetchAgain={fetchAgain}
-                    user={user}
-                    allChats={allChats}
-                    setSelectedChat={setSelectedChat}
-                />
-            )}
-            {user && (
-                <Chats
-                    fetchAgain={fetchAgain}
-                    setFetchAgain={setFetchAgain}
-                    user={user}
-                    allChats={allChats}
-                    selectedChat={selectedChat}
-                />
-            )}
-        </div>
-    );
+  return (
+    <div className="w-full h-full p-4 flex flex-col lg:flex-row items-start text-6xl uppercase">
+      {user && <MyChats user={user} />}
+      {user && <Chats user={user} />}
+    </div>
+  );
 };
 
 export default ChatPage;

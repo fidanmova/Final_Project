@@ -13,13 +13,12 @@ const UserListItem = ({ handleFunction, user }) => {
       className="text-m  border-2 bg-transparent p-4 rounded-xl mb-7 mt-8"
     >
       <div>
-      <div className="avatar">
-        <div className="w-14 rounded-full ring ring-primary ring-offset-base-100 ring-offset-2">
-          <img src="https://placeimg.com/192/192/people" />
-          {/* <img src={user.avatar} /> */}
-     
+        <div className="avatar">
+          <div className="w-14 rounded-full ring ring-primary ring-offset-base-100 ring-offset-2">
+            <img src="https://placeimg.com/192/192/people" />
+            {/* <img src={user.avatar} /> */}
+          </div>
         </div>
-      </div>
         <h1>{user.username}</h1>
         <h2>
           <b>Email : </b>

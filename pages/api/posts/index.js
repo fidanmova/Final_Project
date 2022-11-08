@@ -18,14 +18,14 @@ handler.get(async (req, res) => {
 
 handler.post(
   ...auths,
-  validateBody({
-    type: "object",
-    properties: {
-      content: ValidateProps.post.content,
-    },
-    required: ["content"],
-    additionalProperties: true,
-  }),
+  // validateBody({
+  //   type: "object",
+  //   properties: {
+  //     content: ValidateProps.post.content,
+  //   },
+  //   required: ["content"],
+  //   additionalProperties: true,
+  // }),
   async (req, res) => {
     if (!req.user) {
       return res.status(401).end();
