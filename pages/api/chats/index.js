@@ -1,33 +1,56 @@
-import nc from "next-connect";
-// import { dbConnect } from "../../../utils/mongo/mongodb";
+// import { ValidateProps } from "../../../models/schema";
+import { findAllChats, insertChat } from "../../../utils/db/chat";
+import { auths, validateBody } from "../../../middlewares";
+import { dbConnect } from "./../../../utils/mongo/mongodb";
 import { ncOpts } from "../../../utils/nc";
-import { auths } from "../../../middlewares";
-// import { findChatById, findChatByChatName } from "../../../utils/db";
+import nc from "next-connect";
 
 const handler = nc(ncOpts);
 
 handler.use(...auths);
 
-// ! copied handler.get from /api/user/index.js
-// ! => Does not work
+// works to get all chats:
 handler.get(async (req, res) => {
-  console.log("req", req.body);
-  console.log("res", res.body);
-  if (!req.chats) return res.json({ chats: null });
-  return res.json({ chats: req.chats });
+  const db = await dbConnect();
+  const chats = await findAllChats(
+    db
+    // req.query.before ? new Date(req.query.before) : undefined,
+    // req.query.by,
+    // req.query.limit ? parseInt(req.query.limit, 10) : undefined
+  );
+  if (chats === null) {
+    res.json("NO DATA");
+  }
+  res.json({ chats });
 });
 
-// ! "find() is not a function" ...
-//! {"message":"db.collection(...).find(...).then is not a function"}
-// handler.get(async (req, res) => {
-//   const db = await dbConnect();
-//   return db
-//     .collection("chats")
-//     .find()
-//     .then((user) => {
-//       console.log("IS HERE STH? =>", user);
-//       user || null;
-//     });
-// });
+//! Works:
+handler.post(
+  ...auths,
+  // validateBody({
+  //   type: "object",
+  //   properties: {
+  //     users: ValidateProps.chat.users,
+  //   },
+  //   additionalProperties: true,
+  // }),
+  async (req, res) => {
+    console.log("req.body from api/chats", req.body);
+    if (!req.body) {
+      return res.status(401).end();
+    }
+    let users = req.body.users;
+    const chatName = req.body.chatName;
+
+    const db = await dbConnect();
+    const chat = await insertChat(db, {
+      chatName,
+      users: users,
+      creatorId: req.user._id,
+    });
+    console.log("chat", chat);
+    return res.json({ chat });
+  }
+);
 
 export default handler;

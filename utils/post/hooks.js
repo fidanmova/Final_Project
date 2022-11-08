@@ -1,16 +1,16 @@
-import { fetcher } from '@/lib/fetch';
-import useSWRInfinite from 'swr/infinite';
+import { fetcher } from "../fetcher";
+import useSWRInfinite from "swr/infinite";
 
-export function usePostPages({ creatorId, limit = 10 } = {}) {
+export function usePostPages({ currentUser, limit = 10 } = {}) {
   const { data, error, size, ...props } = useSWRInfinite(
     (index, previousPageData) => {
       // reached the end
       if (previousPageData && previousPageData.posts.length === 0) return null;
 
       const searchParams = new URLSearchParams();
-      searchParams.set('limit', limit);
+      searchParams.set("limit", limit);
 
-      if (creatorId) searchParams.set('by', creatorId);
+      if (currentUser) searchParams.set("by", currentUser);
 
       if (index !== 0) {
         // using oldest posts createdAt date as cursor
@@ -22,10 +22,10 @@ export function usePostPages({ creatorId, limit = 10 } = {}) {
           ).getTime()
         );
 
-        searchParams.set('before', before.toJSON());
+        searchParams.set("before", before.toJSON());
       }
 
-      return `/api/posts?${searchParams.toString()}`;
+      return `/api/posts/getUsersPosts?${searchParams.toString()}`;
     },
     fetcher,
     {
@@ -37,7 +37,7 @@ export function usePostPages({ creatorId, limit = 10 } = {}) {
   const isLoadingInitialData = !data && !error;
   const isLoadingMore =
     isLoadingInitialData ||
-    (size > 0 && data && typeof data[size - 1] === 'undefined');
+    (size > 0 && data && typeof data[size - 1] === "undefined");
   const isEmpty = data?.[0]?.length === 0;
   const isReachingEnd =
     isEmpty || (data && data[data.length - 1]?.posts?.length < limit);

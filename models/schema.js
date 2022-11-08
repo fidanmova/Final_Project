@@ -17,6 +17,7 @@ export const ValidateProps = {
     circle: {
       type: Array,
     },
+    friends: { type: Array },
     admin: {
       type: Boolean,
     },
@@ -35,15 +36,26 @@ export const ValidateProps = {
     jobs: {
       type: Array,
     },
-    code: {
-      type: Array,
-    },
+    code: { type: Array },
     isVerified: { type: Boolean || "string" },
   },
+
   required: ["username", "email", "password"],
 
-  // chat
+  // ######################
+  // CHAT components
+  // ######################
 
+  // chat => corresponds to "post"
+  chat: {
+    // content: { type: "string", minLength: 1 },
+    chatName: { type: "string", minLength: 1 },
+    users: { type: Array },
+  },
+  // message => corresponds to "comment"
+  message: {
+    content: { type: "string", minLength: 1 },
+  },
   post: {
     content: { type: "string", minLength: 1 },
   },
@@ -62,15 +74,13 @@ export const ValidateProps = {
     location: {
       type: String,
     },
-
-    created_at: Date,
   },
 
-  //message
-  message: {
-    sender: { type: String },
-    receiver: { type: String },
-    message: { type: String },
-    created_at: { type: Date },
-  },
+  // //message
+  // message: {
+  //     sender: { type: String },
+  //     receiver: { type: String },
+  //     message: { type: String },
+  //     created_at: { type: Date },
+  // },
 };

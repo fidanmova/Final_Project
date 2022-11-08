@@ -20,14 +20,39 @@ export async function findUserById(db, userId) {
   return db
     .collection("users")
     .findOne({ _id: new ObjectId(userId) }, { projection: dbProjectionUsers() })
-    .then((user) => user || null);
+    .then((user) => {
+      return user || null;
+    });
 }
 
+//@description     Get or Search all users via username
+//@route           GET /api/users/:username
 export async function findUserByUsername(db, username) {
   return db
     .collection("users")
     .findOne({ username }, { projection: dbProjectionUsers() })
-    .then((user) => user || null);
+    .then((user) => {
+      console.log("user from findUserByUsername", user);
+      return user || null;
+    });
+}
+
+//@description     Get or Search all users via username
+//@route           GET /api/users/search?search=
+//@access          Public
+export async function findUserByUsernameSearch(db, keyword) {
+  const searchResults = db
+    .collection("users")
+    .aggregate([
+      {
+        $match: { username: { $regex: keyword, $options: "i" } },
+      },
+      { $sort: { username: -1 } },
+    ])
+    .toArray();
+  console.log("searchResults from db/user", searchResults);
+  if (searchResults.length === 0) return null;
+  return searchResults;
 }
 
 export async function findUserByEmail(db, email) {
@@ -49,42 +74,42 @@ export async function updateUserById(db, id, data) {
 }
 
 export async function insertUser(
-    db,
-    {
-        username,
-        email,
-        originalPassword,
-        bio,
-        city,
-        location,
-        avatar,
-        circle,
-        events,
-        jobs,
-        friends,
-        admin,
-        isVerified,
-        language,
-        since,
-    }
+  db,
+  {
+    username,
+    email,
+    originalPassword,
+    bio,
+    city,
+    location,
+    avatar,
+    circle,
+    events,
+    jobs,
+    friends,
+    admin,
+    isVerified,
+    language,
+    since,
+  }
 ) {
-    const user = {
-        username,
-        email,
-        bio,
-        city,
-        location,
-        avatar,
-        circle,
-        language,
-        events,
-        jobs,
-        friends,
-        admin,
-        isVerified,
-        since,
-    };
-    const password = await bcrypt.hash(originalPassword, 10);
+  const user = {
+    username,
+    email,
+    bio,
+    city,
+    location,
+    avatar,
+    circle,
+    language,
+    events,
+    jobs,
+    friends,
+    admin,
+    isVerified,
+    since,
+  };
+  const password = await bcrypt.hash(originalPassword, 10);
 
   const { insertedId } = await db
     .collection("users")

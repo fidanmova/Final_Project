@@ -1,91 +1,143 @@
-// ##  All Events Function ##
-export async function getAllChats(db) {
-  return db.collection("chats").find();
-}
-
-// #############################################################
-
 import { ObjectId } from "mongodb";
+import { dbProjectionUsers, dbProjection } from "./user";
 
-export async function findChatById(db, chatId) {
-  return db
-    .collection("chats")
-    .findOne({ _id: new ObjectId(chatId) })
-    .then((chat) => chat || null);
-}
-
-export async function findChatByChatName(db, chatName) {
-  return db
-    .collection("chats")
-    .findOne({ chatName })
-    .then((chat) => chat || null);
-}
-
-export async function findChatsByUserId(db, userId) {
-  return db
-    .collection("chats")
-    .find({ "chat.users": { $elemMatch: { userId } } })
-    .then((chat) => chat || null);
-}
-
+// ! Works:
+// @desc    find all chats
+// @route   GET
+// @access  NOT Protected
 export async function findAllChats(db) {
-  return db
-    .collection("chats")
-    .findOne()
-    .then((chat) => chat || null);
+  return db.collection("chats").find().toArray();
 }
 
-// ! UPDATE CHAT ? ... changes needed
-// export async function updateChatById(db, id, data) {
-//   return db
-//     .collection("chats")
-//     .findOneAndUpdate(
-//       { _id: new ObjectId(id) },
-//       { $set: data },
-//       { returnDocument: "after", projection: { password: 0 } }
-//     )
-//     .then(({ value }) => value);
-// }
+//! Works
+// @desc    find chat by id
+// @route   GET /api/chats/findChatById/:chatId
+// @access  Protected
+export async function findChatById(db, id) {
+  const chat = await db
+    .collection("chats")
+    .findOne({ _id: new ObjectId(id) }, { projection: dbProjectionUsers() });
+  if (!chat) return null;
+  return chat;
+}
 
-//! Later maybe needed if modified for "chats"
-// export async function insertUser(
-//   db,
-//   {
-//     username,
-//     email,
-//     originalPassword,
-//     bio,
-//     city,
-//     avatar,
-//     circle,
-//     events,
-//     jobs,
-//     friends,
-//     admin,
-//     isVerified,
-//     language,
-//     since,
-//   }
-// ) {
-//   const user = {
-//     username,
-//     email,
-//     bio,
-//     city,
-//     avatar,
-//     circle,
-//     language,
-//     events,
-//     jobs,
-//     friends,
-//     admin,
-//     isVerified,
-//     since,
-//   };
-//   const password = await bcrypt.hash(originalPassword, 10);
-//   const { insertedId } = await db
-//     .collection("chats")
-//     .insertOne({ ...chat, password });
-//   chat._id = insertedId;
-//   return chat;
-// }
+// ! Works:
+// @desc   fetch only users chats
+// @route   GET /api/chats/getUsersChats
+// @access  Protected
+export async function findUsersChats(db, currentUser) {
+  // console.log("currentUser db/chat findUC =>", currentUser);
+  const usersChats = await db
+    .collection("chats")
+    .aggregate([
+      {
+        $match: {
+          $or: [
+            { users: { $elemMatch: { $eq: new ObjectId(currentUser) } } },
+            { creatorId: new ObjectId(currentUser) },
+          ],
+        },
+      },
+      { $sort: { _id: -1 } },
+    ])
+    .toArray();
+  if (usersChats.length === 0) return null;
+  return usersChats;
+}
+
+// ! Works:
+// @desc    CHECK if user is creator/admin of chat
+// @route   GET /api/chats/:chatId/isAdmin/
+// @route   PUT /api/chats/groupadd
+// @route   PUT /api/chats/groupdelete
+// @access  Protected
+export async function isUserChatAdmin(db, chatId, currentUser) {
+  // console.log("IS ADMIN chatId =>", chatId.toString());
+  // console.log("IS ADMIN =>", currentUser._id.toString());
+  const isAdmin = await db
+    .collection("chats")
+    .aggregate([
+      {
+        $match: {
+          $and: [
+            {
+              _id: new ObjectId(chatId.toString()),
+            },
+            {
+              creatorId: new ObjectId(currentUser._id.toString()),
+            },
+          ],
+        },
+      },
+    ])
+    .toArray();
+
+  if (isAdmin.length === 0) return false;
+  return true;
+}
+
+// @desc    creates a chat with username
+// // @route   POST /api/chats/createChat
+// @route   POST /api/chats/
+// @access  Protected
+export async function insertChat(db, { chatName, users, content, creatorId }) {
+  const chat = {
+    chatName,
+    users: users.map((u) => new ObjectId(u)),
+    content,
+    creatorId,
+    createdAt: new Date(),
+  };
+  const { insertedId } = await db.collection("chats").insertOne(chat);
+  chat._id = insertedId;
+  return chat;
+}
+
+// ! Works
+// @desc    Add user to Group
+// @route   PUT /api/chats/groupadd
+// @access  Protected
+export async function findChatByIdAndAddUser(db, chatId, userId) {
+  return db.collection("chats").updateOne(
+    { _id: new ObjectId(chatId) },
+    {
+      $push: { users: new ObjectId(userId.toString()) },
+    },
+    {
+      new: true,
+    },
+    { projection: dbProjectionUsers() }
+  );
+}
+
+// ! Works
+// @desc    Deletes user from Group
+// @route   PUT /api/chats/groupdelete
+// @access  Protected
+export async function findChatByIdAndDeleteUser(db, chatId, userId) {
+  return db.collection("chats").updateOne(
+    { _id: new ObjectId(chatId) },
+    {
+      $pull: { users: new ObjectId(userId.toString()) },
+    },
+    {
+      new: true,
+    },
+    { projection: dbProjectionUsers() }
+  );
+}
+
+//! Unconfirmed & unused:
+// @desc    Modify Chat Data
+// @route   POST /api/chats/modifyChat/
+// @access  Protected
+export async function updateChatById(db, id, data) {
+  return db
+    .collection("chats")
+    .findOneAndUpdate(
+      { _id: new ObjectId(id) },
+      { $set: data },
+      { returnDocument: "after", projection: { password: 0 } }
+    )
+    .then(({ value }) => value);
+}
