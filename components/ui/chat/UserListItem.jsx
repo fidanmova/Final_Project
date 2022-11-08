@@ -1,15 +1,11 @@
-import React from "react";
+import { Badge } from "react-daisyui";
 import { useCurrentUser, useUserUsername } from "../../../utils/user/hooks";
 
-const UserListItem = ({ handleFunction }) => {
-  const { data: currentUser, error: currentUserError } = useCurrentUser();
-  const { data: user, error: userError } = useUserUsername();
-  console.log("userListItem User =>", user);
-
+const UserListItem = ({ handleFunction, user }) => {
   return (
-    <div
+    <Badge
       onClick={handleFunction}
-      className="pointer bg-gray-100 text-blue-800 w-full items-center rounded-lg flex hover:bg-yellow-100 hover:text-green-800"
+      className="cursor-pointer bg-gray-800 text-white border-white p-4 text-xl my-2 items-center rounded-lg flex hover:bg-yellow-100 hover:text-green-800"
     >
       {/* <Avatar
         mr={2}
@@ -19,13 +15,9 @@ const UserListItem = ({ handleFunction }) => {
         src={user.pic}
       /> */}
       <div>
-        <h1>{user.name}</h1>
-        <h2>
-          <b>Email : </b>
-          {user.email}
-        </h2>
+        <h1>{user.username}</h1>
       </div>
-    </div>
+    </Badge>
   );
 };
 

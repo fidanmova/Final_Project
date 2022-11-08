@@ -11,14 +11,12 @@ handler.use(...auths);
 
 //! Works:
 handler.get(async (req, res) => {
+  console.log("req.query api/chats/chatId => ", req.query);
   const db = await dbConnect();
   let id = req.query?.chatId;
+  console.log("REq Query ChatId from api/chats/chatId", id);
   const chat = await findChatById(db, id);
-  res.json({ chat });
-
-  if (!chat) {
-    return res.status(404).json({ error: { message: "Chat is not found." } });
-  }
+  return res.json({ chat });
 });
 
 export default handler;

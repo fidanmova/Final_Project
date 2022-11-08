@@ -1,5 +1,5 @@
 import { ObjectId } from "mongodb";
-import { dbProjectionUsers } from "./user";
+import { dbProjectionUsers, dbProjection } from "./user";
 
 // ! Works:
 // @desc    find all chats
@@ -26,26 +26,20 @@ export async function findChatById(db, id) {
 // @route   GET /api/chats/getUsersChats
 // @access  Protected
 export async function findUsersChats(db, currentUser) {
-  // currentUser => new ObjectId("634db22538ea5aba7b60a1dd")
   const usersChats = await db
     .collection("chats")
     .aggregate([
       {
         $match: {
           $or: [
-            { users: { $elemMatch: { $eq: currentUser.toString() } } },
+            { users: { $elemMatch: { $eq: new ObjectId(currentUser) } } },
             { creatorId: new ObjectId(currentUser) },
           ],
         },
       },
       { $sort: { _id: -1 } },
-      //! Projection can't be used here:
-      // { projection: dbProjectionUsers() },
     ])
     .toArray();
-  // console.log("#####################################");
-  // console.log("utils/db/chat findUsersChats =>", usersChats);
-  // result is [{},{}, ...]
   if (usersChats.length === 0) return null;
   return usersChats;
 }
@@ -63,8 +57,12 @@ export async function isUserChatAdmin(db, chatId, currentUser) {
       {
         $match: {
           $and: [
-            { _id: new ObjectId(chatId) },
-            { creatorId: currentUser._id.toString() },
+            {
+              _id: new ObjectId(chatId.toString()),
+            },
+            {
+              creatorId: new ObjectId(currentUser._id.toString()),
+            },
           ],
         },
       },
@@ -75,29 +73,13 @@ export async function isUserChatAdmin(db, chatId, currentUser) {
   return true;
 }
 
-// ! Works:
 // @desc    creates a chat with username
-// @route   POST /api/chats/createChat
-// @access  Protected
-// export async function insertChat(db, { users, creatorId }) {
-//   const chat = {
-//     users,
-//     creatorId,
-//     createdAt: new Date(),
-//   };
-//   const { insertedId } = await db.collection("chats").insertOne(chat);
-//   chat._id = insertedId;
-//   return chat;
-// }
-
-// @desc    creates a chat with username
-// // @route   POST /api/chats/createChat
 // @route   POST /api/chats/
 // @access  Protected
 export async function insertChat(db, { chatName, users, content, creatorId }) {
   const chat = {
     chatName,
-    users,
+    users: users.map((u) => new ObjectId(u)),
     content,
     creatorId,
     createdAt: new Date(),
@@ -107,7 +89,7 @@ export async function insertChat(db, { chatName, users, content, creatorId }) {
   return chat;
 }
 
-// ! Works:
+// ! Works
 // @desc    Add user to Group
 // @route   PUT /api/chats/groupadd
 // @access  Protected
@@ -115,7 +97,7 @@ export async function findChatByIdAndAddUser(db, chatId, userId) {
   return db.collection("chats").updateOne(
     { _id: new ObjectId(chatId) },
     {
-      $push: { users: userId },
+      $push: { users: new ObjectId(userId.toString()) },
     },
     {
       new: true,
@@ -124,7 +106,7 @@ export async function findChatByIdAndAddUser(db, chatId, userId) {
   );
 }
 
-// ! Works:
+// ! Works
 // @desc    Deletes user from Group
 // @route   PUT /api/chats/groupdelete
 // @access  Protected
@@ -132,7 +114,7 @@ export async function findChatByIdAndDeleteUser(db, chatId, userId) {
   return db.collection("chats").updateOne(
     { _id: new ObjectId(chatId) },
     {
-      $pull: { users: userId },
+      $pull: { users: new ObjectId(userId.toString()) },
     },
     {
       new: true,

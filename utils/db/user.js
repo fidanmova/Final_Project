@@ -16,23 +16,34 @@ export async function findUserForAuth(db, userId) {
     .then((user) => user || null);
 }
 
+//@description     Get or Search all users via username
+//@route           GET /api/user/:userId
+// export async function findUserById(db, userId) {
+//   console.log("USER ID =========>", userId);
+//   const user = db.collection("users").findOne(
+//     { _id: new ObjectId(userId) }
+//     // { projection: dbProjectionUsers() }
+//   );
+//   if (!user) return null;
+//   console.log("user ^^^ ", user);
+//   return user;
+// }
+
 export async function findUserById(db, userId) {
+  console.log("USER ID =========>", userId);
   return db
     .collection("users")
     .findOne({ _id: new ObjectId(userId) }, { projection: dbProjectionUsers() })
-    .then((user) => {
-      return user || null;
-    });
+    .then((user) => user || null);
 }
 
 //@description     Get or Search all users via username
-//@route           GET /api/users/:username
+//@route           GET /api/user/:username
 export async function findUserByUsername(db, username) {
   return db
     .collection("users")
     .findOne({ username }, { projection: dbProjectionUsers() })
     .then((user) => {
-      console.log("user from findUserByUsername", user);
       return user || null;
     });
 }
@@ -147,5 +158,18 @@ export function dbProjectionUsers(prefix = "") {
     [`${prefix}password`]: 0,
     [`${prefix}email`]: 0,
     [`${prefix}emailVerified`]: 0,
+  };
+}
+
+export function dbProjectionUsersSmall(prefix = "") {
+  return {
+    [`${prefix}password`]: 0,
+    [`${prefix}email`]: 0,
+    [`${prefix}emailVerified`]: 0,
+    [`${prefix}isVerified`]: 0,
+    [`${prefix}admin`]: 0,
+    [`${prefix}bio`]: 0,
+    [`${prefix}language`]: 0,
+    [`${prefix}friends`]: 0,
   };
 }

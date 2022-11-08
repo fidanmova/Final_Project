@@ -1,9 +1,7 @@
 import { Button, Input, Text, Badge } from "react-daisyui";
-// import { LoadingDots } from "@/components/LoadingDots";
 import { fetcher } from "../../../utils/fetcher";
 import { useChatPages } from "../../../utils/chat/hooks";
 import { useCurrentUser } from "../../../utils/user/hooks";
-// import { useForm } from "react-hook-form";
 import UserListItem from "./UserListItem";
 
 // import Link from "next/link";
@@ -11,8 +9,6 @@ import { useCallback, useRef, useState } from "react";
 import { toast } from "react-toastify";
 
 const CreateChatModal = () => {
-  // const chatNameRef = useRef();
-  // const usersRef = useRef();
   const [chats, setChats] = useState();
   const [chatName, setChatName] = useState();
   const [selectedUsers, setSelectedUsers] = useState([]);
@@ -32,9 +28,9 @@ const CreateChatModal = () => {
       toast("User already added");
       return;
     }
-
     setSelectedUsers([...selectedUsers, userToAdd]);
   };
+  console.log("selectedUsersARRAY =>", selectedUsers);
 
   const handleSearch = async (query) => {
     setSearch(query);
@@ -44,15 +40,10 @@ const CreateChatModal = () => {
 
     try {
       setIsLoading(true);
-      // data in Origin is {data};
       const data = await fetcher(`/api/users/search?search=${search}`);
-      // console.log("FE Data search 2 => ", data);
-      // ! data is Array of Objects! / also in piyushs example
-      // ! need not to modify resultList showing (UserListItem.jsx)
       setIsLoading(false);
       setSearchResult(data);
     } catch (error) {
-      // console.log("error from Search =>", error);
       toast.error("No user found.");
     }
   };
@@ -61,8 +52,6 @@ const CreateChatModal = () => {
     setSelectedUsers(selectedUsers.filter((sel) => sel._id !== delUser._id));
   };
 
-  // const handleSubmit = useCallback(async (e) => {
-  //   e.preventDefault();
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (!chatName || !selectedUsers) {
@@ -75,23 +64,23 @@ const CreateChatModal = () => {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          // chatName: data.chatName,
           chatName: chatName,
-          users: JSON.stringify(selectedUsers.map((u) => u._id)),
+          users: selectedUsers.map((u) => u._id),
         }),
       });
       setChats([data, ...chats]);
-      // console.log("chats => ?", chats);
-      // console.log("data from CreateChat => ?", data);
+
       // mutate();
       toast("New group chat created.");
     } catch (error) {
-      // console.log("error createChatModal =>", error);
+      // console.log("error createChatModal SUBMIT =>", error);
       toast.error("Failed to create the chat");
       // }
       // [mutate];
     }
   };
+
+  // console.log("mutate", mutate);
 
   // const { mutate } = useChatPages();
 
@@ -145,30 +134,18 @@ const CreateChatModal = () => {
           ))}
         </div>
 
-        {/* {searchResult &&
-          searchResult?.slice(0, 8).map((user, i) => {
-            console.log("searchResult1", searchResult);
-            console.log("searchResult2", user);
-            <UserListItem
-              key={i}
-              user={user}
-              handleFunction={() => handleGroup(user)}
-            />;
-          })} */}
-
         {isLoading ? (
           // <ChatLoading />
           <div>Loading...</div>
         ) : (
           searchResult?.slice(0, 4).map((user, i) => {
-            // console.log("user from searchResult", user);
-            <UserListItem
-              key={i}
-              user={user}
-              handleFunction={() => handleChat(user)}
-            />;
-            // console.log("user from search", user);
-            // <div key={user._id}>{user.username}</div>;
+            return (
+              <UserListItem
+                key={i}
+                user={user}
+                handleFunction={() => handleChat(user)}
+              />
+            );
           })
         )}
       </div>

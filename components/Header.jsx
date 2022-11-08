@@ -47,7 +47,7 @@ const Header = () => {
                   CIRCLE
                 </p>
               </Link>
-              <Link href="/chat">
+              <Link href="/chats">
                 <p className="text-purple-500 text-xl rounded-lg hover:bg-purple-500/50 hover:text-gray-300 p-2">
                   CHAT
                 </p>

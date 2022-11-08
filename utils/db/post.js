@@ -33,11 +33,11 @@ export async function findPostById(db, id) {
   return posts[0];
 }
 
-// @route   GET /api/chats/getUsersChats
-// @route   GET /api/posts/getUsersPosts
+// @route   GET PAGES/posts/
 // @route   GET /api/posts/ => can get post of user; also are sent to route.
 export async function findUsersPosts(db, currentUser) {
   // currentUser => new ObjectId("634db22538ea5aba7b60a1dd")
+  console.log("currentUser from db/posts/findUsersPosts", currentUser);
   const usersPosts = await db
     .collection("posts")
     .aggregate([
@@ -88,6 +88,7 @@ export async function insertPost(db, { content, creatorId }) {
     creatorId,
     createdAt: new Date(),
   };
+  console.log("POST from db/post/insertPost =>", post);
   const { insertedId } = await db.collection("posts").insertOne(post);
   post._id = insertedId;
   return post;

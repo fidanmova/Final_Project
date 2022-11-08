@@ -14,36 +14,10 @@ const ChatPage = ({ allChats }) => {
 
   const loading = !data && !error;
 
-  //! I add these atm here as we don't have a context for the chats
-  // if changed to true, will display clicked chat.
-  const [fetchAgain, setFetchAgain] = useState(false);
-  const [currentUser, setCurrentUser] = useState({});
-  const [selectedChat, setSelectedChat] = useState({});
-  // const [chats, setChats] = useState();
-
-  useEffect(() => {
-    setCurrentUser(user);
-  }, [user]);
-
   return (
     <div className="w-full h-full p-4 flex flex-col lg:flex-row items-start text-6xl uppercase">
-      {user && (
-        <MyChats
-          fetchAgain={fetchAgain}
-          user={user}
-          allChats={allChats}
-          setSelectedChat={setSelectedChat}
-        />
-      )}
-      {user && (
-        <Chats
-          fetchAgain={fetchAgain}
-          setFetchAgain={setFetchAgain}
-          user={user}
-          allChats={allChats}
-          selectedChat={selectedChat}
-        />
-      )}
+      {user && <MyChats user={user} />}
+      {user && <Chats user={user} />}
     </div>
   );
 };

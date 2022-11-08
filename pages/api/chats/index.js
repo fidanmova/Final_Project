@@ -13,17 +13,19 @@ handler.use(...auths);
 handler.get(async (req, res) => {
   const db = await dbConnect();
   const chats = await findAllChats(
-    db
+    db,
     // req.query.before ? new Date(req.query.before) : undefined,
-    // req.query.by,
+    req.query.by
     // req.query.limit ? parseInt(req.query.limit, 10) : undefined
   );
   if (chats === null) {
     res.json("NO DATA");
   }
+
   res.json({ chats });
 });
 
+//! Works:
 handler.post(
   ...auths,
   // validateBody({
@@ -38,57 +40,18 @@ handler.post(
     if (!req.body) {
       return res.status(401).end();
     }
-    // let users = req.body.users;
-    let users = [req.body.users];
-
-    // users.push(req.user.username);
+    let users = req.body.users;
     const chatName = req.body.chatName;
-    // const usersArray = [req.body.users];
-    // const usersArray = [...usersArray, req.body.username];
-
-    console.log("chatName =====>", chatName);
-    console.log("users =====>", users);
 
     const db = await dbConnect();
-
     const chat = await insertChat(db, {
       chatName,
-      // users: usersArray,
       users: users,
-      // creatorId: req.body.creator,
       creatorId: req.user._id,
     });
-
+    console.log("chat", chat);
     return res.json({ chat });
   }
 );
-
-// handler.post(
-//   ...auths,
-//   validateBody({
-//     type: "object",
-//     properties: {
-//       content: ValidateProps.chat.content,
-//     },
-//     additionalProperties: true,
-//   }),
-//   async (req, res) => {
-//     console.log("req from api/chats", req);
-//     console.log("res from api/chats", res);
-//     console.log("req.user from api/chats", req.user);
-//     if (!req.user) {
-//       return res.status(401).end();
-//     }
-
-//     const db = await dbConnect();
-
-//     const chat = await insertChat(db, {
-//       content: req.chat.content,
-//       creatorId: req.user._id,
-//     });
-
-//     return res.json({ chat });
-//   }
-// );
 
 export default handler;

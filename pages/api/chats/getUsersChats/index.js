@@ -12,8 +12,7 @@ handler.use(...auths);
 handler.get(async (req, res) => {
   const db = await dbConnect();
   const currentUser = await req.user._id;
-  console.log("api/chats/getUsersChats => currentUser", currentUser);
-  // currentUser => new ObjectId("634db22538ea5aba7b60a1dd")
+  // currentUser i.e. => new ObjectId("634db22538ea5aba7b60a1dd")
   const usersChats = await findUsersChats(
     db,
     currentUser,
