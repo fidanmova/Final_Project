@@ -1,8 +1,8 @@
 export const ValidateProps = {
-    user: {
-        username: {
-            type: "string",
-        },
+  user: {
+    username: {
+      type: "string",
+    },
 
         email: {
             type: "string",
@@ -39,7 +39,8 @@ export const ValidateProps = {
         code: { type: Array },
         isVerified: { type: Boolean || "string" },
     },
-    required: ["username", "email", "password"],
+    
+  required: ["username", "email", "password"],
 
     // ######################
     // CHAT components

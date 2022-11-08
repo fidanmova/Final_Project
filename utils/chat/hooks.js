@@ -2,16 +2,28 @@ import { fetcher } from "../fetcher";
 import useSWRInfinite from "swr/infinite";
 import useSWR from "swr";
 
-export function useChatPages({ creatorId } = {}) {
+export function useAllChats() {
+  return useSWR("/api/chats", fetcher);
+}
+
+export function useChat(id) {
+  return useSWR(`/api/chats/${id}`, fetcher);
+}
+
+export function useUsersChats() {
+  return useSWR(`/api/chats/getUsersChats`, fetcher);
+}
+
+export function useChatPages({ currentUser, limit = 10 } = {}) {
   const { data, error, size, ...props } = useSWRInfinite(
-    (index, previousChatData) => {
+    (index, previousPageData) => {
       // reached the end
-      if (previousChatData && previousChatData.posts.length === 0) return null;
+      if (previousPageData && previousPageData.posts.length === 0) return null;
 
       const searchParams = new URLSearchParams();
-      // searchParams.set("limit", limit);
+      searchParams.set("limit", limit);
 
-      if (creatorId) searchParams.set("by", creatorId);
+      if (currentUser) searchParams.set("by", currentUser);
 
       if (index !== 0) {
         // using oldest posts createdAt date as cursor
@@ -19,20 +31,18 @@ export function useChatPages({ creatorId } = {}) {
         // before (hence the .getTime()) the last post's createdAt
         const before = new Date(
           new Date(
-            previousChatData.posts[previousChatData.posts.length - 1].createdAt
+            previousPageData.chats[previousPageData.chats.length - 1].createdAt
           ).getTime()
         );
 
         searchParams.set("before", before.toJSON());
       }
 
-      return `/api/chats?${searchParams.toString()}`;
+      return `/api/chats/getUsersChats?${searchParams.toString()}`;
+      // return `/api/chats/getUsersChats`;
     },
     fetcher,
-    {
-      refreshInterval: 10000,
-      revalidateAll: false,
-    }
+    { refreshInterval: 10000, revalidateAll: false }
   );
 
   const isLoadingInitialData = !data && !error;
@@ -41,7 +51,7 @@ export function useChatPages({ creatorId } = {}) {
     (size > 0 && data && typeof data[size - 1] === "undefined");
   const isEmpty = data?.[0]?.length === 0;
   const isReachingEnd =
-    isEmpty || (data && data[data.length - 1]?.posts?.length < limit);
+    isEmpty || (data && data[data.length - 1]?.chats?.length < limit);
 
   return {
     data,
@@ -52,62 +62,3 @@ export function useChatPages({ creatorId } = {}) {
     ...props,
   };
 }
-
-export function useAllChats() {
-  return useSWR("/api/chats", fetcher);
-}
-
-export function useChat(id) {
-  return useSWR(`/api/chats/${id}`, fetcher);
-}
-
-// ! from comments:
-// export function useCommentPages({ postId, limit = 10 } = {}) {
-//   const { data, error, size, ...props } = useSWRInfinite(
-//     (index, previousPageData) => {
-//       // reached the end
-//       if (previousPageData && previousPageData.comments.length === 0)
-//         return null;
-
-//       const searchParams = new URLSearchParams();
-//       searchParams.set("limit", limit);
-
-//       if (index !== 0) {
-//         const before = new Date(
-//           new Date(
-//             previousPageData.comments[
-//               previousPageData.comments.length - 1
-//             ].createdAt
-//           ).getTime()
-//         );
-
-//         searchParams.set("before", before.toJSON());
-//       }
-
-//       return `/api/posts/${postId}/comments?${searchParams.toString()}`;
-//     },
-//     fetcher,
-//     {
-//       refreshInterval: 10000,
-//       revalidateAll: false,
-//     }
-//   );
-
-//   const isLoadingInitialData = !data && !error;
-//   const isLoadingMore =
-//     isLoadingInitialData ||
-//     (size > 0 && data && typeof data[size - 1] === "undefined");
-//   const isEmpty = data?.[0]?.length === 0;
-//   const isReachingEnd =
-//     isEmpty || (data && data[data.length - 1]?.comments?.length < limit);
-
-//   return {
-//     data,
-//     error,
-//     size,
-//     isLoadingMore,
-//     isReachingEnd,
-//     ...props,
-//   };
-// }
-//

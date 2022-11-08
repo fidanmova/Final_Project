@@ -14,7 +14,7 @@ const Circle = () => {
     const [singleUser, setSingleUser] = useState(null);
     console.log("singleUser", singleUser);
     const [visible, setVisible] = useState(false);
-    console.log('visible', visible)
+    console.log("visible", visible);
 
     const toggleVisible = () => {
         setVisible(!visible);
@@ -46,6 +46,22 @@ const Circle = () => {
                 }
             );
     }, []);
+
+    // const [location, setLocation] = useState(null);
+    // console.log('location', location)
+    
+
+    // useEffect(() => {
+    //     setLoading(true);
+    //     fetch(
+    //         `https://api.mapbox.com/geocoding/v5/mapbox.places/berlin.json?proximity=ip&types=locality&access_token=${process.env.mapbox_key}`
+    //     )
+    //         .then((res) => res.json())
+    //         .then((data) => {
+    //             setLocation(data);
+    //             setLoading(false);
+    //         });
+    // }, []);
 
     return (
         <div className="w-full h-full flex flex-col lg:flex-row lg:justify-center lg:items-center bg-red-500/10 lg:px-2">

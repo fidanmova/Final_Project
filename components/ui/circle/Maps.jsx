@@ -1,9 +1,10 @@
 import { getCenter } from "geolib";
 import { useState, useEffect } from "react";
-import { Button, Tooltip, Drawer } from "react-daisyui";
+import { Button, Tooltip } from "react-daisyui";
 import { CgPinAlt } from "react-icons/cg";
 import { FaPlus, FaMinus } from "react-icons/fa";
 import { RiChatSmile2Line } from "react-icons/ri";
+import Link from 'next/link'
 
 import Map, {
     Marker,
@@ -273,14 +274,11 @@ export const MainMap = ({
                                                 )}
 
                                                 <Button className="text-green-500 w-1/2">
+                                                    <Link href="/chats">
                                                     <RiChatSmile2Line
                                                         className="text-2xl"
-                                                        onClick={() =>
-                                                            setChatOpen(
-                                                                !chatOpen
-                                                            )
-                                                        }
-                                                    />
+                                                        
+                                                    /></Link>
                                                 </Button>
                                             </div>
                                         </div>
@@ -289,7 +287,6 @@ export const MainMap = ({
                             )}
                         </div>
                     ))}
-                {/* {chatOpen && <Message toUser={selecedUser} myself={}/>} */}
             </Map>
         </div>
     );

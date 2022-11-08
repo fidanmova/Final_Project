@@ -1,7 +1,16 @@
 import { ObjectId } from "mongodb";
 import { dbProjectionUsers } from "./user";
 
+// ! Works:
+// @desc    find all chats
+// @route   GET api/posts/
+// @access  NOT Protected
+export async function findAllPosts(db) {
+  return db.collection("posts").find().toArray();
+}
+
 export async function findPostById(db, id) {
+  console.log("findPostById => ", id);
   const posts = await db
     .collection("posts")
     .aggregate([
@@ -19,8 +28,32 @@ export async function findPostById(db, id) {
       { $project: dbProjectionUsers("creator.") },
     ])
     .toArray();
+  console.log("findPostById POSTS =>", posts);
   if (!posts[0]) return null;
   return posts[0];
+}
+
+// @route   GET /api/chats/getUsersChats
+// @route   GET /api/posts/getUsersPosts
+// @route   GET /api/posts/ => can get post of user; also are sent to route.
+export async function findUsersPosts(db, currentUser) {
+  // currentUser => new ObjectId("634db22538ea5aba7b60a1dd")
+  const usersPosts = await db
+    .collection("posts")
+    .aggregate([
+      {
+        $match: { creatorId: new ObjectId(currentUser) },
+      },
+      { $sort: { _id: -1 } },
+      //! Projection can't be used here:
+      // { projection: dbProjectionUsers() },
+    ])
+    .toArray();
+  if (usersPosts.length === 0) return null;
+  // console.log("#####################################");
+  // console.log("utils/db/post findUsersPosts =>", usersPosts);
+  // result is [{},{}, ...]
+  return usersPosts;
 }
 
 export async function findPosts(db, before, by, limit = 10) {

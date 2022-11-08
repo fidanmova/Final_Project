@@ -1,4 +1,4 @@
-import { ValidateProps } from "../../../models/schema";
+// import { ValidateProps } from "../../../models/schema";
 import { findAllChats, insertChat } from "../../../utils/db/chat";
 import { auths, validateBody } from "../../../middlewares";
 import { dbConnect } from "./../../../utils/mongo/mongodb";
@@ -6,6 +6,8 @@ import { ncOpts } from "../../../utils/nc";
 import nc from "next-connect";
 
 const handler = nc(ncOpts);
+
+handler.use(...auths);
 
 // works to get all chats:
 handler.get(async (req, res) => {
@@ -22,12 +24,13 @@ handler.get(async (req, res) => {
   res.json({ chats });
 });
 
+//! Works:
 handler.post(
   ...auths,
   // validateBody({
   //   type: "object",
   //   properties: {
-  //     users: ValidateProps.chatGroup.users,
+  //     users: ValidateProps.chat.users,
   //   },
   //   additionalProperties: true,
   // }),
@@ -36,46 +39,18 @@ handler.post(
     if (!req.body) {
       return res.status(401).end();
     }
-    const usersArray = [req.body.username];
-    // console.log("!", usersArray);
+    let users = req.body.users;
+    const chatName = req.body.chatName;
+
     const db = await dbConnect();
-
-    const chatGroup = await insertChat(db, {
-      users: usersArray,
-      creatorId: req.body.creator,
-      // creatorId: req.user._id,
+    const chat = await insertChat(db, {
+      chatName,
+      users: users,
+      creatorId: req.user._id,
     });
-
-    return res.json({ chatGroup });
+    console.log("chat", chat);
+    return res.json({ chat });
   }
 );
-
-// handler.post(
-//   ...auths,
-//   validateBody({
-//     type: "object",
-//     properties: {
-//       content: ValidateProps.chat.content,
-//     },
-//     additionalProperties: true,
-//   }),
-//   async (req, res) => {
-//     console.log("req from api/chats", req);
-//     console.log("res from api/chats", res);
-//     console.log("req.user from api/chats", req.user);
-//     if (!req.user) {
-//       return res.status(401).end();
-//     }
-
-//     const db = await dbConnect();
-
-//     const chat = await insertChat(db, {
-//       content: req.chat.content,
-//       creatorId: req.user._id,
-//     });
-
-//     return res.json({ chat });
-//   }
-// );
 
 export default handler;

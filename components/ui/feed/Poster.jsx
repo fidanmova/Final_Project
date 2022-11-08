@@ -10,7 +10,7 @@ import { useCallback, useRef, useState } from "react";
 import { toast } from "react-toastify";
 
 const PosterInner = ({ user }) => {
-  console.log("user from Inner Poster", user);
+  // console.log("user from Inner Poster", user);
   const contentRef = useRef();
   const [isLoading, setIsLoading] = useState(false);
 
@@ -64,7 +64,7 @@ const PosterInner = ({ user }) => {
           ref={contentRef}
           className=""
           placeholder={`What's on your mind, ${user.username}?`}
-          ariaLabel={`What's on your mind, ${user.username}?`}
+          aria-label={`What's on your mind, ${user.username}?`}
         />
         <Button type="success" loading={isLoading}>
           Post

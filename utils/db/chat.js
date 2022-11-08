@@ -1,5 +1,5 @@
 import { ObjectId } from "mongodb";
-import { dbProjectionUsers } from "./user";
+import { dbProjectionUsers, dbProjection } from "./user";
 
 // ! Works:
 // @desc    find all chats
@@ -22,24 +22,23 @@ export async function findChatById(db, id) {
 }
 
 // ! Works:
-// @desc    Add user to Group
+// @desc   fetch only users chats
 // @route   GET /api/chats/getUsersChats
 // @access  Protected
 export async function findUsersChats(db, currentUser) {
+  // console.log("currentUser db/chat findUC =>", currentUser);
   const usersChats = await db
     .collection("chats")
     .aggregate([
       {
         $match: {
           $or: [
-            { users: currentUser._id.toString() },
-            { creatorId: currentUser._id.toString() },
+            { users: { $elemMatch: { $eq: new ObjectId(currentUser) } } },
+            { creatorId: new ObjectId(currentUser) },
           ],
         },
       },
       { $sort: { _id: -1 } },
-      //! Projection can't be used here:
-      // { projection: dbProjectionUsers() },
     ])
     .toArray();
   if (usersChats.length === 0) return null;
@@ -53,14 +52,20 @@ export async function findUsersChats(db, currentUser) {
 // @route   PUT /api/chats/groupdelete
 // @access  Protected
 export async function isUserChatAdmin(db, chatId, currentUser) {
+  // console.log("IS ADMIN chatId =>", chatId.toString());
+  // console.log("IS ADMIN =>", currentUser._id.toString());
   const isAdmin = await db
     .collection("chats")
     .aggregate([
       {
         $match: {
           $and: [
-            { _id: new ObjectId(chatId) },
-            { creatorId: currentUser._id.toString() },
+            {
+              _id: new ObjectId(chatId.toString()),
+            },
+            {
+              creatorId: new ObjectId(currentUser._id.toString()),
+            },
           ],
         },
       },
@@ -71,13 +76,15 @@ export async function isUserChatAdmin(db, chatId, currentUser) {
   return true;
 }
 
-// ! Works:
 // @desc    creates a chat with username
-// @route   POST /api/chats/createChat
+// // @route   POST /api/chats/createChat
+// @route   POST /api/chats/
 // @access  Protected
-export async function insertChat(db, { users, creatorId }) {
+export async function insertChat(db, { chatName, users, content, creatorId }) {
   const chat = {
-    users,
+    chatName,
+    users: users.map((u) => new ObjectId(u)),
+    content,
     creatorId,
     createdAt: new Date(),
   };
@@ -86,24 +93,7 @@ export async function insertChat(db, { users, creatorId }) {
   return chat;
 }
 
-// export async function insertChat(
-//   db,
-//   { chatName, isGroupChat, users, content, creatorId }
-// ) {
-//   const chat = {
-//     chatName,
-//     isGroupChat,
-//     users,
-//     content,
-//     creatorId,
-//     createdAt: new Date(),
-//   };
-//   const { insertedId } = await db.collection("chats").insertOne(chat);
-//   chat._id = insertedId;
-//   return chat;
-// }
-
-// ! Works:
+// ! Works
 // @desc    Add user to Group
 // @route   PUT /api/chats/groupadd
 // @access  Protected
@@ -111,7 +101,7 @@ export async function findChatByIdAndAddUser(db, chatId, userId) {
   return db.collection("chats").updateOne(
     { _id: new ObjectId(chatId) },
     {
-      $push: { users: userId },
+      $push: { users: new ObjectId(userId.toString()) },
     },
     {
       new: true,
@@ -120,7 +110,7 @@ export async function findChatByIdAndAddUser(db, chatId, userId) {
   );
 }
 
-// ! Works:
+// ! Works
 // @desc    Deletes user from Group
 // @route   PUT /api/chats/groupdelete
 // @access  Protected
@@ -128,7 +118,7 @@ export async function findChatByIdAndDeleteUser(db, chatId, userId) {
   return db.collection("chats").updateOne(
     { _id: new ObjectId(chatId) },
     {
-      $pull: { users: userId },
+      $pull: { users: new ObjectId(userId.toString()) },
     },
     {
       new: true,
@@ -151,38 +141,3 @@ export async function updateChatById(db, id, data) {
     )
     .then(({ value }) => value);
 }
-
-// ! Does NOT WORK:
-// export async function findChats(db, before, by, limit = 10) {
-//   return db
-//     .collection("chats")
-//     .aggregate([
-//       {
-//         $match: {
-//           ...(by && { creatorId: new ObjectId(by) }),
-//           ...(before && { createdAt: { $lt: before } }),
-//         },
-//       },
-//       { $sort: { _id: -1 } },
-//       { $limit: limit },
-//       {
-//         $lookup: {
-//           from: "users",
-//           localField: "creatorId",
-//           foreignField: "_id",
-//           as: "creator",
-//         },
-//       },
-//       { $unwind: "$creator" },
-//       { $project: dbProjectionUsers("creator.") },
-//     ])
-//     .toArray();
-// }
-
-// export function dbProjectionChats(prefix = "") {
-//   return {
-//     [`${prefix}password`]: 0,
-//     [`${prefix}email`]: 0,
-//     [`${prefix}emailVerified`]: 0,
-//   };
-// }

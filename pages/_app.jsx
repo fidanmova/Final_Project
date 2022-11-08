@@ -4,6 +4,9 @@ import "react-toastify/dist/ReactToastify.css";
 import "mapbox-gl/dist/mapbox-gl.css";
 import { ToastContainer, Flip } from "react-toastify";
 
+
+
+
 function MyApp({ Component, pageProps }) {
     return (
         <Layout>
@@ -22,6 +25,7 @@ function MyApp({ Component, pageProps }) {
                 transition={Flip}
             />
         </Layout>
+        
     );
 }
 

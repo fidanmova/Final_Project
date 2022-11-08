@@ -1,35 +1,41 @@
 import { Button, Input, Text } from "react-daisyui";
 import { usePostPages } from "../../../utils/post/hooks";
+import { useCurrentUser } from "../../../utils/user/hooks";
 import Post from "./Post";
 
 import Link from "next/link";
 
-const PostList = () => {
+const PostList = ({ user }) => {
+  const { data: currentUser, error } = useCurrentUser();
+  console.log("Post currentUser=>", currentUser);
+  // console.log("PostPages =>", usePostPages());
+
   const { data, size, setSize, isLoadingMore, isReachingEnd } = usePostPages();
-  // console.log("data from PostList", data);
+  console.log("postPages() => ", usePostPages());
+  console.log("DATA from PostList =======================>", data);
   const posts = data
-    ? data.reduce((acc, val) => [...acc, ...val.posts], [])
+    ? data.reduce((acc, val) => [...acc, ...val.usersPosts], [])
     : [];
+
+  console.log("======================== POSTS", posts);
 
   return (
     <div className="">
       {/* <Spacer axis="vertical" size={1} /> */}
       <div>
-        {posts.map((post, i) => (
-          <Link
-            key={post._id}
-            href={`/user/${post.creator.username}/post/${post._id}`}
-            passHref
-          >
-            <a>
-              <div className="">
-                <Post post={post} />
-              </div>
-            </a>
-          </Link>
-        ))}
+        <h1>THESE ARE THE POSTS:</h1>
+        {posts.map((post, i) => {
+          console.log("One Post", post.content);
+          return (
+            <div className="" key={i}>
+              <Post post={post} />
+              {/* <div>{post.creatorId}</div> */}
+              {/* <div>{post.content}</div> */}
+            </div>
+          );
+        })}
         <div>
-          {isReachingEnd ? (
+          {/* {isReachingEnd ? (
             <div>No more posts are found</div>
           ) : (
             <Button
@@ -40,7 +46,7 @@ const PostList = () => {
             >
               Load more
             </Button>
-          )}
+          )} */}
         </div>
       </div>
     </div>

@@ -6,7 +6,6 @@ import { IoMdLogOut } from "react-icons/io";
 import { useRouter } from "next/router";
 import { fetcher } from "../utils/fetcher";
 import { CgLogIn } from "react-icons/cg";
-import { Dropdown } from "react-daisyui";
 
 const Header = () => {
     const router = useRouter();
@@ -56,7 +55,7 @@ const Header = () => {
                                     CIRCLE
                                 </p>
                             </Link>
-                            <Link href="/chat">
+                            <Link href="/chats">
                                 <p className="text-purple-500 text-xl rounded-lg hover:bg-purple-500/50 hover:text-gray-300 p-2">
                                     CHAT
                                 </p>
