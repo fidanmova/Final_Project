@@ -29,6 +29,7 @@ export default function CodeEditor() {
   const { data: { user } = {}, mutate } = useCurrentUser();
   console.log("USER ==>", user);
   console.log("USER ID==>", user._id);
+  console.log("Code ==>", user.code[3]);
 
   const handleEditorChange = (value) => {
     console.log("Value ==>", value);
@@ -78,13 +79,26 @@ export default function CodeEditor() {
           <div className="w-11/12 lg:w-[30vw] lg:h-[35vh] flex justify-center my-4 bg-black/50 rounded-lg shadow-yellow-400 shadow-md">
             <h1 className="text-xl mt-4">Messages</h1>
           </div>
-          <div className="w-11/12 lg:w-[30vw] lg:h-[25vh] flex justify-center my-4 bg-black/50 rounded-lg shadow-yellow-400 shadow-md">
-            <h1 className="text-xl mt-4">Recent Files . . .</h1>
+          <div className="w-11/12 lg:w-[30vw] lg:h-[25vh] flex flex-col  items-center my-4 bg-black/50 rounded-lg shadow-yellow-400 shadow-md">
+            <h1 className="text-xl mt-4">Recent Files</h1>
+
+            <div className=" ">
+              {user.code
+                .slice(user.code.length - 5, user.code.length)
+                .reverse()
+                .map((el, i) => (
+                  <div key={i}>
+                    <p className="text-sm pt-1 tracking-widest">
+                      {i + 1}. {el.slice(15, 35)}
+                    </p>
+                  </div>
+                ))}
+            </div>
           </div>
         </div>
       </div>
       <div className="flex justify-start ">
-        <button className="btn btn-sm ml-14 bg-sky-700" onClick={saveCode}>
+        <button className="btn btn-sm ml-6 bg-sky-700" onClick={saveCode}>
           Save Code
         </button>
       </div>
