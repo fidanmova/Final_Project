@@ -4,7 +4,6 @@ import { dbConnect } from "../../../utils/mongo/mongodb";
 import { findUserById } from "../../../utils/db/user";
 
 export default function Chat({ userResult }) {
-  console.log("userRESULT =>", userResult);
   return (
     <PageTemplate content="Dev-Shed Community" title="DevShed - CHAT">
       {/* <User userResult={userResult}> */}

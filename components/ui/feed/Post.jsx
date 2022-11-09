@@ -1,5 +1,4 @@
 import { format } from "@lukeed/ms";
-import Link from "next/link";
 import { useMemo } from "react";
 import { PostCard } from "../Card";
 

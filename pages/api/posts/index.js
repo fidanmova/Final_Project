@@ -16,30 +16,19 @@ handler.get(async (req, res) => {
   res.json({ posts });
 });
 
-handler.post(
-  ...auths,
-  // validateBody({
-  //   type: "object",
-  //   properties: {
-  //     content: ValidateProps.post.content,
-  //   },
-  //   required: ["content"],
-  //   additionalProperties: true,
-  // }),
-  async (req, res) => {
-    if (!req.user) {
-      return res.status(401).end();
-    }
-
-    const db = await dbConnect();
-
-    const post = await insertPost(db, {
-      content: req.body.content,
-      creatorId: req.user._id,
-    });
-
-    return res.json({ post });
+handler.post(...auths, async (req, res) => {
+  if (!req.user) {
+    return res.status(401).end();
   }
-);
+
+  const db = await dbConnect();
+
+  const post = await insertPost(db, {
+    content: req.body.content,
+    creatorId: req.user._id,
+  });
+
+  return res.json({ post });
+});
 
 export default handler;

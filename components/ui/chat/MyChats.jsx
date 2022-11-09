@@ -77,7 +77,7 @@ const MyChats = ({ fetchAgain, user, selectedChat }) => {
 
       {/* CHATS START */}
       {chats ? (
-        <div className="border-b border-grey-lighter flex-1  overflow-auto">
+        <div className="border-b border-grey-lighter flex-1  overflow-y-scroll scrollbar-hide">
           {chats.map((chat, i) => {
             return (
               <ChatContact

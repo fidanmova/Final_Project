@@ -49,7 +49,7 @@ const Chats = ({ fetchAgain, setFetchAgain, user, selectedChat }) => {
       {/* HEADER END */}
       {/* MESSAGE WINDOW START */}
       {messages ? (
-        <div className="flex flex-col h-full py-2 px-3 bg-gray-800 flex-1 overflow-auto justify-between items-center">
+        <div className="flex flex-col h-full py-2 px-3 bg-gray-800 flex-1 overflow-y-scroll scrollbar-hide justify-between items-center">
           {/* MESSAGE DATA NEEDED */}
           {messages.map((message, i) => (
             <Message key={i} message={message} user={user} />

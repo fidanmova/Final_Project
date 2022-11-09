@@ -3,15 +3,10 @@ import { Button, Input, Text, Form } from "react-daisyui";
 import { fetcher } from "../../../utils/fetcher";
 import { usePostPages } from "../../../utils/post/hooks";
 import { useCurrentUser } from "../../../utils/user/hooks";
-import { useForm } from "react-hook-form";
-
-import Link from "next/link";
-import { useCallback, useRef, useState } from "react";
+import { useState } from "react";
 import { toast } from "react-toastify";
 
 const PosterInner = ({ user }) => {
-  // console.log("user from Inner Poster", user);
-  // const contentRef = useRef();
   const [comments, setComments] = useState();
   const [content, setContent] = useState();
   const [isLoading, setIsLoading] = useState(false);
@@ -24,12 +19,6 @@ const PosterInner = ({ user }) => {
       [e.target.name]: e.target.value,
     }));
   };
-
-  // const {
-  //   register,
-  //   handleSubmit,
-  //   formState: { errors },
-  // } = useForm();
 
   const onSubmit = async (e) => {
     e.preventDefault();
@@ -44,8 +33,6 @@ const PosterInner = ({ user }) => {
       });
       setComments([data, ...comments]);
       toast.success("You have posted successfully");
-      // contentRef.current.value = "";
-      // // refresh post lists
       // mutate();
     } catch (e) {
       console.log(e.message);
@@ -57,21 +44,23 @@ const PosterInner = ({ user }) => {
   // [mutate]
 
   return (
-    <Form onSubmit={onSubmit}>
-      <div className="">
-        {/* <Avatar size={40} username={user.username} url={user.profilePicture} /> */}
+    <>
+      <Form onSubmit={onSubmit}>
         <Input
           value={content}
-          className=""
-          placeholder={`What's on your mind, ${user.username}?`}
-          aria-label={`What's on your mind, ${user.username}?`}
+          className="mb-2 bg-grey-900/90 "
+          placeholder={`What's on your mind ?`}
+          aria-label={`What's on your mind ?`}
           onChange={(e) => setContent(e.target.value)}
         />
-        <Button type="success" loading={isLoading}>
+        <Button
+          className="bg-blue-800/80 hover:bg-blue-900/90 text-white hover:border-blue-500/50"
+          type="success"
+        >
           Post
         </Button>
-      </div>
-    </Form>
+      </Form>
+    </>
   );
 };
 
@@ -80,24 +69,15 @@ const Poster = () => {
   const loading = !data && !error;
 
   return (
-    <div>
-      <div className="">
-        <h3 className="">Share your thoughts</h3>
-        {loading ? (
-          // <LoadingDots>Loading</LoadingDots>
-          <div> ... LOAD</div>
-        ) : data?.user ? (
-          <PosterInner user={data.user} />
-        ) : (
-          <Text>
-            Please{" "}
-            <Link href="/login" passHref>
-              <p>sign in</p>
-            </Link>{" "}
-            to post
-          </Text>
-        )}
-      </div>
+    <div className="">
+      {loading ? (
+        // <LoadingDots>Loading</LoadingDots>
+        <div> ... LOAD</div>
+      ) : data?.user ? (
+        <PosterInner user={data.user} />
+      ) : (
+        <Text>No Messages in the feed.</Text>
+      )}
     </div>
   );
 };

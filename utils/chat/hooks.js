@@ -36,10 +36,6 @@ export function useChatPages({ currentUser, limit = 10 } = {}) {
         searchParams.set("before", before.toJSON());
       }
 
-      console.log(
-        "PARAMS FROM USERCHAT",
-        `/api/chats/getUsersChats?${searchParams.toString()}`
-      );
       return `/api/chats/getUsersChats?${searchParams.toString()}`;
       // return `/api/chats/getUsersChats`;
     },
