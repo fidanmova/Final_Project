@@ -3,8 +3,9 @@ import { useState, useEffect } from "react";
 import { Maps } from "../circle/Maps";
 
 const LeftSide = ({ data }) => {
-  const [location, setLocation] = useState();
-  //console.log('location', location)
+    const [location, setLocation] = useState();
+    
+    //console.log('location', location)
 
   useEffect(() => {
     if ("geolocation" in navigator) {

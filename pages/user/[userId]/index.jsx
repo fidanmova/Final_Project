@@ -1,27 +1,26 @@
 import PageTemplate from "../../../components/ui/PageTemplate";
-// import User from "../../../components/ui/profile/User";
+import Profile from "../../../components/ui/profile/Profile";
 import { dbConnect } from "../../../utils/mongo/mongodb";
 import { findUserById } from "../../../utils/db/user";
 
-export default function Chat({ userResult }) {
+export default function User({ user }) {
   return (
     <PageTemplate content="Dev-Shed Community" title="DevShed - CHAT">
-      {/* <User userResult={userResult}> */}
-      <h1>I love: {userResult.username}</h1>
+      <Profile userResult={user} />
+      {/* <h1>I love: {userResult.username}</h1> */}
     </PageTemplate>
   );
 }
-
 export async function getServerSideProps(context) {
   const db = await dbConnect();
   const userParams = await context.params.userId;
 
-  const user = await findUserById(db, userParams);
-  if (!user) {
+  const userResult = await findUserById(db, userParams);
+  if (!userResult) {
     return {
       notFound: true,
     };
   }
-  let userResult = await JSON.parse(JSON.stringify(user));
-  return { props: { userResult } };
+  let user = await JSON.parse(JSON.stringify(userResult));
+  return { props: { user } };
 }
