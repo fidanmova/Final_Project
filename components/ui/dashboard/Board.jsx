@@ -3,7 +3,7 @@ import { DashCard } from "../Card";
 const Board = () => {
   return (
     <div className="w-11/12 lg:w-[65vw] h-[80vh] flex flex-col justify-center items-center  bg-black/50 rounded-xl  shadow-green-500 shadow-md">
-      <h1 className="text-3xl mb-2">dashboard</h1>
+      {/* <h1 className="text-3xl mb-2">dashboard</h1> */}
       <div className="w-full flex flex-wrap justify-center">
         <DashCard
           text="discover, join or create a circle of developers"
