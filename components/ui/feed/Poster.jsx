@@ -82,7 +82,7 @@ const Poster = () => {
   return (
     <div>
       <div className="">
-        <h3 className="">Share your thoughts</h3>
+        <h3 className="text-sm">Share your thoughts</h3>
         {loading ? (
           // <LoadingDots>Loading</LoadingDots>
           <div> ... LOAD</div>

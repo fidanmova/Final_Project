@@ -4,6 +4,7 @@ import { Maps } from "../circle/Maps";
 
 const LeftSide = ({ data }) => {
     const [location, setLocation] = useState();
+    
     //console.log('location', location)
 
     useEffect(() => {
