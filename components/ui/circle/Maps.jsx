@@ -1,10 +1,10 @@
 import { getCenter } from "geolib";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { Button, Tooltip } from "react-daisyui";
 import { CgPinAlt } from "react-icons/cg";
 import { FaPlus, FaMinus } from "react-icons/fa";
 import { RiChatSmile2Line } from "react-icons/ri";
-import Link from 'next/link'
+import Link from "next/link";
 
 import Map, {
     Marker,
@@ -76,12 +76,26 @@ export const MainMap = ({
         zoom: 6,
     });
     const [selectedUser, setSelectedUser] = useState(null);
-    console.log("selected", selectedUser);
+    //console.log("selected", selectedUser);
 
     const [usersCoords, setUsersCoords] = useState(null);
 
     const [showPopup, setShowPopup] = useState(true);
-    console.log("showPopup", showPopup);
+    //console.log("showPopup", showPopup);
+
+    const addToCircle = useCallback(async () => {
+        try {
+            const response = await fetcher("/api/circle/circle", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({
+                    circle: selectedUser._id,
+                }),
+            });
+        } catch (error) {
+            toast.error("Ops...something went wrong!");
+        }
+    }, [selectedUser]);
 
     const [chatOpen, setChatOpen] = useState(false);
     //deawer for add friend
@@ -94,7 +108,7 @@ export const MainMap = ({
             }));
             //console.log("COOORDS", coordinates.length);
             const center = getCenter(coordinates);
-            console.log("CENTER", center);
+            //console.log("CENTER", center);
             if (coordinates.length !== 0) {
                 setViewport({
                     longitude: center.longitude,
@@ -139,7 +153,7 @@ export const MainMap = ({
                                     onClick={() => {
                                         setSelectedUser(user);
                                         setShowPopup(true);
-                                        setSingleUser(null);
+                                        setSingleUser(user);
                                     }}
                                 >
                                     <p
@@ -188,7 +202,7 @@ export const MainMap = ({
                                                         </p>
                                                     </div>
                                                 </div>
-                                                <div className="flex justify-between">
+                                                <div className="flex justify-between space-x-2">
                                                     {!visible ? (
                                                         <Button
                                                             className="text-green-500 w-1/2"
@@ -275,10 +289,8 @@ export const MainMap = ({
 
                                                 <Button className="text-green-500 w-1/2">
                                                     <Link href="/chats">
-                                                    <RiChatSmile2Line
-                                                        className="text-2xl"
-                                                        
-                                                    /></Link>
+                                                        <RiChatSmile2Line className="text-2xl" />
+                                                    </Link>
                                                 </Button>
                                             </div>
                                         </div>
