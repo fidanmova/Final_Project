@@ -1,11 +1,14 @@
-import React from "react";
+import React, { useContext } from "react";
+import { Context } from "../../../utils/context/context";
 import Image from "next/image";
 import Link from "next/link";
 
 const ChatContact = ({ user, chat, i }) => {
+  const { selectedChat, setSelectedChat } = useContext(Context);
   return (
     <div
       onClick={(e) => {
+        setSelectedChat(chat._id);
         console.log("chatID Click from ChatContact", chat._id);
       }}
       className={`flex items-center cursor-pointer rounded-lg mt-1 ${

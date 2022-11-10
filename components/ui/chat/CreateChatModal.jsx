@@ -150,7 +150,7 @@ const CreateChatModel = () => {
             <label
               htmlFor="my-modal"
               className="btn bg-pink-600 hover:bg-gray-900 "
-              loading={isLoading}
+              // loading={isLoading}
             >
               {" "}
               Close

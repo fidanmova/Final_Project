@@ -1,14 +1,22 @@
-import React from "react";
+import React, { useContext } from "react";
+import { Context } from "../../../utils/context/context";
 import Image from "next/image";
 import SendMessage from "./SendMessage";
 import Message from "./Message"; // in chat app example called SingleChat
 import { BiDotsVerticalRounded, BiSearch } from "react-icons/bi";
 import { FaRegSmile, FaMicrophone } from "react-icons/fa";
+import { useMessagePages } from "../../../utils/message/hooks";
 
-// Mock Data
-import { messages, chats } from "./data";
+const Chats = ({ user }) => {
+  const { selectedChat, setSelectedChat } = useContext(Context);
+  const { data, size, setSize, isLoadingMore, isReachingEnd } = useMessagePages(
+    { chatId: selectedChat }
+  );
 
-const Chats = ({ fetchAgain, setFetchAgain, user, selectedChat }) => {
+  const messages = data
+    ? data.reduce((acc, val) => [...acc, ...val.messages], [])
+    : [];
+
   return (
     <div className="w-3/4 h-full flex flex-col p-4 ml-4 bg-opacity-90 bg-gray-900 rounded-3xl text-xl uppercase border-2 border-gray-600">
       {/* HEADER START */}

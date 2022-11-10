@@ -1,39 +1,16 @@
 import { fetcher } from "../fetcher";
 import useSWRInfinite from "swr/infinite";
 
-//! DOES NOT WORK: req.query CHATID needs to be accessed
+//! Works:
 export function useMessagePages({ chatId, limit = 10 } = {}) {
+  // console.log("chatID from Message Hook Top: ", chatId);
   const { data, error, size, ...props } = useSWRInfinite(
-    (index, previousPageData) => {
-      // reached the end
-      if (previousPageData && previousPageData.messages.length === 0)
-        return null;
-
-      const searchParams = new URLSearchParams();
-      searchParams.set("limit", limit);
-      searchParams.set("chatId", req.query.chatId);
-
-      if (chatId) searchParams.set("by", chatId);
-
-      if (index !== 0) {
-        const before = new Date(
-          new Date(
-            previousPageData.messages[
-              previousPageData.messages.length - 1
-            ].createdAt
-          ).getTime()
-        );
-
-        searchParams.set("before", before.toJSON());
-      }
-
-      // static example:
-      // return `/api/chats/6368c6c70bf7e5d7c69a1d47/messages`;
-      return `/api/chats?${searchParams.toString()}/messages`;
+    () => {
+      return `/api/singleChat/${chatId}/`;
     },
     fetcher,
     {
-      refreshInterval: 10000,
+      refreshInterval: 1000,
       revalidateAll: false,
     }
   );

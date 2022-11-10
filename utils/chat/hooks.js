@@ -40,7 +40,7 @@ export function useChatPages({ currentUser, limit = 10 } = {}) {
       // return `/api/chats/getUsersChats`;
     },
     fetcher,
-    { refreshInterval: 10000, revalidateAll: false }
+    { refreshInterval: 1000, revalidateAll: false }
   );
 
   const isLoadingInitialData = !data && !error;

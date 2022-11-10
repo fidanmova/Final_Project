@@ -1,48 +1,66 @@
-// pages/chat/chatId
+import { findChatById } from "../../../../utils/db/chat";
+import { findMessages, insertMessage } from "../../../../utils/db/message";
+import { auths, validateBody } from "../../../../middlewares";
+import { dbConnect } from "../../../../utils/mongo/mongodb";
+import { ncOpts } from "../../../../utils/nc";
+import nc from "next-connect";
 
-import PageTemplate from "../../../components/ui/PageTemplate";
-import { dbConnect } from "../../../utils/mongo/mongodb";
-import { findChatById } from "../../../utils/db/chat";
-import { useMessagePages } from "../../../utils/message/hooks";
-// import Messages from "../../../components/ui/chat/Messages";
+const handler = nc(ncOpts);
 
-export default function Chat({ singleChat }) {
-  // let chatId = selectedChat;
-  // const {
-  //   data: messageData,
-  //   size,
-  //   setSize,
-  //   isLoadingMore,
-  //   isReachingEnd,
-  // } = useMessagePages();
+handler.use(...auths);
 
-  // console.log("messageData?", messageData);
-
-  // const messages = messageData
-  //   ? messageData.reduce((acc, val) => [...acc, ...val.messages], [])
-  //   : [];
-
-  console.log("chatNAME", singleChat);
-  return (
-    <PageTemplate content="Dev-Shed Community" title="DevShed - CHAT">
-      <div>{singleChat.chatName}</div>
-      {/* <Messages /> */}
-    </PageTemplate>
-  );
-}
-
-export async function getServerSideProps(context) {
+//! Works:
+handler.get(async (req, res) => {
+  // console.log("req.query api/chats/chatId => ", req.query);
   const db = await dbConnect();
+  let chatId = req.query?.chatId;
+  // let chatId = req.params.chatId;
 
-  console.log("contextQueryChatId", context.query.chatId);
+  console.log("REq Query ChatId from api/chats/chatId", chatId);
+  const chat = await findChatById(db, chatId);
 
-  const chat = await findChatById(db, context.query.chatId);
+  // return res.json({ chat });
+
   if (!chat) {
-    return {
-      notFound: true,
-    };
+    return res.status(404).json({ error: { message: "Chat is not found." } });
   }
 
-  let singleChat = await JSON.parse(JSON.stringify(chat));
-  return { props: { singleChat } };
-}
+  const messages = await findMessages(
+    db,
+    chatId
+    // req.query.by,
+    // req.query.chatId,
+    // req.query.searchParams
+    // req.query.before ? new Date(req.query.before) : undefined,
+    // req.query.limit ? parseInt(req.query.limit, 10) : undefined
+  );
+
+  // console.log("MESSAGES from api/chats/chatId ============>", messages);
+
+  return res.json({ messages });
+});
+
+// handler.post(...auths, async (req, res) => {
+//   if (!req.user) {
+//     return res.status(401).end();
+//   }
+
+//   const db = await dbConnect();
+
+//   const content = req.body.content;
+
+//   const chat = await findChatById(db, req.query.chatId);
+
+//   if (!chat) {
+//     return res.status(404).json({ error: { message: "Chat not found." } });
+//   }
+
+//   const message = await insertMessage(db, chat._id, {
+//     creatorId: req.user._id,
+//     content,
+//   });
+
+//   return res.json({ message });
+// });
+
+export default handler;

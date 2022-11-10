@@ -30,30 +30,18 @@ export async function trialAddMembersToMessages(db) {
   return members;
 }
 
-export async function findMessages(db, chatId, before, limit = 10) {
-  return db
+export async function findMessages(db, chatId) {
+  const messages = await db
     .collection("messages")
     .aggregate([
       {
         $match: {
           chatId: new ObjectId(chatId),
-          ...(before && { createdAt: { $lt: before } }),
         },
       },
-      { $sort: { _id: -1 } },
-      { $limit: limit },
-      {
-        $lookup: {
-          from: "users",
-          localField: "creatorId",
-          foreignField: "_id",
-          as: "creator",
-        },
-      },
-      { $unwind: "$creator" },
-      { $project: dbProjectionUsers("creator.") },
     ])
     .toArray();
+  return messages;
 }
 
 export async function insertMessage(db, chatId, { content, creatorId }) {

@@ -1,3 +1,5 @@
+import React, { useContext } from "react";
+import { Context } from "../../../utils/context/context";
 import { Button, Input, Text, Form } from "react-daisyui";
 // import { LoadingDots } from "@/components/LoadingDots";
 import { fetcher } from "../../../utils/fetcher";
@@ -9,27 +11,24 @@ import { toast } from "react-toastify";
 
 //! WORKS With trial chatID:
 const SendMessage = ({ user }) => {
+  const { selectedChat, setSelectedChat } = useContext(Context);
   const [messages, setMessages] = useState();
   const [content, setContent] = useState();
   const [isLoading, setIsLoading] = useState(false);
 
-  //! TRIAL chatId:
-  const chatId = "6368c6c70bf7e5d7c69a1d47";
+  // const onChangeHandler = (e) => {
+  //   setUserInput((prevUser) => ({
+  //     ...prevUser,
+  //     [e.target.name]: e.target.value,
+  //   }));
+  // };
 
-  // const { mutate } = useChatPages();
-
-  const onChangeHandler = (e) => {
-    setUserInput((prevUser) => ({
-      ...prevUser,
-      [e.target.name]: e.target.value,
-    }));
-  };
-
+  //! Working version:
   const onSubmit = async (e) => {
     e.preventDefault();
     try {
       setIsLoading(true);
-      const data = await fetcher(`/api/chats/${chatId}/messages`, {
+      const data = await fetcher(`/api/chats/${selectedChat}/`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
