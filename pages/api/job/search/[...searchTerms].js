@@ -2,7 +2,7 @@ const { GoogleSearch } = require("google-search-results-nodejs");
 
 // ## Serp API Key for google search ##
 const search = new GoogleSearch(
-  "c8fd8e5fbb06f230ce52b78ecb67d9404dd33b574d9d8e9ef4fed561b1e273e2"
+  "4bc7bbd9d819cfe93a7ae11034046d8517fa3e2d8f70e77333371b435bc8794f"
 );
 
 function promisifiedGetJson(params) {
