@@ -67,7 +67,7 @@ export default function CodeEditor() {
             }
         );
         mutate({ user: response.user }, false);
-        console.log(response);
+        //console.log(response);
     };
     // ########################
 

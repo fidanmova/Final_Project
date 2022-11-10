@@ -23,7 +23,7 @@ const Circle = () => {
     //console.log("visible", visible);
 
     const [myCircle, setMyCircle] = useState(null);
-    console.log("Circle", myCircle);
+    //console.log("Circle", myCircle);
 
     const handleSingle = (user) => {
         setSingleUser(user);
@@ -196,6 +196,7 @@ const Circle = () => {
                                         <p>{myCircle}</p>
                                     )}
                                 {myCircle !== null &&
+                                    typeof myCircle !== "string" &&
                                     myCircle?.map((myc, i) => (
                                         <p key={i}>{myc.username}</p>
                                     ))}

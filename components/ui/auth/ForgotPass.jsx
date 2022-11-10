@@ -7,9 +7,9 @@ const ForgotPass = ({ setForm }) => {
     const [reset, setReset] = useState(false);
     const email = useRef(null);
 
-    console.log("email", email?.current?.value);
+    //console.log("email", email?.current?.value);
 
-    console.log("reset", reset);
+   // console.log("reset", reset);
 
     const onSubmit = useCallback(async (e) => {
         e.preventDefault();

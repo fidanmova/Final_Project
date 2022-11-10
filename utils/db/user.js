@@ -30,7 +30,7 @@ export async function findUserForAuth(db, userId) {
 // }
 
 export async function findUserById(db, userId) {
-  console.log("USER ID =========>", userId);
+  //console.log("USER ID =========>", userId);
   return db
     .collection("users")
     .findOne({ _id: new ObjectId(userId) }, { projection: dbProjectionUsers() })
@@ -61,7 +61,7 @@ export async function findUserByUsernameSearch(db, keyword) {
       { $sort: { username: -1 } },
     ])
     .toArray();
-  console.log("searchResults from db/user", searchResults);
+  //console.log("searchResults from db/user", searchResults);
   if (searchResults.length === 0) return null;
   return searchResults;
 }

@@ -26,7 +26,7 @@ export default function Jobs() {
         jobs: job,
       }),
     });
-    console.log(response);
+   // console.log(response);
   };
   // ########################
 
@@ -40,7 +40,7 @@ export default function Jobs() {
           setSearchResults(results);
           setLoading(false);
           setError(null);
-          console.log("ResultsjobSearchHandler", results[0].jobs_results);
+         // console.log("ResultsjobSearchHandler", results[0].jobs_results);
         },
         (error) => {
           setError(error);

@@ -20,7 +20,7 @@ export default function Chat({ singleChat }) {
   //   ? messageData.reduce((acc, val) => [...acc, ...val.messages], [])
   //   : [];
 
-  console.log("chatNAME", singleChat);
+  //console.log("chatNAME", singleChat);
   return (
     <PageTemplate content="Dev-Shed Community" title="DevShed - CHAT">
       <div>{singleChat.chatName}</div>
@@ -32,7 +32,7 @@ export default function Chat({ singleChat }) {
 export async function getServerSideProps(context) {
   const db = await dbConnect();
 
-  console.log("contextQueryChatId", context.query.chatId);
+  //console.log("contextQueryChatId", context.query.chatId);
 
   const chat = await findChatById(db, context.query.chatId);
   if (!chat) {

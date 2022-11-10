@@ -26,7 +26,7 @@ handler.post(
         const db = await dbConnect();
 
         const { email } = req.body;
-        console.log('XXX email', email)
+        //console.log('XXX email', email)
         const user = await findUserByEmail(db, email);
         if (!user) {
             res.status(400).json({

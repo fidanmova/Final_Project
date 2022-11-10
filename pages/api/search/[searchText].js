@@ -17,16 +17,16 @@ handler.get(async (req, res) => {
     if (searchText.length === 0) return;
 
     const results = await findUserBySearchText(db, searchText);
-    console.log("results =>", results); // returns Array of Objects
+    //console.log("results =>", results); // returns Array of Objects
 
     const resultsToBeSent =
       results.length > 0 &&
       results.filter((result) => {
-        console.log("RES to STRING", result._id.toString()); // sends ids as strings
+        //console.log("RES to STRING", result._id.toString()); // sends ids as strings
         return result._id.toString() !== user._id;
       });
 
-    console.log("ResSent", resultsToBeSent);
+    //console.log("ResSent", resultsToBeSent);
     return res
       .status(200)
       .json(resultsToBeSent.length > 0 ? resultsToBeSent : results);

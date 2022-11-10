@@ -43,11 +43,11 @@ handler.post(
 
     const db = await dbConnect();
 
-    console.log(" CONTENT from api/.../comments=>", req.body.content);
+    //console.log(" CONTENT from api/.../comments=>", req.body.content);
     // const content = req.body.content;
     const content = JSON.stringify(req.body.content);
-    console.log(" CONTENT from api/.../comments=>", content);
-    console.log(" Curr User from api/.../comments=>", req.user);
+   // console.log(" CONTENT from api/.../comments=>", content);
+    //console.log(" Curr User from api/.../comments=>", req.user);
 
     const post = await findPostById(db, req.query.postId);
 

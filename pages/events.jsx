@@ -20,7 +20,7 @@ export default function Events({ eventsAsString }) {
         events: event,
       }),
     });
-    console.log(response);
+    //console.log(response);
   };
   // ########################
 

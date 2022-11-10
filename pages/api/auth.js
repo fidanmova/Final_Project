@@ -9,7 +9,7 @@ handler.use(...auths);
 
 //Login
 handler.post(passport.authenticate("local"), (req, res) => {
-    console.log('LOGIN USER DATA', req, req.user)
+    //console.log('LOGIN USER DATA', req, req.user)
     res.json({ user: req.user });
 });
 

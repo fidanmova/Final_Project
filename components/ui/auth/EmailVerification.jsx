@@ -8,7 +8,7 @@ const OTP_LENGTH = 8;
 let currentOTPid;
 
 const EmailVerification = ({ OTP, credentials }) => {
-     console.log("credentials", credentials);
+    // console.log("credentials", credentials);
     const { mutate } = useCurrentUser();
 
     const router = useRouter();
@@ -34,7 +34,7 @@ const EmailVerification = ({ OTP, credentials }) => {
         else nextInput(currentOTPid);
         setOtp([...newOTP]);
 
-        console.log(value);
+        //console.log(value);
     };
 
     const handleKeyDown = ({ key }, index) => {

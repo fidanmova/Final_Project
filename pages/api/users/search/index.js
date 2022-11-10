@@ -13,9 +13,9 @@ handler.get(async (req, res) => {
   const db = await dbConnect();
   const keyword = req.query.search;
 
-  console.log("keyword", keyword);
+  //console.log("keyword", keyword);
   const users = await findUserByUsernameSearch(db, keyword);
-  console.log("users after keyword search", users);
+  //console.log("users after keyword search", users);
   res.send(users);
 
   //! This part comes from pages/user/[username]/index.js:

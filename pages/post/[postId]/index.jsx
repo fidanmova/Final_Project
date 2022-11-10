@@ -4,7 +4,7 @@ import { dbConnect } from "../../../utils/mongo/mongodb";
 import { findPostById } from "../../../utils/db/post";
 
 export default function Chat({ postResult }) {
-  console.log("postRESULT =>", postResult);
+  //console.log("postRESULT =>", postResult);
   return (
     <PageTemplate content="Dev-Shed Community" title="DevShed - CHAT">
       <h1>I love: {postResult.creatorId}</h1>
@@ -22,7 +22,7 @@ export async function getServerSideProps(context) {
       notFound: true,
     };
   }
-  console.log("post from postID");
+  //console.log("post from postID");
   let postResult = await JSON.parse(JSON.stringify(post));
   return { props: { postResult } };
 }

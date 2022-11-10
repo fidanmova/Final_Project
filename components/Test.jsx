@@ -17,14 +17,14 @@ export default function Test() {
 
   const onSubmit = async (data) => {
     data.creator = user.username;
-    console.log("THE DATA", data);
+    //console.log("THE DATA", data);
     try {
       const response = await fetcher("/api/chats/", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(data),
       });
-      console.log("response of Submit", response);
+     // console.log("response of Submit", response);
       toast.error(errors);
     } catch (error) {
       console.log("ERROR", error);

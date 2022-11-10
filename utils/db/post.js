@@ -31,7 +31,7 @@ export async function findAllPosts(db, before, by, limit = 10) {
 }
 
 export async function findPostById(db, id) {
-  console.log("findPostById => ", id);
+  //console.log("findPostById => ", id);
   const posts = await db
     .collection("posts")
     .aggregate([
@@ -49,7 +49,7 @@ export async function findPostById(db, id) {
       { $project: dbProjectionUsers("creator.") },
     ])
     .toArray();
-  console.log("findPostById POSTS =>", posts);
+  //console.log("findPostById POSTS =>", posts);
   if (!posts[0]) return null;
   return posts[0];
 }
@@ -108,7 +108,7 @@ export async function insertPost(db, { content, creatorId }) {
     creatorId,
     createdAt: new Date(),
   };
-  console.log("POST from db/post/insertPost =>", post);
+  //console.log("POST from db/post/insertPost =>", post);
   const { insertedId } = await db.collection("posts").insertOne(post);
   post._id = insertedId;
   return post;

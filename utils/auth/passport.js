@@ -11,7 +11,7 @@ passport.deserializeUser((req, id, done) => {
     dbConnect().then((db) => {
         findUserForAuth(db, id).then(
             (user) => {
-                console.log(user);
+                //console.log(user);
                 done(null, user);
             },
             (err) => done(err)

@@ -15,7 +15,7 @@ handler.get(async (req, res) => {
     const db = await dbConnect();
     const chatId = req.query.chatId;
     const currentUser = req.user;
-    console.log("CHAT ID?", chatId, "CURRENT USER", currentUser);
+    //console.log("CHAT ID?", chatId, "CURRENT USER", currentUser);
 
     // check if the requester is admin/creator:
     const isCurrentUserAdmin = await isUserChatAdmin(db, chatId, currentUser);

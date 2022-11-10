@@ -25,7 +25,7 @@ export async function trialAddMembersToMessages(db) {
       { $project: dbProjectionUsersSmall("members.") },
     ])
     .toArray();
-  console.log("MEMBERS ===> ", members);
+  //console.log("MEMBERS ===> ", members);
   if (!members) return null;
   return members;
 }
