@@ -10,8 +10,8 @@ const MONACO_OPTIONS = {
   automaticLayout: true,
   contextmenu: true,
   fontFamily: "monospace",
-  fontSize: 20,
-  lineHeight: 25,
+  fontSize: 16,
+  lineHeight: 20,
   hideCursorInOverviewRuler: true,
   matchBrackets: "always",
   minimap: {
@@ -19,26 +19,39 @@ const MONACO_OPTIONS = {
   },
   readOnly: false,
   scrollbar: {
-    horizontalSliderSize: 4,
-    verticalSliderSize: 18,
+    horizontalSliderSize: 6,
+    verticalSliderSize: 8,
   },
 };
 
 export default function CodeEditor() {
-  const [codeWindow, setCodeWindow] = useState("");
+  const [codeWindow, setCodeWindow] = useState("//## FileName:________##");
   const { data: { user } = {}, mutate } = useCurrentUser();
   console.log("USER ==>", user);
   console.log("USER ID==>", user._id);
   console.log("Code ==>", user.code[3]);
 
-  const handleEditorChange = (value) => {
-    console.log("Value ==>", value);
-    setCodeWindow(value);
+  // #### New File Function ####
+  const newFile = () => {
+    setCodeWindow("//## FileName:________##");
+    toast("New  File");
+  };
+  // ############################
 
-    console.log("Code ==>", codeWindow);
+  // #### Load Code Function ####
+  const loadCode = (code) => {
+    setCodeWindow(code);
+    toast("Loading Code File");
+  };
+  // ############################
+
+  const handleEditorChange = (value) => {
+    // console.log("Value ==>", value);
+    setCodeWindow(value);
+    // console.log("Code ==>", codeWindow);
   };
 
-  ///////////////////////////////////////////////////////////////////////
+  //  ## Save Code Function  ##
   const saveCode = async () => {
     toast("Saving Your Code");
     const response = await fetcher(`/api/users/${user.username}/updatecode`, {
@@ -55,7 +68,7 @@ export default function CodeEditor() {
     });
     console.log(response);
   };
-  /////////////////
+  // ########################
 
   return (
     <div className="m-4 p-4 text-2xl capitalize ">
@@ -68,7 +81,8 @@ export default function CodeEditor() {
             width="60vw"
             height="65vh"
             defaultLanguage="javascript"
-            defaultValue="//## FileName:________##"
+            defaultValue={codeWindow}
+            value={codeWindow}
             theme="vs-dark" // or "light"
             loading="A moment please while I Load..."
             options={MONACO_OPTIONS}
@@ -79,18 +93,24 @@ export default function CodeEditor() {
           <div className="w-11/12 lg:w-[30vw] lg:h-[35vh] flex justify-center my-4 bg-black/50 rounded-lg shadow-yellow-400 shadow-md">
             <h1 className="text-xl mt-4">Messages</h1>
           </div>
-          <div className="w-11/12 lg:w-[30vw] lg:h-[25vh] flex flex-col  items-center my-4 bg-black/50 rounded-lg shadow-yellow-400 shadow-md">
+          <div className="w-11/12 lg:w-[30vw] lg:h-[25vh] flex flex-col  items-center my-4 bg-black/50 rounded-lg shadow-yellow-400 shadow-md px-2">
             <h1 className="text-xl mt-4">Recent Files</h1>
 
-            <div className=" ">
+            <div className=" w-full flex flex-wrap ">
               {user.code
-                .slice(user.code.length - 5, user.code.length)
+                .slice(user.code.length - 8, user.code.length)
                 .reverse()
                 .map((el, i) => (
-                  <div key={i}>
-                    <p className="text-sm pt-1 tracking-widest">
+                  <div key={i} className="w-1/2 ">
+                    {/* <p className="text-sm pt-1 tracking-widest">
                       {i + 1}. {el.slice(15, 35)}
-                    </p>
+                    </p> */}
+                    <button
+                      className="btn btn-xs  tracking-widest bg-green-800"
+                      onClick={() => loadCode(el)}
+                    >
+                      {el.slice(15, 35)}
+                    </button>
                   </div>
                 ))}
             </div>
@@ -100,6 +120,9 @@ export default function CodeEditor() {
       <div className="flex justify-start ">
         <button className="btn btn-sm ml-6 bg-sky-700" onClick={saveCode}>
           Save Code
+        </button>
+        <button className="btn btn-sm ml-6 bg-purple-700" onClick={newFile}>
+          New File
         </button>
       </div>
     </div>

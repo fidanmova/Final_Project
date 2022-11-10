@@ -74,8 +74,7 @@ export async function updateUserById(db, id, data) {
 }
 
 export async function updateUserCode(db, id, code) {
-  console.log("\u001b[38mUPDATING...\u001b[0m");
-  console.log("ID====>", id);
+  // console.log("ID====>", id);
   return db
     .collection("users")
     .findOneAndUpdate(
@@ -90,8 +89,8 @@ export async function updateUserCode(db, id, code) {
 }
 
 export async function updateUserEvents(db, id, event) {
-  // console.log("\u001b[38mUPDATING...\u001b[0m");
-  // console.log("ID====>", id);
+  // console.log("Event =>", event);
+
   return db
     .collection("users")
     .findOneAndUpdate(
@@ -106,13 +105,12 @@ export async function updateUserEvents(db, id, event) {
 }
 
 export async function updateUserJobs(db, id, job) {
-  // console.log("\u001b[38mUPDATING...\u001b[0m");
   // console.log("ID====>", id);
   return db
     .collection("users")
     .findOneAndUpdate(
       { _id: new ObjectId(id) },
-      { $push: { jobss: job } },
+      { $push: { jobs: job } },
       { returnDocument: "after", projection: { password: 0 } }
     )
     .then(({ value }) => value)

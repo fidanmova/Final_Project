@@ -7,7 +7,7 @@ const handler = nc(ncOpts);
 handler.use(...auths);
 
 handler.post(async (req, res) => {
-  console.log("\u001b[33m", req.body, "\u001b[0m");
+  // console.log("\u001b[33m", req.body, "\u001b[0m");
   const db = await dbConnect();
   const codeRes = await updateUserCode(db, req.body.userId, req.body.code);
   res.json(codeRes);
