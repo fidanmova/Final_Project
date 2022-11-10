@@ -5,8 +5,29 @@ import { dbProjectionUsers } from "./user";
 // @desc    find all chats
 // @route   GET api/posts/
 // @access  NOT Protected
-export async function findAllPosts(db) {
-  return db.collection("posts").find().toArray();
+export async function findAllPosts(db, before, by, limit = 10) {
+  const allPosts = await db
+    .collection("posts")
+    .aggregate([
+      {
+        $match: {},
+      },
+      { $sort: { _id: -1 } },
+      { $limit: limit },
+      {
+        $lookup: {
+          from: "users",
+          localField: "creatorId",
+          foreignField: "_id",
+          as: "creator",
+        },
+      },
+      { $unwind: "$creator" },
+      { $project: dbProjectionUsers("creator.") },
+    ])
+    .toArray();
+  if (allPosts.length === 0) return null;
+  return allPosts;
 }
 
 export async function findPostById(db, id) {
@@ -33,11 +54,10 @@ export async function findPostById(db, id) {
   return posts[0];
 }
 
-// @route   GET /api/chats/getUsersChats
-// @route   GET /api/posts/getUsersPosts
+// @route   GET PAGES/posts/
 // @route   GET /api/posts/ => can get post of user; also are sent to route.
 export async function findUsersPosts(db, currentUser) {
-  // currentUser => new ObjectId("634db22538ea5aba7b60a1dd")
+  console.log("currentUser from db/posts/findUsersPosts", currentUser);
   const usersPosts = await db
     .collection("posts")
     .aggregate([
@@ -88,6 +108,7 @@ export async function insertPost(db, { content, creatorId }) {
     creatorId,
     createdAt: new Date(),
   };
+  console.log("POST from db/post/insertPost =>", post);
   const { insertedId } = await db.collection("posts").insertOne(post);
   post._id = insertedId;
   return post;

@@ -1,17 +1,14 @@
-import { Button, Input, Text } from "react-daisyui";
+import { Button, Input, Text, Form } from "react-daisyui";
 // import { LoadingDots } from "@/components/LoadingDots";
 import { fetcher } from "../../../utils/fetcher";
 import { usePostPages } from "../../../utils/post/hooks";
 import { useCurrentUser } from "../../../utils/user/hooks";
-import { useForm } from "react-hook-form";
-
-import Link from "next/link";
-import { useCallback, useRef, useState } from "react";
+import { useState } from "react";
 import { toast } from "react-toastify";
 
 const PosterInner = ({ user }) => {
-  // console.log("user from Inner Poster", user);
-  const contentRef = useRef();
+  const [comments, setComments] = useState();
+  const [content, setContent] = useState();
   const [isLoading, setIsLoading] = useState(false);
 
   const { mutate } = usePostPages();
@@ -21,66 +18,49 @@ const PosterInner = ({ user }) => {
       ...prevUser,
       [e.target.name]: e.target.value,
     }));
-    console.log();
   };
 
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-  } = useForm();
-
-  const onSubmit = useCallback(
-    async (data, e) => {
-      e.preventDefault();
-      try {
-        setIsLoading(true);
-        await fetcher("/api/posts", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({
-            content: data.content,
-            postName: data.postName,
-          }),
-        });
-        toast.success("You have posted successfully");
-        contentRef.current.value = "";
-        // refresh post lists
-        mutate();
-      } catch (e) {
-        toast.error(e.message);
-      } finally {
-        setIsLoading(false);
-      }
-    },
-    [mutate]
-  );
+  const onSubmit = async (e) => {
+    e.preventDefault();
+    try {
+      setIsLoading(true);
+      const data = await fetcher("/api/posts", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          content: content,
+        }),
+      });
+      setComments([data, ...comments]);
+      toast.success("You have posted successfully");
+      // mutate();
+    } catch (e) {
+      console.log(e.message);
+      // toast.error(e.message);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+  // [mutate]
 
   return (
-    <form onSubmit={onSubmit}>
-      <div className="">
-        {/* <Avatar size={40} username={user.username} url={user.profilePicture} /> */}
+    <>
+      <Form onSubmit={onSubmit}>
         <Input
-          ref={contentRef}
-          className=""
-          placeholder={`What's on your mind, ${user.username}?`}
-          aria-label={`What's on your mind, ${user.username}?`}
+          value={content}
+          className="mb-2 bg-grey-900/90 "
+          placeholder={`What's on your mind ?`}
+          aria-label={`What's on your mind ?`}
+          onChange={(e) => setContent(e.target.value)}
         />
-        <Button type="success" loading={isLoading}>
+        <Button
+          className="bg-blue-800/80 hover:bg-blue-900/90 text-white hover:border-blue-500/50"
+          type="success"
+        >
           Post
         </Button>
-      </div>
-    </form>
-    // <form onSubmit={handleSubmit(onSubmit)}>
-    //   <Input
-    //     type="text"
-    //     placeholder="content"
-    //     {...register("content", { required: true })}
-    //   />
-    //   <Input type="undefined" placeholder="postName" {...register} />
-
-    //   <Button type="success">Post</Button>
-    // </form>
+      </Form>
+    </>
   );
 };
 
@@ -89,24 +69,15 @@ const Poster = () => {
   const loading = !data && !error;
 
   return (
-    <div>
-      <div className="">
-        <h3 className="">Share your thoughts</h3>
-        {loading ? (
-          // <LoadingDots>Loading</LoadingDots>
-          <div> ... LOAD</div>
-        ) : data?.user ? (
-          <PosterInner user={data.user} />
-        ) : (
-          <Text>
-            Please{" "}
-            <Link href="/login" passHref>
-              <p>sign in</p>
-            </Link>{" "}
-            to post
-          </Text>
-        )}
-      </div>
+    <div className="">
+      {loading ? (
+        // <LoadingDots>Loading</LoadingDots>
+        <div> ... LOAD</div>
+      ) : data?.user ? (
+        <PosterInner user={data.user} />
+      ) : (
+        <Text>No Messages in the feed.</Text>
+      )}
     </div>
   );
 };

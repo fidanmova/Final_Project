@@ -23,12 +23,10 @@ export function useChatPages({ currentUser, limit = 10 } = {}) {
       const searchParams = new URLSearchParams();
       searchParams.set("limit", limit);
 
-      if (currentUser) searchParams.set("by", currentUser);
+      // currentUser not needed as not accessed in query
+      // if (currentUser) searchParams.set("by", currentUser);
 
       if (index !== 0) {
-        // using oldest posts createdAt date as cursor
-        // We want to fetch posts which has a date that is
-        // before (hence the .getTime()) the last post's createdAt
         const before = new Date(
           new Date(
             previousPageData.chats[previousPageData.chats.length - 1].createdAt

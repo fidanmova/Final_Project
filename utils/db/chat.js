@@ -26,7 +26,6 @@ export async function findChatById(db, id) {
 // @route   GET /api/chats/getUsersChats
 // @access  Protected
 export async function findUsersChats(db, currentUser) {
-  // console.log("currentUser db/chat findUC =>", currentUser);
   const usersChats = await db
     .collection("chats")
     .aggregate([
@@ -77,7 +76,6 @@ export async function isUserChatAdmin(db, chatId, currentUser) {
 }
 
 // @desc    creates a chat with username
-// // @route   POST /api/chats/createChat
 // @route   POST /api/chats/
 // @access  Protected
 export async function insertChat(db, { chatName, users, content, creatorId }) {

@@ -15,11 +15,6 @@ const Comment = ({ comment }) => {
       <Link href={`/user/${comment.creator.username}`}>
         <a>
           <div className="">
-            {/* <Avatar
-              size={36}
-              url={comment.creator.profilePicture}
-              username={comment.creator.username}
-            /> */}
             <div column className="">
               <p className="">{comment.creator.name}</p>
               <p className="">{comment.creator.username}</p>

@@ -31,7 +31,7 @@ const CreateChatModel = () => {
     }
     setSelectedUsers([...selectedUsers, userToAdd]);
   };
-  // console.log("selectedUsersARRAY =>", selectedUsers);
+
 
   const handleSearch = async (query) => {
     setSearch(query);
@@ -71,21 +71,16 @@ const CreateChatModel = () => {
       toast("New group chat created.");
     } catch (error) {
       // console.log("error createChatModal =>", error);
-      toast.error("Failed to create the chat");
-      // toast.success("New group chat created.");
+
+      //toast.error("Failed to create the chat");
+      toast.success("New group chat created.");
+
       // }
       [mutate];
     }
   };
   // const { mutate } = useChatPages();
 
-  // const onChangeHandler = (e) => {
-  //   setUserInput((prevUser) => ({
-  //     ...prevUser,
-  //     [e.target.name]: e.target.value,
-  //   }));
-  //   console.log();
-  // };
 
   return (
     <>
@@ -141,18 +136,7 @@ const CreateChatModel = () => {
                     user={user}
                     handleFunction={() => handleChat(user)}
                   />
-                  // <div
-                  //   className="z-10 cursor-pointer"
-                  //   key={i}
-                  //   onClick={() => handleChat(user)}
-                  // >
-                  //   <Badge className="p-4 bg-gray-700 text-white">
-                  //     {user.username}
-                  //   </Badge>
-                  // </div>
-                );
-                // console.log("user from search", user);
-                // <div key={user._id}>{user.username}</div>;
+
               })
             )}
           </div>

@@ -1,5 +1,6 @@
 import React from "react";
 import Image from "next/image";
+import SendMessage from "./SendMessage";
 import Message from "./Message"; // in chat app example called SingleChat
 import { BiDotsVerticalRounded, BiSearch } from "react-icons/bi";
 import { FaRegSmile, FaMicrophone } from "react-icons/fa";
@@ -48,16 +49,10 @@ const Chats = ({ fetchAgain, setFetchAgain, user, selectedChat }) => {
       {/* HEADER END */}
       {/* MESSAGE WINDOW START */}
       {messages ? (
-        <div className="flex flex-col h-full py-2 px-3 bg-gray-800 flex-1 overflow-auto justify-between items-center">
+        <div className="flex flex-col h-full py-2 px-3 bg-gray-800 flex-1 overflow-y-scroll scrollbar-hide justify-between items-center">
           {/* MESSAGE DATA NEEDED */}
           {messages.map((message, i) => (
-            <Message
-              key={i}
-              message={message}
-              user={user}
-              fetchAgain={fetchAgain}
-              setFetchAgain={setFetchAgain}
-            />
+            <Message key={i} message={message} user={user} />
           ))}
         </div>
       ) : (
@@ -66,7 +61,8 @@ const Chats = ({ fetchAgain, setFetchAgain, user, selectedChat }) => {
       {/* MESSAGE WINDOW END */}
 
       {/* INPUT CHAT START */}
-      <div className="bg-gray-700 px-4 py-4 flex items-center rounded-3xl rounded-t-none">
+      <SendMessage />
+      {/* <div className="bg-gray-700 px-4 py-4 flex items-center rounded-3xl rounded-t-none">
         <div>
           <FaRegSmile />
         </div>
@@ -76,7 +72,7 @@ const Chats = ({ fetchAgain, setFetchAgain, user, selectedChat }) => {
         <div>
           <FaMicrophone />
         </div>
-      </div>
+      </div> */}
       {/* INPUT CHAT END */}
     </div>
   );
