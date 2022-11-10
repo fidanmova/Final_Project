@@ -2,8 +2,8 @@ import React from "react";
 import Image from "next/image";
 import { useCurrentUser } from "../../../utils/user/hooks";
 
-export default function Profile() {
-  const { data: { user } = {}, mutate } = useCurrentUser();
+export default function Profile({ user }) {
+  // const { data: { user } = {}, mutate } = useCurrentUser();
 
   return (
     <div className="p-16 pt-2">

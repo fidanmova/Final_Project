@@ -6,7 +6,7 @@ import { findUserById } from "../../../utils/db/user";
 export default function User({ user }) {
   return (
     <PageTemplate content="Dev-Shed Community" title="DevShed - CHAT">
-      <Profile userResult={user} />
+      <Profile user={user} />
       {/* <h1>I love: {userResult.username}</h1> */}
     </PageTemplate>
   );
