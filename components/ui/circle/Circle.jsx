@@ -23,6 +23,7 @@ const Circle = () => {
     //console.log("visible", visible);
 
     const [myCircle, setMyCircle] = useState(null);
+    console.log("Circle", myCircle);
 
     const handleSingle = (user) => {
         setSingleUser(user);
@@ -36,7 +37,7 @@ const Circle = () => {
         if (data.user.circle.length !== 0) {
             data.user.circle.map((id) => {
                 const myC = allUsers.filter((user) => user._id === id);
-                setMyCircle(myC);
+                setMyCircle(...myC);
             });
         } else {
             setMyCircle("No One In Tour Circle");
@@ -116,7 +117,7 @@ const Circle = () => {
                             </div>
                         </div>
 
-                        <div className="w-full h-[65vh] flex flex-wrap lg:flex-nowrap 2xl:flex-col p-2 my-4 2xl:space-y-2 overflow-y-scroll overflow-x-hidden z-0 scrollbar-thin scrollbar-track-[#242424] scrollbar-thumb-[#ff2e2e]/50">
+                        <div className="w-full h-[65vh] flex flex-wrap lg:flex-nowrap lg:flex-col p-2 my-4 lg:space-y-2 overflow-y-scroll overflow-x-hidden z-0 scrollbar-thin scrollbar-track-[#242424] scrollbar-thumb-[#ff2e2e]/50">
                             {allUsers.length === 0 && (
                                 <p className="uppercase">
                                     no users for this language
@@ -195,8 +196,7 @@ const Circle = () => {
                                         <p>{myCircle}</p>
                                     )}
                                 {myCircle !== null &&
-                                    typeof myCircle !== "string" &&
-                                    myCircle.map((myc, i) => (
+                                    myCircle?.map((myc, i) => (
                                         <p key={i}>{myc.username}</p>
                                     ))}
                             </div>
