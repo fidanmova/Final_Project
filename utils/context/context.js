@@ -4,18 +4,15 @@ const Context = createContext();
 
 function ContextProvider({ children }) {
   const [selectedChat, setSelectedChat] = useState("");
-
-  // useEffect(() => {
-  //   if (searchParams) {
-  //     console.log("Initial query / update caught!");
-  //   }
-  // }, [searchParams]);
+  const [chatObject, setChatObject] = useState({});
 
   return (
     <Context.Provider
       value={{
         selectedChat,
         setSelectedChat,
+        chatObject,
+        setChatObject,
       }}
     >
       {children}

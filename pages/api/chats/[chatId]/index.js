@@ -11,56 +11,36 @@ handler.use(...auths);
 
 //! Works:
 handler.get(async (req, res) => {
-  // console.log("req.query api/chats/chatId => ", req.query);
   const db = await dbConnect();
-  let chatId = req.query?.chatId;
-  // let chatId = req.params.chatId;
-
-  console.log("REq Query ChatId from api/chats/chatId", chatId);
   const chat = await findChatById(db, chatId);
-
-  // return res.json({ chat });
 
   if (!chat) {
     return res.status(404).json({ error: { message: "Chat is not found." } });
   }
 
-  const messages = await findMessages(
-    db,
-    chatId
-    // req.query.by,
-    // req.query.chatId,
-    // req.query.searchParams
-    // req.query.before ? new Date(req.query.before) : undefined,
-    // req.query.limit ? parseInt(req.query.limit, 10) : undefined
-  );
-
-  // console.log("MESSAGES from api/chats/chatId ============>", messages);
-
+  const messages = await findMessages(db, chatId);
   return res.json({ messages });
 });
 
-// handler.post(...auths, async (req, res) => {
-//   if (!req.user) {
-//     return res.status(401).end();
-//   }
+handler.post(...auths, async (req, res) => {
+  if (!req.user) {
+    return res.status(401).end();
+  }
+  const db = await dbConnect();
+  const content = req.body.content;
 
-//   const db = await dbConnect();
+  const chat = await findChatById(db, req.query.chatId);
 
-//   const content = req.body.content;
+  if (!chat) {
+    return res.status(404).json({ error: { message: "Chat not found." } });
+  }
 
-//   const chat = await findChatById(db, req.query.chatId);
+  const message = await insertMessage(db, chat._id, {
+    creatorId: req.user._id,
+    content,
+  });
 
-//   if (!chat) {
-//     return res.status(404).json({ error: { message: "Chat not found." } });
-//   }
-
-//   const message = await insertMessage(db, chat._id, {
-//     creatorId: req.user._id,
-//     content,
-//   });
-
-//   return res.json({ message });
-// });
+  return res.json({ message });
+});
 
 export default handler;

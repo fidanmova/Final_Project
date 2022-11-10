@@ -1,6 +1,13 @@
 import bcrypt from "bcryptjs";
 import { ObjectId } from "mongodb";
 
+// @desc    find all chats
+// @route   GET
+// @access  NOT Protected
+export async function findAllUsers(db) {
+  return db.collection("users").find().toArray();
+}
+
 export async function findUserWithEmailAndPassword(db, email, password) {
   const user = await db.collection("users").findOne({ email });
   if (user && (await bcrypt.compare(password, user.password))) {
@@ -15,19 +22,6 @@ export async function findUserForAuth(db, userId) {
     .findOne({ _id: new ObjectId(userId) }, { projection: { password: 0 } })
     .then((user) => user || null);
 }
-
-//@description     Get or Search all users via username
-//@route           GET /api/user/:userId
-// export async function findUserById(db, userId) {
-//   console.log("USER ID =========>", userId);
-//   const user = db.collection("users").findOne(
-//     { _id: new ObjectId(userId) }
-//     // { projection: dbProjectionUsers() }
-//   );
-//   if (!user) return null;
-//   console.log("user ^^^ ", user);
-//   return user;
-// }
 
 export async function findUserById(db, userId) {
   console.log("USER ID =========>", userId);

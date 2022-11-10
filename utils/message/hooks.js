@@ -3,10 +3,13 @@ import useSWRInfinite from "swr/infinite";
 
 //! Works:
 export function useMessagePages({ chatId, limit = 10 } = {}) {
-  // console.log("chatID from Message Hook Top: ", chatId);
   const { data, error, size, ...props } = useSWRInfinite(
     () => {
-      return `/api/singleChat/${chatId}/`;
+      if (!chatId) {
+        return null;
+      } else {
+        return `/api/singleChat/${chatId}/`;
+      }
     },
     fetcher,
     {

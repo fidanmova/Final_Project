@@ -11,7 +11,8 @@ export async function findAllChats(db) {
 
 //! Works
 // @desc    find chat by id
-// @route   GET /api/chats/findChatById/:chatId
+// @route   GET /api/chats/:chatId
+// @route   GET /api/singleChat/:chatId
 // @access  Protected
 export async function findChatById(db, id) {
   const chat = await db
@@ -51,8 +52,6 @@ export async function findUsersChats(db, currentUser) {
 // @route   PUT /api/chats/groupdelete
 // @access  Protected
 export async function isUserChatAdmin(db, chatId, currentUser) {
-  // console.log("IS ADMIN chatId =>", chatId.toString());
-  // console.log("IS ADMIN =>", currentUser._id.toString());
   const isAdmin = await db
     .collection("chats")
     .aggregate([

@@ -57,25 +57,26 @@ const PostCard = ({ i, post, timestampTxt, style }) => {
   );
 };
 
-const MessageCard = ({ message, i }) => {
+const MessageCard = ({ i, user, message }) => {
   return (
     <Card
       className={`flex mb-2 text-gray-800 w-[15vw] h-[5vh] m-1 text-sm border-blue-500/50 hover:scale-95 shadow-md ${
         i % 2 === 0 ? "bg-blue-900 items-start" : "bg-indigo-900 items-end"
       }`}
     >
-      {/* <div className="w-full h-full flex flex-col justify-between items-center">
-        <h2 className={`text-sm`}>{message.content}</h2>
-
-        <p className="text-md capitalize text-white">Me</p>
-      </div> */}
-
-      {/* <div className="flex mb-2"> */}
-      <div className="rounded py-2 px-3">
+      <div
+        className={`rounded-sm py-1 px-2 ${
+          message.creatorId != user._id.toString() ? "self-start" : "self-end"
+        }`}
+      >
+        {message.creatorId != user._id.toString() ? (
+          <p>{message.creatorId}</p>
+        ) : (
+          <></>
+        )}
         <p className="text-sm text-white">{message.content}</p>
-        <p className="text-right text-xs text-grey-dark mt-1">12:45 pm</p>
+        <p className="text-right text-xs text-white mt-1">12:45 pm</p>
       </div>
-      {/* </div> */}
     </Card>
   );
 };
