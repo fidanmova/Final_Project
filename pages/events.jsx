@@ -1,78 +1,91 @@
 import PageTemplate from "../components/ui/PageTemplate";
 import { getAllEvents } from "../utils/db/events";
 import { dbConnect } from "../utils/mongo/mongodb";
+import { useCurrentUser } from "../utils/user/hooks";
 import Image from "next/image";
+import { toast } from "react-toastify";
+import { fetcher } from "../utils/fetcher";
 
 export default function Events({ eventsAsString }) {
-    return (
-        <PageTemplate content="Dev-Shed Community" title="DevShed-Events">
-            <div className="m-4 ">
-                <h1 className="p-4 text-2xl capitalize">
-                    events : I.T., berlin, nov-2022
-                </h1>
-                <hr />
-                <div className="flex flex-wrap items-center justify-center">
-                    {eventsAsString.map((el, i) => (
-                        <div key={i}>
-                            <div className="card m-4 w-64 h-96 bg-slate-700/50 shadow-xl opacity-90 hover:scale-95 transition duration-200 ease-in-out ">
-                                <figure className="px-2 pt-4">
-                                    <a
-                                        href={el.event_link}
-                                        rel="noreferrer"
-                                        target="_blank"
-                                    >
-                                        <Image
-                                            src={el.image}
-                                            width="250px"
-                                            height="160px"
-                                            alt="image"
-                                            className="rounded-xl "
-                                        />
-                                    </a>
-                                </figure>
-                                <div className="card-body items-center text-center px-4">
-                                    <p className="card-title text-xs ">
-                                        {el.event_title}
-                                    </p>
-                                    <p className="text-xs">{el.when}</p>
-                                    <p className="text-xs">{el.location}</p>
-                                    <p className="text-xs">{el.cost}</p>
-                                    <div className="card-actions">
-                                        <a
-                                            href={el.event_link}
-                                            rel="noreferrer"
-                                            target="_blank"
-                                        >
-                                            <button className="btn btn-sm bg-cyan-700 text-xs">
-                                                Visit
-                                            </button>
-                                        </a>
-                                        <button className="btn btn-sm bg-sky-700 text-xs">
-                                            Save
-                                        </button>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    ))}
+  const { data: { user } = {}, mutate } = useCurrentUser();
+
+  //  ## Save Event Function  ##
+  const saveEvent = async (event) => {
+    toast("Saving Event");
+    const response = await fetcher(`/api/users/${user.username}/updateEvents`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        userId: user._id,
+        events: event,
+      }),
+    });
+    console.log(response);
+  };
+  // ########################
+
+  return (
+    <PageTemplate content="Dev-Shed Community" title="DevShed-Events">
+      <div className="m-4 ">
+        <h1 className="p-4 text-2xl capitalize">
+          events : I.T., berlin, nov-2022
+        </h1>
+        <hr />
+        <div className="flex flex-wrap items-center justify-center">
+          {eventsAsString.map((el, i) => (
+            <div key={i}>
+              <div className="card m-4 w-64 h-96 bg-slate-700/50 shadow-xl opacity-90 hover:scale-95 transition duration-200 ease-in-out ">
+                <figure className="px-2 pt-4">
+                  <a href={el.event_link} rel="noreferrer" target="_blank">
+                    <Image
+                      src={el.image}
+                      width="250px"
+                      height="160px"
+                      alt="image"
+                      className="rounded-xl "
+                    />
+                  </a>
+                </figure>
+                <div className="card-body items-center text-center px-4">
+                  <p className="card-title text-xs ">{el.event_title}</p>
+                  <p className="text-xs">{el.when}</p>
+                  <p className="text-xs">{el.location}</p>
+                  <p className="text-xs">{el.cost}</p>
+                  <div className="card-actions">
+                    <a href={el.event_link} rel="noreferrer" target="_blank">
+                      <button className="btn btn-sm bg-cyan-700 text-xs">
+                        Visit
+                      </button>
+                    </a>
+                    <button
+                      className="btn btn-sm bg-sky-700 text-xs"
+                      onClick={() => saveEvent(el.event_title + ", " + el.when)}
+                    >
+                      Save
+                    </button>
+                  </div>
                 </div>
-                <hr />
+              </div>
             </div>
-        </PageTemplate>
-    );
+          ))}
+        </div>
+        <hr />
+      </div>
+    </PageTemplate>
+  );
 }
 
 // ## Get JSON Data from DB ####
 
 export async function getServerSideProps() {
-    const db = await dbConnect();
-    const events = await getAllEvents(db);
+  const db = await dbConnect();
+  const events = await getAllEvents(db);
 
-    // ## Arrange Data fro Rendering ##
-    const allEvents = await events.toArray();
-    let eventsAsString = JSON.parse(JSON.stringify(allEvents));
+  // ## Arrange Data fro Rendering ##
+  const allEvents = await events.toArray();
+  let eventsAsString = JSON.parse(JSON.stringify(allEvents));
 
-    return {
-        props: { eventsAsString },
-    };
+  return {
+    props: { eventsAsString },
+  };
 }

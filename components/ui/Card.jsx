@@ -22,6 +22,7 @@ const DashCard = ({ title, text, style }) => {
 };
 
 const PostCard = ({ i, post, timestampTxt, style }) => {
+
   const { data: currentUser, error } = useCurrentUser();
   return (
     <Card
@@ -48,6 +49,7 @@ const PostCard = ({ i, post, timestampTxt, style }) => {
           <time
             dateTime={String(post.createdAt)}
             className="text-[10px] text-right font-gray-200 item-end"
+
           >
             {timestampTxt}
           </time>
@@ -56,6 +58,7 @@ const PostCard = ({ i, post, timestampTxt, style }) => {
     </Card>
   );
 };
+
 
 const MessageCard = ({ message, i }) => {
   return (
@@ -76,6 +79,7 @@ const MessageCard = ({ message, i }) => {
         <p className="text-right text-xs text-grey-dark mt-1">12:45 pm</p>
       </div>
       {/* </div> */}
+
     </Card>
   );
 };

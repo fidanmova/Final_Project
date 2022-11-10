@@ -84,6 +84,52 @@ export async function updateUserById(db, id, data) {
     .then(({ value }) => value);
 }
 
+export async function updateUserCode(db, id, code) {
+  // console.log("ID====>", id);
+  return db
+    .collection("users")
+    .findOneAndUpdate(
+      { _id: new ObjectId(id) },
+      { $push: { code: code } },
+      { returnDocument: "after", projection: { password: 0 } }
+    )
+    .then(({ value }) => value)
+    .catch((er) => {
+      console.log(er);
+    });
+}
+
+export async function updateUserEvents(db, id, event) {
+  // console.log("Event =>", event);
+
+  return db
+    .collection("users")
+    .findOneAndUpdate(
+      { _id: new ObjectId(id) },
+      { $push: { events: event } },
+      { returnDocument: "after", projection: { password: 0 } }
+    )
+    .then(({ value }) => value)
+    .catch((er) => {
+      console.log(er);
+    });
+}
+
+export async function updateUserJobs(db, id, job) {
+  // console.log("ID====>", id);
+  return db
+    .collection("users")
+    .findOneAndUpdate(
+      { _id: new ObjectId(id) },
+      { $push: { jobs: job } },
+      { returnDocument: "after", projection: { password: 0 } }
+    )
+    .then(({ value }) => value)
+    .catch((er) => {
+      console.log(er);
+    });
+}
+
 export async function insertUser(
   db,
   {
