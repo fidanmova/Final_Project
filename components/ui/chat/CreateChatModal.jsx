@@ -32,7 +32,6 @@ const CreateChatModel = () => {
     setSelectedUsers([...selectedUsers, userToAdd]);
   };
 
-
   const handleSearch = async (query) => {
     setSearch(query);
     if (!query) {
@@ -71,16 +70,13 @@ const CreateChatModel = () => {
       toast("New group chat created.");
     } catch (error) {
       // console.log("error createChatModal =>", error);
-
       //toast.error("Failed to create the chat");
       toast.success("New group chat created.");
-
       // }
       [mutate];
     }
   };
   // const { mutate } = useChatPages();
-
 
   return (
     <>
@@ -136,7 +132,7 @@ const CreateChatModel = () => {
                     user={user}
                     handleFunction={() => handleChat(user)}
                   />
-
+                );
               })
             )}
           </div>
@@ -154,7 +150,7 @@ const CreateChatModel = () => {
             <label
               htmlFor="my-modal"
               className="btn bg-pink-600 hover:bg-gray-900 "
-              loading={isLoading}
+              // loading={isLoading}
             >
               {" "}
               Close
