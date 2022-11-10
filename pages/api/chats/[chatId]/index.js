@@ -1,22 +1,48 @@
-// import { ValidateProps } from "../../../models/schema";
-import { findChatById } from "../../../../utils/db/chat";
-import { auths, validateBody } from "../../../../middlewares";
-import { dbConnect } from "../../../../utils/mongo/mongodb";
-import { ncOpts } from "../../../../utils/nc";
-import nc from "next-connect";
+// pages/chat/chatId
 
-const handler = nc(ncOpts);
+import PageTemplate from "../../../components/ui/PageTemplate";
+import { dbConnect } from "../../../utils/mongo/mongodb";
+import { findChatById } from "../../../utils/db/chat";
+import { useMessagePages } from "../../../utils/message/hooks";
+// import Messages from "../../../components/ui/chat/Messages";
 
-handler.use(...auths);
+export default function Chat({ singleChat }) {
+  // let chatId = selectedChat;
+  // const {
+  //   data: messageData,
+  //   size,
+  //   setSize,
+  //   isLoadingMore,
+  //   isReachingEnd,
+  // } = useMessagePages();
 
-//! Works:
-handler.get(async (req, res) => {
-  console.log("req.query api/chats/chatId => ", req.query);
+  // console.log("messageData?", messageData);
+
+  // const messages = messageData
+  //   ? messageData.reduce((acc, val) => [...acc, ...val.messages], [])
+  //   : [];
+
+  console.log("chatNAME", singleChat);
+  return (
+    <PageTemplate content="Dev-Shed Community" title="DevShed - CHAT">
+      <div>{singleChat.chatName}</div>
+      {/* <Messages /> */}
+    </PageTemplate>
+  );
+}
+
+export async function getServerSideProps(context) {
   const db = await dbConnect();
-  let id = req.query?.chatId;
-  console.log("REq Query ChatId from api/chats/chatId", id);
-  const chat = await findChatById(db, id);
-  return res.json({ chat });
-});
 
-export default handler;
+  console.log("contextQueryChatId", context.query.chatId);
+
+  const chat = await findChatById(db, context.query.chatId);
+  if (!chat) {
+    return {
+      notFound: true,
+    };
+  }
+
+  let singleChat = await JSON.parse(JSON.stringify(chat));
+  return { props: { singleChat } };
+}
