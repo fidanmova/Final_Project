@@ -29,7 +29,7 @@ export function usePostPages({ currentUser, limit = 10 } = {}) {
     },
     fetcher,
     {
-      refreshInterval: 10000,
+      refreshInterval: 100,
       revalidateAll: false,
     }
   );

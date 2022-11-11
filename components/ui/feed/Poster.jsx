@@ -48,7 +48,7 @@ const PosterInner = ({ user }) => {
       <Form onSubmit={onSubmit}>
         <Input
           value={content}
-          className="mb-2 bg-grey-900/90 "
+          className="mb-2 bg-gray-900/80 "
           placeholder={`What's on your mind ?`}
           aria-label={`What's on your mind ?`}
           onChange={(e) => setContent(e.target.value)}

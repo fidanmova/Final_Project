@@ -1,7 +1,6 @@
 import { ObjectId } from "mongodb";
-import { dbProjectionUsers, dbProjection } from "./user";
+import { dbProjectionUsers, dbProjectionChat } from "./user";
 
-// ! Works:
 // @desc    find all chats
 // @route   GET
 // @access  NOT Protected
@@ -9,9 +8,9 @@ export async function findAllChats(db) {
   return db.collection("chats").find().toArray();
 }
 
-//! Works
 // @desc    find chat by id
-// @route   GET /api/chats/findChatById/:chatId
+// @route   GET /api/chats/:chatId
+// @route   GET /api/singleChat/:chatId
 // @access  Protected
 export async function findChatById(db, id) {
   const chat = await db
@@ -21,7 +20,6 @@ export async function findChatById(db, id) {
   return chat;
 }
 
-// ! Works:
 // @desc   fetch only users chats
 // @route   GET /api/chats/getUsersChats
 // @access  Protected
@@ -44,15 +42,12 @@ export async function findUsersChats(db, currentUser) {
   return usersChats;
 }
 
-// ! Works:
 // @desc    CHECK if user is creator/admin of chat
 // @route   GET /api/chats/:chatId/isAdmin/
 // @route   PUT /api/chats/groupadd
 // @route   PUT /api/chats/groupdelete
 // @access  Protected
 export async function isUserChatAdmin(db, chatId, currentUser) {
-  // console.log("IS ADMIN chatId =>", chatId.toString());
-  // console.log("IS ADMIN =>", currentUser._id.toString());
   const isAdmin = await db
     .collection("chats")
     .aggregate([
@@ -91,7 +86,6 @@ export async function insertChat(db, { chatName, users, content, creatorId }) {
   return chat;
 }
 
-// ! Works
 // @desc    Add user to Group
 // @route   PUT /api/chats/groupadd
 // @access  Protected

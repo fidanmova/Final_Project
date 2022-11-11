@@ -2,8 +2,6 @@ import React from "react";
 import Image from "next/image";
 
 export default function Profile({ user }) {
- 
-
   return (
     <div className="p-16 pt-2">
       <div className="p-8 bg-gray-900 shadow mt-24 rounded-3xl  mt-0.5 opacity-80 bg-red-500/10">

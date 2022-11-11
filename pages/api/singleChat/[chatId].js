@@ -1,8 +1,8 @@
-import { findChatById } from "../../../../utils/db/chat";
-import { findMessages, insertMessage } from "../../../../utils/db/message";
-import { auths, validateBody } from "../../../../middlewares";
-import { dbConnect } from "../../../../utils/mongo/mongodb";
-import { ncOpts } from "../../../../utils/nc";
+import { findChatById } from "../../../utils/db/chat";
+import { findMessages, insertMessage } from "../../../utils/db/message";
+import { auths, validateBody } from "../../../middlewares";
+import { dbConnect } from "../../../utils/mongo/mongodb";
+import { ncOpts } from "../../../utils/nc";
 import nc from "next-connect";
 
 const handler = nc(ncOpts);
@@ -12,12 +12,14 @@ handler.use(...auths);
 //! Works:
 handler.get(async (req, res) => {
   const db = await dbConnect();
+  let chatId = req.query?.chatId;
+  if (chatId === null) {
+    res.json("NO DATA");
+  }
   const chat = await findChatById(db, chatId);
-
   if (!chat) {
     return res.status(404).json({ error: { message: "Chat is not found." } });
   }
-
   const messages = await findMessages(db, chatId);
   return res.json({ messages });
 });
@@ -39,7 +41,6 @@ handler.post(...auths, async (req, res) => {
     creatorId: req.user._id,
     content,
   });
-
   return res.json({ message });
 });
 

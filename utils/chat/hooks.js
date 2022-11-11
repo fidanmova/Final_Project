@@ -10,11 +10,7 @@ export function useChat(id) {
   return useSWR(`/api/chats/${id}`, fetcher);
 }
 
-export function useUsersChats() {
-  return useSWR(`/api/chats/getUsersChats`, fetcher);
-}
-
-export function useChatPages({ currentUser, limit = 10 } = {}) {
+export function useChatPages({ limit = 10 } = {}) {
   const { data, error, size, ...props } = useSWRInfinite(
     (index, previousPageData) => {
       // reached the end
@@ -22,9 +18,6 @@ export function useChatPages({ currentUser, limit = 10 } = {}) {
 
       const searchParams = new URLSearchParams();
       searchParams.set("limit", limit);
-
-      // currentUser not needed as not accessed in query
-      // if (currentUser) searchParams.set("by", currentUser);
 
       if (index !== 0) {
         const before = new Date(
@@ -37,10 +30,9 @@ export function useChatPages({ currentUser, limit = 10 } = {}) {
       }
 
       return `/api/chats/getUsersChats?${searchParams.toString()}`;
-      // return `/api/chats/getUsersChats`;
     },
     fetcher,
-    { refreshInterval: 10000, revalidateAll: false }
+    { refreshInterval: 100, revalidateAll: false }
   );
 
   const isLoadingInitialData = !data && !error;
