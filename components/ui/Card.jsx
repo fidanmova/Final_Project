@@ -1,3 +1,5 @@
+import React, { useMemo } from "react";
+import { format } from "@lukeed/ms";
 import Link from "next/link";
 import { Card } from "react-daisyui";
 import { useCurrentUser } from "../../utils/user/hooks";
@@ -57,27 +59,47 @@ const PostCard = ({ i, post, timestampTxt, style }) => {
   );
 };
 
-const MessageCard = ({ i, user, message }) => {
+const MessageCard = ({ i, message, user }) => {
+  const timestampTxtMessage = useMemo(() => {
+    const diff = Date.now() - new Date(message.createdAt).getTime();
+    if (diff < 1 * 60 * 1000) return "Just now";
+    return `${format(diff, true)} ago`;
+  }, [message.createdAt]);
   return (
-    <Card
-      className={`flex mb-2 text-gray-800 w-[15vw] h-[5vh] m-1 text-sm border-blue-500/50 hover:scale-95 shadow-md ${
-        i % 2 === 0 ? "bg-blue-900 items-start" : "bg-indigo-900 items-end"
+    <div
+      className={`flex w-full m-1 text-sm px-4 py-1 ${
+        message.creatorId != user._id.toString()
+          ? "justify-end"
+          : "justify-start"
       }`}
     >
       <div
-        className={`rounded-sm py-1 px-2 ${
-          message.creatorId != user._id.toString() ? "self-start" : "self-end"
+        className={`rounded-lg min-w-[15vw] max-w-[55%] py-1 px-2 normal-case ${
+          message.creatorId != user._id.toString()
+            ? "bg-blue-900"
+            : "bg-indigo-900"
         }`}
       >
+        <p className="text-base text-white">{message.content}</p>
         {message.creatorId != user._id.toString() ? (
-          <p>{message.creatorId}</p>
+          <div className="flex w-full justify-end">
+            <p className="pr-1 text-xs text-yellow-500 uppercase">
+              {message.creatorId}
+            </p>
+            <p className="text-right text-xs text-white">
+              {timestampTxtMessage}
+            </p>
+          </div>
         ) : (
-          <></>
+          <div className="flex w-full justify-start pt-1">
+            <p className="pr-1 text-xs text-red-500 uppercase">me</p>
+            <p className="text-right text-xs text-white">
+              {timestampTxtMessage}
+            </p>
+          </div>
         )}
-        <p className="text-sm text-white">{message.content}</p>
-        <p className="text-right text-xs text-white mt-1">12:45 pm</p>
       </div>
-    </Card>
+    </div>
   );
 };
 export { DashCard, MessageCard, PostCard };

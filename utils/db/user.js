@@ -23,8 +23,21 @@ export async function findUserForAuth(db, userId) {
     .then((user) => user || null);
 }
 
+export async function findAllUsersForChat(db) {
+  const searchResults = db
+    .collection("users")
+    .find(
+      { _id: { $exists: true } },
+      { projection: { username: 1, avatar: 1 } }
+    )
+    // { projection: dbProjectionUsersSmall() },
+    .toArray();
+  console.log("searchResults from db/user", searchResults);
+  if (searchResults.length === 0) return null;
+  return searchResults;
+}
+
 export async function findUserById(db, userId) {
-  console.log("USER ID =========>", userId);
   return db
     .collection("users")
     .findOne({ _id: new ObjectId(userId) }, { projection: dbProjectionUsers() })
@@ -165,5 +178,12 @@ export function dbProjectionUsersSmall(prefix = "") {
     [`${prefix}bio`]: 0,
     [`${prefix}language`]: 0,
     [`${prefix}friends`]: 0,
+    [`${prefix}code`]: 0,
+    [`${prefix}city`]: 0,
+    [`${prefix}jobs`]: 0,
+    [`${prefix}events`]: 0,
+    [`${prefix}location`]: 0,
+    [`${prefix}circle`]: 0,
+    [`${prefix}position`]: 0,
   };
 }

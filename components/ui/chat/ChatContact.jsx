@@ -18,19 +18,17 @@ const ChatContact = ({ user, chat, i }) => {
         setSelectedChat(chat._id);
         setChatObject(chat);
       }}
-      className={`flex items-center cursor-pointer rounded-lg mt-1 ${
+      className={`flex items-center cursor-pointer rounded-lg mt-1 p-1 ${
         i % 2 === 0 ? "bg-blue-900" : "bg-indigo-900"
       }`}
     >
-      <div className="ml-2">
-        <Image
-          width={60}
-          height={60}
-          alt={user.username}
-          className="rounded-full"
-          src={user.avatar ? "" : `https://avatar.tobi.sh/${chat._id}`}
-        />
-      </div>
+      <Image
+        width={55}
+        height={55}
+        alt={chat.chatName}
+        className="rounded-full"
+        src={`https://avatar.tobi.sh/${chat._id}`}
+      />
       <div className="ml-4 pr-4 flex-1 py-4 ">
         <div className="flex items-bottom justify-between">
           <p className="">{chat.chatName}</p>

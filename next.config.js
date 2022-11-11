@@ -8,6 +8,7 @@ const nextConfig = {
       "avatar.tobi.sh",
       "icon-library.com",
       "img.evbuc.com",
+      "loremflickr.com",
     ],
   },
   env: {
