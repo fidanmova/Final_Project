@@ -13,31 +13,31 @@ export default function Profile({ user }) {
                         <div className="grid grid-cols-1 md:grid-cols-3 ">
                             <div className="grid grid-cols-3 text-center order-last md:order-first mt-20 md:mt-0">
                                 <div>
-                                    <p className="font-bold text-xl">
+                                    <p className="font-bold text-red-500 text-xl">
                                         {user.circle.length}
                                     </p>
                                     <p className="text">Friends</p>
                                 </div>
                                 <div>
-                                    <p className="font-bold  text-xl">
+                                    <p className="font-bold text-yellow-500 text-xl">
                                         {user.code.length}
                                     </p>
                                     <p className="text">Code Files</p>
                                 </div>
                                 <div>
-                                    <p className="font-bold  text-xl">
+                                    <p className="font-bold text-purple-500  text-xl">
                                         {Math.floor(Math.random() * 100)}
                                     </p>
                                     <p className="text">Comments</p>
                                 </div>
                                 <div>
-                                    <p className="font-bold  text-xl">
+                                    <p className="font-bold text-blue-500 text-xl">
                                         {user.events.length}
                                     </p>
                                     <p className="text">Events</p>
                                 </div>
                                 <div className=" ">
-                                    <p className="font-bold  text-xl">
+                                    <p className="font-bold text-pink-500 text-xl">
                                         {user.jobs.length}
                                     </p>
                                     <p className="text">Jobs </p>
@@ -60,11 +60,11 @@ export default function Profile({ user }) {
                                 </div>
                             </div>
 
-                            <div className="space-x-8 flex justify-between mt-32 md:mt-2 md:justify-center">
-                                <button className="btn-lg text py-2 px-4 uppercase rounded-xl bg-sky-700 hover:bg-gray-900 shadow hover:shadow-lg font-medium transition transform hover:-translate-y-0.5 ">
+                            <div className="space-x-8 flex justify-between mt-32 md:mt-2 md:justify-center font-extrabold ">
+                                <button className="btn-lg text py-2 px-4 uppercase rounded-xl bg-black text-red-500 tracking-widest hover:bg-gray-900 shadow hover:shadow-lg font-medium transition transform hover:-translate-y-0.5 ">
                                     Connect
                                 </button>
-                                <button className="btn-lg text py-2 px-4 uppercase rounded-xl bg-sky-700 hover:bg-gray-900 shadow hover:shadow-lg font-medium transition transform hover:-translate-y-0.5">
+                                <button className="btn-lg text py-2 px-4 uppercase rounded-xl tracking-widest bg-black text-purple-500 hover:bg-gray-900 shadow hover:shadow-lg font-medium transition transform hover:-translate-y-0.5">
                                     Message
                                 </button>
                             </div>

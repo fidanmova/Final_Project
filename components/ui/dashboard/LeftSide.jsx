@@ -5,7 +5,8 @@ import { Link } from "next/link";
 
 const LeftSide = ({ data }) => {
     const [location, setLocation] = useState();
-    const [myCircle, setMyCircle] = useState();
+    const [myCircle, setMyCircle] = useState([]);
+    console.log("myCircle", myCircle);
 
     useEffect(() => {
         if (data.user.circle.length !== 0) {
@@ -13,13 +14,16 @@ const LeftSide = ({ data }) => {
                 .then((res) => res.json())
                 .then(
                     (results) => {
+                        const myc = [];
                         //console.log("CIRCLE RESULTS", results);
                         data.user.circle.map((id) => {
-                            const myC = results.filter(
+                            const filter = results.filter(
                                 (user) => user._id === id
                             );
-                            setMyCircle(myC);
+                            myc.push(filter[0]);
+                            console.log("FILTER==>", filter[0]);
                         });
+                        setMyCircle(myc);
                     },
                     (error) => {
                         console.error(error);
@@ -60,7 +64,7 @@ const LeftSide = ({ data }) => {
                     <p className="w-1/2"> {data?.user?.language}</p>
                 </div>
                 <div className="w-full flex  capitalize">
-                    <p className="w-1/2 pb-3 uppercase">
+                    <p className="w-1/3 pb-3 uppercase">
                         <span className="text-2xl text-red-500">
                             {data?.user?.circle.length}
                         </span>{" "}
@@ -73,10 +77,10 @@ const LeftSide = ({ data }) => {
                     {data?.user?.circle.length === 0 && (
                         <p className="w-1/2 pt-4"> {myCircle}</p>
                     )}
-                    <div className="w-full max-h-[20vh] pt-2.5 flex flex-col px-2 overflow-y-scroll overflow-x-hidden z-0 scrollbar-thin scrollbar-track-[#242424] scrollbar-thumb-[#ff2e2e]/50">
+                    <div className="w-2/3 max-h-[20vh] flex flex-col px-5 space-y-1.5 overflow-y-scroll overflow-x-hidden z-0 scrollbar-thin scrollbar-track-[#242424] scrollbar-thumb-[#ff2e2e]/50">
                         {data?.user?.circle.length !== 0 &&
                             myCircle?.map((myc, i) => (
-                                <p className="w-full p-4" key={i}>
+                                <p className="w-full uppercase" key={i}>
                                     <span className="text-red-500">
                                         {i + 1} -
                                     </span>{" "}
