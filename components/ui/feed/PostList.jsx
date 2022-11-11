@@ -1,13 +1,10 @@
-import { Button, Input, Text } from "react-daisyui";
+import { Button } from "react-daisyui";
 import { usePostPages } from "../../../utils/post/hooks";
 import { useCurrentUser } from "../../../utils/user/hooks";
 import Post from "./Post";
 
-import Link from "next/link";
 
 const PostList = ({ user }) => {
-  const { data: currentUser, error } = useCurrentUser();
-  // console.log("userRRRRRRRRRRRRRRRRRRr", currentUser);
   const { data, size, setSize, isLoadingMore, isReachingEnd } = usePostPages();
   const posts = data
     ? data.reduce((acc, val) => [...acc, ...val.posts], [])

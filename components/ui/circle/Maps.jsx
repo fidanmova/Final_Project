@@ -68,6 +68,8 @@ export const MainMap = ({
     setSingleUser,
     visible,
     toggleVisible,
+    user,
+    addToCircle,
 }) => {
     const [viewport, setViewport] = useState({
         latitude: 51,
@@ -82,26 +84,6 @@ export const MainMap = ({
     const [usersCoords, setUsersCoords] = useState(null);
 
     const [showPopup, setShowPopup] = useState(true);
-    //console.log("showPopup", showPopup);
-
-    const addToCircle = useCallback(async () => {
-        console.log(singleUser._id);
-        try {
-            const response = await fetcher("/api/circle/myCircle", {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({
-                    circle: singleUser._id,
-                }),
-            });
-            console.log(response);
-        } catch (error) {
-            toast.error("Ops...something went wrong!");
-        }
-    }, [singleUser]);
-
-    const [chatOpen, setChatOpen] = useState(false);
-    //deawer for add friend
 
     useEffect(() => {
         if (
@@ -224,7 +206,7 @@ export const MainMap = ({
                                                         <Button
                                                             className="text-green-500 w-1/2"
                                                             onClick={
-                                                                toggleVisible
+                                                                addToCircle
                                                             }
                                                         >
                                                             <FaPlus />
@@ -240,7 +222,7 @@ export const MainMap = ({
                                                         </Button>
                                                     )}
 
-                                                    <Button className="text-green-500 w-1/2">
+                                                    {/* <Button className="text-green-500 w-1/2">
                                                         <RiChatSmile2Line
                                                             className="text-2xl"
                                                             onClick={() =>
@@ -249,7 +231,7 @@ export const MainMap = ({
                                                                 )
                                                             }
                                                         />
-                                                    </Button>
+                                                    </Button> */}
                                                 </div>
                                             </div>
                                         </div>
@@ -292,33 +274,6 @@ export const MainMap = ({
                                                         {singleUser.city}
                                                     </p>
                                                 </div>
-                                            </div>
-                                            <div className="flex justify-between">
-                                                {!visible ? (
-                                                    <Button
-                                                        className="text-green-500 w-1/2"
-                                                        onClick={() => {
-                                                            addToCircle(
-                                                                singleUser._id
-                                                            );
-                                                        }}
-                                                    >
-                                                        <FaPlus />
-                                                    </Button>
-                                                ) : (
-                                                    <Button
-                                                        className="text-green-500 w-1/2"
-                                                        onClick={toggleVisible}
-                                                    >
-                                                        <FaMinus />
-                                                    </Button>
-                                                )}
-
-                                                <Button className="text-green-500 w-1/2">
-                                                    <Link href="/chats">
-                                                        <RiChatSmile2Line className="text-2xl" />
-                                                    </Link>
-                                                </Button>
                                             </div>
                                         </div>
                                     </div>

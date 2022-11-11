@@ -53,7 +53,7 @@ export default function Profile({ user }) {
                                         className="rounded-full"
                                         src={
                                             user?.avatar
-                                                ? ""
+                                                ? `${user.avatar}`
                                                 : `https://avatar.tobi.sh/${user?._id}`
                                         }
                                     />

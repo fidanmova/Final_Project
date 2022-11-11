@@ -6,7 +6,7 @@ import { Link } from "next/link";
 const LeftSide = ({ data }) => {
     const [location, setLocation] = useState();
     const [myCircle, setMyCircle] = useState([]);
-    console.log("myCircle", myCircle);
+    //console.log("myCircle", myCircle);
 
     useEffect(() => {
         if (data.user.circle.length !== 0) {
@@ -21,7 +21,7 @@ const LeftSide = ({ data }) => {
                                 (user) => user._id === id
                             );
                             myc.push(filter[0]);
-                            console.log("FILTER==>", filter[0]);
+                            //console.log("FILTER==>", filter[0]);
                         });
                         setMyCircle(myc);
                     },
