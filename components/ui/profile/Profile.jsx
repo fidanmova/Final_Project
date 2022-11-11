@@ -44,7 +44,9 @@ export default function Profile({ user }) {
                     alt={user?.username}
                     className="rounded-full"
                     src={
-                      user?.avatar ? "" : `https://avatar.tobi.sh/${user?._id}`
+                      user?.avatar
+                        ? `${user.avatar}`
+                        : `https://avatar.tobi.sh/${user?._id}`
                     }
                   />
                 </div>
