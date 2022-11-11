@@ -2,7 +2,7 @@ import React from "react";
 import Image from "next/image";
 
 export default function Profile({ user }) {
-  // const { data: { user } = {}, mutate } = useCurrentUser();
+ 
 
   return (
     <div className="p-16 pt-2">
