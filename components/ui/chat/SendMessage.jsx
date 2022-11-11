@@ -1,17 +1,15 @@
 import React, { useContext } from "react";
 import { Context } from "../../../utils/context/context";
-import { Button, Input, Text, Form } from "react-daisyui";
+import { Button, Input, Form } from "react-daisyui";
 import { fetcher } from "../../../utils/fetcher";
 import { useState } from "react";
 
-//! WORKS With trial chatID:
-const SendMessage = ({ user }) => {
+const SendMessage = () => {
   const { selectedChat } = useContext(Context);
   const [messages, setMessages] = useState();
   const [content, setContent] = useState();
   const [isLoading, setIsLoading] = useState(false);
 
-  //! Working version:
   const onSubmit = async (e) => {
     e.preventDefault();
     if (!selectedChat) {
@@ -34,21 +32,27 @@ const SendMessage = ({ user }) => {
   };
 
   return (
-    <Form
-      onSubmit={onSubmit}
-      className="w-full flex flex-row justify-center p-4"
-    >
-      <Input
-        value={content}
-        className="w-full"
-        placeholder={`Enter message here`}
-        aria-label={`Enter message here`}
-        onChange={(e) => setContent(e.target.value)}
-      />
-      <Button type="success" loading={isLoading} className="w-20">
-        Send
-      </Button>
-    </Form>
+    <div className="bg-gray-700 rounded-b-xl">
+      <Form
+        onSubmit={onSubmit}
+        className="w-full flex flex-row justify-center p-4"
+      >
+        <Input
+          value={content}
+          className="w-full"
+          placeholder={`Enter message here`}
+          aria-label={`Enter message here`}
+          onChange={(e) => setContent(e.target.value)}
+        />
+        <Button
+          type="success"
+          loading={isLoading}
+          className="w-40 bg-gray-600/80 hover:bg-blue-900/90 text-gray-200 text-xl font-normal "
+        >
+          Send
+        </Button>
+      </Form>
+    </div>
   );
 };
 

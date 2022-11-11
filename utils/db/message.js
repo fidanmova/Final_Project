@@ -9,6 +9,7 @@ export async function findMessages(db, chatId) {
           chatId: new ObjectId(chatId),
         },
       },
+      { $sort: { createdAt: -1 } },
     ])
     .toArray();
   return messages;

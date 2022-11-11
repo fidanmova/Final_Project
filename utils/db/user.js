@@ -30,7 +30,6 @@ export async function findAllUsersForChat(db) {
       { _id: { $exists: true } },
       { projection: { username: 1, avatar: 1 } }
     )
-    // { projection: dbProjectionUsersSmall() },
     .toArray();
   console.log("searchResults from db/user", searchResults);
   if (searchResults.length === 0) return null;
@@ -169,6 +168,26 @@ export function dbProjectionUsers(prefix = "") {
 }
 
 export function dbProjectionUsersSmall(prefix = "") {
+  return {
+    [`${prefix}password`]: 0,
+    [`${prefix}email`]: 0,
+    [`${prefix}emailVerified`]: 0,
+    [`${prefix}isVerified`]: 0,
+    [`${prefix}admin`]: 0,
+    [`${prefix}bio`]: 0,
+    [`${prefix}language`]: 0,
+    [`${prefix}friends`]: 0,
+    [`${prefix}code`]: 0,
+    [`${prefix}city`]: 0,
+    [`${prefix}jobs`]: 0,
+    [`${prefix}events`]: 0,
+    [`${prefix}location`]: 0,
+    [`${prefix}circle`]: 0,
+    [`${prefix}position`]: 0,
+  };
+}
+
+export function dbProjectionChat(prefix = "") {
   return {
     [`${prefix}password`]: 0,
     [`${prefix}email`]: 0,

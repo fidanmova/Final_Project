@@ -13,13 +13,7 @@ handler.get(async (req, res) => {
   const db = await dbConnect();
   const currentUser = await req.user._id;
   // currentUser i.e. => new ObjectId("634db22538ea5aba7b60a1dd")
-  const usersChats = await findUsersChats(
-    db,
-    currentUser,
-    // req.query.before ? new Date(req.query.before) : undefined,
-    req.query.by
-    // req.query.limit ? parseInt(req.query.limit, 10) : undefined
-  );
+  const usersChats = await findUsersChats(db, currentUser, req.query.by);
 
   if (usersChats === null) {
     res.json("NO DATA");

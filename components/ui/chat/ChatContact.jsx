@@ -4,7 +4,7 @@ import { format } from "@lukeed/ms";
 import Image from "next/image";
 
 const ChatContact = ({ user, chat, i }) => {
-  const { setSelectedChat, setChatObject } = useContext(Context);
+  const { setSelectedChat, setChatObject, groupMembers } = useContext(Context);
 
   const timestampTxt = useMemo(() => {
     const diff = Date.now() - new Date(chat.createdAt).getTime();
@@ -34,7 +34,8 @@ const ChatContact = ({ user, chat, i }) => {
           <p className="">{chat.chatName}</p>
           <p className="text-xs">{timestampTxt}</p>
         </div>
-        {/* Here 'chat.latestMessage' needs to be added */}
+        {/* <p> {groupMembers.map((member) => `${member.username} `)}</p> */}
+        {/* Here 'latestMessage' can be added */}
         {/* <p className="text-grey-dark mt-1 text-sm">Hello! Is it me ... ?</p> */}
       </div>
     </div>

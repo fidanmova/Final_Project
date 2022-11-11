@@ -1,4 +1,5 @@
-import React, { useMemo } from "react";
+import React, { useMemo, useContext } from "react";
+import { Context } from "../../utils/context/context";
 import { format } from "@lukeed/ms";
 import Link from "next/link";
 import { Card } from "react-daisyui";
@@ -60,6 +61,18 @@ const PostCard = ({ i, post, timestampTxt, style }) => {
 };
 
 const MessageCard = ({ i, message, user }) => {
+  const { groupMembers } = useContext(Context);
+
+  const senderResult = (arr, creatorId) => {
+    const found = arr.find((el) => el._id === creatorId);
+    if (!found) {
+      return "";
+    }
+    return found.username;
+  };
+
+  const sender = senderResult(groupMembers, message.creatorId);
+
   const timestampTxtMessage = useMemo(() => {
     const diff = Date.now() - new Date(message.createdAt).getTime();
     if (diff < 1 * 60 * 1000) return "Just now";
@@ -83,9 +96,7 @@ const MessageCard = ({ i, message, user }) => {
         <p className="text-base text-white">{message.content}</p>
         {message.creatorId != user._id.toString() ? (
           <div className="flex w-full justify-end">
-            <p className="pr-1 text-xs text-yellow-500 uppercase">
-              {message.creatorId}
-            </p>
+            <p className="pr-1 text-xs text-yellow-500 uppercase">{sender}</p>
             <p className="text-right text-xs text-white">
               {timestampTxtMessage}
             </p>

@@ -1,5 +1,5 @@
 import { ObjectId } from "mongodb";
-import { dbProjectionUsers, dbProjection } from "./user";
+import { dbProjectionUsers, dbProjectionChat } from "./user";
 
 // ! Works:
 // @desc    find all chats
