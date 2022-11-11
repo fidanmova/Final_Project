@@ -3,7 +3,6 @@ import { useCurrentUser } from "../../../utils/user/hooks";
 import { useEffect, useState } from "react";
 import moment from "moment";
 import { useRouter } from "next/router";
-import { ImPacman } from "react-icons/im";
 import languagesList from "../../../utils/list/languagesList";
 
 const Circle = () => {
@@ -12,7 +11,7 @@ const Circle = () => {
 
     const [loading, setLoading] = useState(false);
     const [allUsers, setAllUsers] = useState([]);
-    //console.log("allUsers", allUsers);
+    console.log("allUsers", allUsers);
 
     const [byLanguage, setByLanguage] = useState("");
     //console.log("Language", byLanguage);
@@ -22,8 +21,8 @@ const Circle = () => {
     const [visible, setVisible] = useState(false);
     //console.log("visible", visible);
 
-    const [myCircle, setMyCircle] = useState(null);
-    console.log('Circle', myCircle)
+    const [circle, setCircle] = useState([]);
+    console.log("circle", circle);
 
     const handleSingle = (user) => {
         setSingleUser(user);
@@ -33,16 +32,6 @@ const Circle = () => {
         setVisible(!visible);
     };
 
-    const handleMyCircle = () => {
-        if (data.user.circle.length !== 0) {
-            data.user.circle.map((id) => {
-                const myC = allUsers.filter((user) => user._id === id);
-               console.log("MYCIRCLE",myC)
-            });
-        } else {
-            setMyCircle("No One In Tour Circle");
-        }
-    };
     useEffect(() => {
         if (!data) {
             router.push("/");
@@ -51,10 +40,11 @@ const Circle = () => {
 
     useEffect(() => {
         setLoading(true);
-        fetch(`/api/circle/circle`)
+        fetch(`/api/circle/circle`) // get allUser
             .then((res) => res.json())
             .then(
                 (results) => {
+                    //ALLUSERS IN DB
                     //console.log("CIRCLE RESULTS", results);
                     if (
                         byLanguage === "" ||
@@ -62,11 +52,32 @@ const Circle = () => {
                     ) {
                         setAllUsers(results);
                         setLoading(false);
-                    } else {
+                    }
+                    if (
+                        byLanguage !== "circle" &&
+                        byLanguage !== "" &&
+                        byLanguage !== "Search by language"
+                    ) {
                         const filteredResults = results.filter(
                             (user) => user.language === byLanguage
                         );
+                        console.log("FILTRED", filteredResults);
                         setAllUsers(filteredResults);
+                        setLoading(false);
+                    }
+                    if (byLanguage === "circle") {
+                        //if we choose to show our circle friend
+                        const myc = []; //create an empty array for store the obj of each user
+                        data.user.circle.map((id) => {
+                            console.log("ID ==>", id);
+                            const filter = results.filter(
+                                (user) => user._id === id
+                            );
+                            myc.push(filter[0]);
+                            console.log("FILTER==>", filter[0]);
+                        });
+                        //setCircle(myc);//myCircle friend
+                        setAllUsers(myc);
                         setLoading(false);
                     }
                 },
@@ -74,8 +85,11 @@ const Circle = () => {
                     console.error(error);
                 }
             );
-    }, [byLanguage]);
+    }, [byLanguage, circle, data]);
 
+    const handleMyCircle = () => {
+        setByLanguage("circle");
+    };
     useEffect(() => {
         setLoading(true);
         fetch(
@@ -117,17 +131,19 @@ const Circle = () => {
                             </div>
                         </div>
 
-                        <div className="w-full h-[65vh] flex flex-wrap lg:flex-nowrap 2xl:flex-col p-2 my-4 2xl:space-y-2 overflow-y-scroll overflow-x-hidden z-0 scrollbar-thin scrollbar-track-[#242424] scrollbar-thumb-[#ff2e2e]/50">
-                            {allUsers.length === 0 && (
-                                <p className="uppercase">
-                                    no users for this language
-                                </p>
-                            )}
-                            {allUsers.length !== 0 &&
+                        <div className="w-full lg:h-[65vh] flex flex-wrap lg:flex-nowrap 2xl:flex-col p-2 my-4 2xl:space-y-2 overflow-y-scroll overflow-x-hidden z-0 scrollbar-thin scrollbar-track-[#242424] scrollbar-thumb-[#ff2e2e]/50">
+                            {allUsers.length === 0 &&
+                                byLanguage !== "circle" && (
+                                    <p className="uppercase">
+                                        no users for this language
+                                    </p>
+                                )}
+                            {byLanguage !== "circle" &&
+                                allUsers.length !== 0 &&
                                 allUsers.map((user, k) => (
                                     <div
                                         key={k}
-                                        className="flex flex-col 2xl:flex-row  2xl:space-y-0 2xl:justify-between p-2 rounded hover:border-2 hover:border-green-500 hover:bg-black hover:scale-105 "
+                                        className="flex flex-col w-1/2 2xl:w-auto 2xl:flex-row 2xl:space-y-0 2xl:justify-between p-2 lg:rounded hover:border-2 hover:border-green-500 hover:bg-black hover:scale-105 "
                                         onClick={() => handleSingle(user)}
                                     >
                                         <p className="w-1/3 font-bold uppercase">
@@ -151,15 +167,41 @@ const Circle = () => {
                                         </div>
                                     </div>
                                 ))}
+
+                            {byLanguage === "circle" &&
+                                allUsers?.length !== 0 &&
+                                allUsers?.map((circle, k) => (
+                                    <div
+                                        key={k}
+                                        className="flex flex-col 2xl:flex-row  2xl:space-y-0 2xl:justify-between p-2 lg:rounded hover:border-2 hover:border-green-500 hover:bg-black hover:scale-105 "
+                                        onClick={() => handleSingle(circle)}
+                                    >
+                                        <p className="w-1/3 font-bold uppercase">
+                                            {circle.username}
+                                        </p>
+                                        {circle.language ==
+                                        "JavaScript (React.js and Node.js)" ? (
+                                            <p>Javascript</p>
+                                        ) : (
+                                            <p>{circle.language}</p>
+                                        )}
+                                        <div>
+                                            {circle.since && (
+                                                <p className="italic font-light text-sm capitalize">
+                                                    {moment(
+                                                        circle.since,
+                                                        "YYYYMMDD"
+                                                    ).fromNow()}
+                                                </p>
+                                            )}
+                                        </div>
+                                    </div>
+                                ))}
                         </div>
                         <div className="w-full h-24 pl-4">
                             <div>
                                 Your Circle :{" "}
-                                <label
-                                    onClick={handleMyCircle}
-                                    className="btn"
-                                    htmlFor="circle-modal"
-                                >
+                                <label onClick={handleMyCircle} className="btn">
                                     {data.user.circle.length}
                                 </label>
                             </div>
@@ -177,37 +219,6 @@ const Circle = () => {
                             w="100%"
                             h="80vh"
                         />
-                    </div>
-                    <input
-                        type="checkbox"
-                        id="circle-modal"
-                        className="modal-toggle"
-                    />
-                    <div className="modal modal-bottom sm:modal-middle">
-                        <div className="modal-box">
-                            <h3 className="font-bold text-lg uppercase text-center bg-clip-text bg-gradient-to-r from-red-600 via-purple-500 to-yellow-500">
-                                HI{" "}
-                                <span className="pl-2 ">
-                                    {data.user.username}
-                                </span>
-                            </h3>
-                            <div className="py-4">
-                                {myCircle !== null &&
-                                    typeof myCircle === "string" && (
-                                        <p>{myCircle}</p>
-                                    )}
-                                {myCircle !== null &&
-                                    typeof myCircle !== "string" &&
-                                    myCircle.map((myc, i) => (
-                                        <p key={i}>{myc.username}</p>
-                                    ))}
-                            </div>
-                            <div className="modal-action">
-                                <label htmlFor="circle-modal" className="btn">
-                                    <ImPacman className="text-yellow-500 text-lg" />
-                                </label>
-                            </div>
-                        </div>
                     </div>
                 </>
             )}

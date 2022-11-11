@@ -5,6 +5,7 @@ import { CgPinAlt } from "react-icons/cg";
 import { FaPlus, FaMinus } from "react-icons/fa";
 import { RiChatSmile2Line } from "react-icons/ri";
 import Link from "next/link";
+import { toast } from "react-toastify";
 
 import Map, {
     Marker,
@@ -84,24 +85,31 @@ export const MainMap = ({
     //console.log("showPopup", showPopup);
 
     const addToCircle = useCallback(async () => {
+        console.log(singleUser._id);
         try {
-            const response = await fetcher("/api/circle/circle", {
+            const response = await fetcher("/api/circle/myCircle", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({
-                    circle: selectedUser._id,
+                    circle: singleUser._id,
                 }),
             });
+            console.log(response);
         } catch (error) {
             toast.error("Ops...something went wrong!");
         }
-    }, [selectedUser]);
+    }, [singleUser]);
 
     const [chatOpen, setChatOpen] = useState(false);
     //deawer for add friend
 
     useEffect(() => {
-        if (users !== 0 && users !== undefined && users !== null) {
+        if (
+            users !== 0 &&
+            users !== undefined &&
+            users !== null &&
+            singleUser === null
+        ) {
             const coordinates = users.map((user) => ({
                 latitude: user.location[0],
                 longitude: user.location[1],
@@ -120,10 +128,19 @@ export const MainMap = ({
             }
             setUsersCoords(users);
         }
-    }, [users]);
+        if (singleUser !== null) {
+            setViewport({
+                longitude: singleUser.location[1],
+                latitude: singleUser.location[0],
+                width: "100%",
+                height: "90vh",
+                zoom: 6,
+            });
+        }
+    }, [users, singleUser]);
 
     return (
-        <div className="w-full h-full flex flex-col justify-center items-center rounded-xl">
+        <div className="w-full h-full flex flex-col justify-center items-center lg:rounded-xl">
             <Map
                 {...viewport}
                 style={{
@@ -244,20 +261,17 @@ export const MainMap = ({
                                     closeOnClick={true}
                                     latitude={singleUser.location[0]}
                                     longitude={singleUser.location[1]}
+                                    style={{ width: "100%" }}
+                                    content="black"
                                 >
-                                    <div className="flex flex-col p-4">
+                                    <div className="flex flex-col p-4 bg-black/70 rounded font-bold">
                                         <div className="flex flex-col space-y-8 ">
                                             <div className="space-y-1">
-                                                <div className="flex justify-between ">
-                                                    <p className="text-green-500">
-                                                        username:
-                                                    </p>
+                                                <p className="text-blue-500  text-2xl uppercase text-center">
+                                                    {singleUser.username}
+                                                </p>
 
-                                                    <p className="text-blue-500 uppercase pl-2">
-                                                        {singleUser.username}
-                                                    </p>
-                                                </div>
-                                                <div className="flex justify-between ">
+                                                <div className="flex justify-between capitalize ">
                                                     <p className="text-green-500">
                                                         language:
                                                     </p>
@@ -269,12 +283,25 @@ export const MainMap = ({
                                                             : singleUser.language}
                                                     </p>
                                                 </div>
+                                                <div className="flex justify-between ">
+                                                    <p className="text-green-500 capitalize">
+                                                        city:
+                                                    </p>
+
+                                                    <p className="text-blue-500 uppercase pl-2">
+                                                        {singleUser.city}
+                                                    </p>
+                                                </div>
                                             </div>
                                             <div className="flex justify-between">
                                                 {!visible ? (
                                                     <Button
                                                         className="text-green-500 w-1/2"
-                                                        onClick={toggleVisible}
+                                                        onClick={() => {
+                                                            addToCircle(
+                                                                singleUser._id
+                                                            );
+                                                        }}
                                                     >
                                                         <FaPlus />
                                                     </Button>
