@@ -1,6 +1,6 @@
 import { MainMap } from "./Maps";
 import { useCurrentUser } from "../../../utils/user/hooks";
-import { useCallback, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import moment from "moment";
 import { useRouter } from "next/router";
 import languagesList from "../../../utils/list/languagesList";
@@ -8,11 +8,10 @@ import { Button } from "react-daisyui";
 import { FaPlus, FaMinus } from "react-icons/fa";
 import { toast } from "react-toastify";
 import { fetcher } from "../../../utils/fetcher";
-import { mutate } from "swr";
 
 const Circle = () => {
     const router = useRouter();
-    const { data } = useCurrentUser();
+    const { data: { user } = {}, mutate } = useCurrentUser();
 
     const [loading, setLoading] = useState(false);
     const [allUsers, setAllUsers] = useState([]);
@@ -23,8 +22,6 @@ const Circle = () => {
 
     const [singleUser, setSingleUser] = useState(null);
     //console.log("singleUser", singleUser);
-    const [visible, setVisible] = useState(false);
-    //console.log("visible", visible);
 
     const [circle, setCircle] = useState([]);
     //console.log("circle", circle);
@@ -34,10 +31,10 @@ const Circle = () => {
     };
 
     useEffect(() => {
-        if (!data) {
+        if (!user) {
             router.push("/");
         }
-    }, [data, router]);
+    }, [user, router]);
 
     useEffect(() => {
         setLoading(true);
@@ -51,7 +48,10 @@ const Circle = () => {
                         byLanguage === "" ||
                         byLanguage === "Search by language"
                     ) {
-                        setAllUsers(results);
+                        const notMe = results.filter(
+                            (us) => us._id !== user._id
+                        );
+                        setAllUsers(notMe);
                         setLoading(false);
                     }
                     if (
@@ -60,7 +60,9 @@ const Circle = () => {
                         byLanguage !== "Search by language"
                     ) {
                         const filteredResults = results.filter(
-                            (user) => user.language === byLanguage
+                            (use) =>
+                                use._id !== user._id &&
+                                use.language === byLanguage
                         );
                         //console.log("FILTRED", filteredResults);
                         setAllUsers(filteredResults);
@@ -69,7 +71,7 @@ const Circle = () => {
                     if (byLanguage === "circle") {
                         //if we choose to show our circle friend
                         const myc = []; //create an empty array for store the obj of each user
-                        data.user.circle.map((id) => {
+                        user.circle.map((id) => {
                             //console.log("ID ==>", id);
                             const filter = results.filter(
                                 (user) => user._id === id
@@ -86,7 +88,7 @@ const Circle = () => {
                     console.error(error);
                 }
             );
-    }, [byLanguage, circle, data]);
+    }, [byLanguage, circle, user]);
 
     const handleMyCircle = () => {
         setByLanguage("circle");
@@ -105,18 +107,21 @@ const Circle = () => {
 
     const addToCircle = async () => {
         try {
-            if (singleUser._id && data.user._id) {
-                await fetcher(`/api/users/${data.user.username}/updateCircle`, {
-                    method: "POST",
-                    headers: { "Content-Type": "application/json" },
-                    body: JSON.stringify({
-                        id: data.user._id,
-                        circle: singleUser._id,
-                    }),
-                });
+            if (singleUser._id && user._id) {
+                const response = await fetcher(
+                    `/api/users/${user.username}/updateCircle`,
+                    {
+                        method: "POST",
+                        headers: { "Content-Type": "application/json" },
+                        body: JSON.stringify({
+                            id: user._id,
+                            circle: singleUser._id,
+                        }),
+                    }
+                );
 
-                console.log(`/api/users/${data.user.username}/updateCircle`);
-
+                //                console.log(`/api/users/${user.username}/updateCircle`);
+                mutate({ user: response }, false);
                 toast.success(`${singleUser.username} is now in your circle`);
             } else {
                 toast("PORCAMADONNA");
@@ -129,19 +134,23 @@ const Circle = () => {
 
     const deleteFromCircle = async () => {
         try {
-            if (singleUser._id && data.user._id) {
-                await fetcher(`/api/users/${data.user.username}/updateCircle`, {
-                    method: "DELETE",
-                    headers: { "Content-Type": "application/json" },
-                    body: JSON.stringify({
-                        id: data.user._id,
-                        circle: singleUser._id,
-                    }),
-                });
+            if (singleUser._id && user._id) {
+                const response = await fetcher(
+                    `/api/users/${user.username}/updateCircle`,
+                    {
+                        method: "DELETE",
+                        headers: { "Content-Type": "application/json" },
+                        body: JSON.stringify({
+                            id: user._id,
+                            circle: singleUser._id,
+                        }),
+                    }
+                );
 
-                console.log(`/api/users/${data.user.username}/updateCircle`);
-
-                toast.success(`${singleUser.username} is now in your circle`);
+                mutate({ user: response }, false);
+                toast.success(
+                    `${singleUser.username} is not in your circle anymore`
+                );
             } else {
                 toast("PORCAMADONNA");
             }
@@ -153,7 +162,7 @@ const Circle = () => {
 
     return (
         <div className="w-full h-full flex flex-col lg:flex-row lg:justify-center lg:items-center bg-red-500/10 lg:px-2">
-            {data?.user?.location && (
+            {user?.location && (
                 <>
                     <div className="order-2 lg:order-1 flex flex-col items-center w-full lg:w-1/5 h-full lg:h-[90vh] border border-red-500/50 bg-black/50 rounded-2xl overflow-y-scroll scrollbar-hide">
                         <h2 className="uppercase font-bold text-center pt-4">
@@ -189,26 +198,24 @@ const Circle = () => {
                                 )}
                             {byLanguage !== "circle" &&
                                 allUsers.length !== 0 &&
-                                allUsers.map((user, k) => (
+                                allUsers.map((list, k) => (
                                     <div
                                         key={k}
                                         className="flex flex-col w-1/2 2xl:w-auto 2xl:flex-row 2xl:space-y-0 2xl:justify-between items-center p-2 lg:rounded hover:border-2 hover:border-green-500 hover:bg-black hover:scale-105 "
-                                        onClick={() => handleSingle(user)}
+                                        onClick={() => handleSingle(list)}
                                     >
                                         <div>
                                             <p className="w-1/3 font-bold uppercase">
-                                                {user.username}
+                                                {list.username}
                                             </p>
-                                            {user.language ==
+                                            {list.language ==
                                             "JavaScript (React.js and Node.js)" ? (
                                                 <p>Javascript</p>
                                             ) : (
-                                                <p>{user.language}</p>
+                                                <p>{list.language}</p>
                                             )}
                                         </div>
-                                        {data?.user?.circle?.includes(
-                                            user._id
-                                        ) ? (
+                                        {user?.circle?.includes(list._id) ? (
                                             <Button
                                                 className="text-green-500 w-[3rem]"
                                                 onClick={deleteFromCircle}
@@ -260,16 +267,16 @@ const Circle = () => {
                             <div>
                                 Your Circle :{" "}
                                 <label onClick={handleMyCircle} className="btn">
-                                    {data.user.circle.length}
+                                    {user.circle.length}
                                 </label>
                             </div>
                         </div>
                     </div>
                     <div className="order-1 lg:order-2 w-full lg:w-4/5 h-full flex flex-col justify-center items-center lg:px-8  ">
                         <MainMap
-                            user={data.user}
+                            user={user}
                             users={allUsers}
-                            location={data?.user?.location}
+                            location={user?.location}
                             singleUser={singleUser}
                             setSingleUser={setSingleUser}
                             w="100%"

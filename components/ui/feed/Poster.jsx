@@ -1,24 +1,27 @@
-import { Button, Input, Text, Form } from "react-daisyui";
+import { Button, Input, Text, Form, Textarea } from "react-daisyui";
 // import { LoadingDots } from "@/components/LoadingDots";
 import { fetcher } from "../../../utils/fetcher";
 import { usePostPages } from "../../../utils/post/hooks";
 import { useCurrentUser } from "../../../utils/user/hooks";
 import { useState } from "react";
 import { toast } from "react-toastify";
+import InputEmoji from "react-input-emoji";
 
 const PosterInner = ({ user }) => {
     const [comments, setComments] = useState();
     const [content, setContent] = useState();
+    console.log("content", content);
+
     const [isLoading, setIsLoading] = useState(false);
 
     const { mutate } = usePostPages();
 
-    const onChangeHandler = (e) => {
-        setUserInput((prevUser) => ({
-            ...prevUser,
-            [e.target.name]: e.target.value,
-        }));
-    };
+    // const onChangeHandler = (e) => {
+    //     setUserInput((prevUser) => ({
+    //         ...prevUser,
+    //         [e.target.name]: e.target.value,
+    //     }));
+    // };
 
     const onSubmit = async (e) => {
         e.preventDefault();
@@ -31,9 +34,10 @@ const PosterInner = ({ user }) => {
                     content: content,
                 }),
             });
+            setContent("");
             setComments([data, ...comments]);
+            mutate({ posts: data }, false);
             toast.success("You have posted successfully");
-            // mutate();
         } catch (e) {
             console.log(e.message);
             // toast.error(e.message);
@@ -46,12 +50,11 @@ const PosterInner = ({ user }) => {
     return (
         <>
             <Form onSubmit={onSubmit}>
-                <Input
+                <InputEmoji
                     value={content}
-                    className="mb-2 bg-grey-900/90 "
-                    placeholder={`What's on your mind ?`}
-                    aria-label={`What's on your mind ?`}
-                    onChange={(e) => setContent(e.target.value)}
+                    onChange={setContent}
+                    cleanOnEnter
+                    placeholder="What's on your mind ?"
                 />
                 <Button
                     className="bg-blue-800/80 hover:bg-blue-900/90 text-white hover:border-blue-500/50"
@@ -70,10 +73,7 @@ const Poster = () => {
 
     return (
         <div className="">
-            {loading && (
-                // <LoadingDots>Loading</LoadingDots>
-                <div> ... LOAD</div>
-            )}
+            {loading && <div> ... LOAD</div>}
             {!loading && data?.user ? (
                 <PosterInner user={data.user} />
             ) : (

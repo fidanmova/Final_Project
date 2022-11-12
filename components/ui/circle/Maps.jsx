@@ -78,12 +78,12 @@ export const MainMap = ({
         height: "90vh",
         zoom: 6,
     });
-    const [selectedUser, setSelectedUser] = useState(null);
-    //console.log("selected", selectedUser);
+    // const [selectedUser, setSelectedUser] = useState(null);
+    // //console.log("selected", selectedUser);
 
     const [usersCoords, setUsersCoords] = useState(null);
 
-    const [showPopup, setShowPopup] = useState(true);
+    // const [showPopup, setShowPopup] = useState(true);
 
     useEffect(() => {
         if (
@@ -150,7 +150,7 @@ export const MainMap = ({
                             >
                                 <a
                                     onClick={() => {
-                                        setSelectedUser(user);
+                                        // setSelectedUser(user);
                                         setShowPopup(true);
                                         setSingleUser(user);
                                     }}
@@ -165,78 +165,6 @@ export const MainMap = ({
                                 </a>
                             </Marker>
 
-                            {selectedUser !== null &&
-                                selectedUser === user.username &&
-                                showPopup && (
-                                    <Popup
-                                        onClose={() => setSelectedUser({})}
-                                        closeOnClick={true}
-                                        latitude={selectedUser.location[0]}
-                                        longitude={selectedUser.location[1]}
-                                    >
-                                        <div className="flex flex-col p-4">
-                                            <div className="flex flex-col space-y-8 ">
-                                                <div className="space-y-1">
-                                                    <div className="flex justify-between ">
-                                                        <p className="text-green-500">
-                                                            username:
-                                                        </p>
-
-                                                        <p className="text-blue-500 uppercase pl-2">
-                                                            {
-                                                                selectedUser.username
-                                                            }
-                                                        </p>
-                                                    </div>
-                                                    <div className="flex justify-between ">
-                                                        <p className="text-green-500">
-                                                            language:
-                                                        </p>
-
-                                                        <p className="text-blue-500 uppercase pl-2">
-                                                            {selectedUser.language ===
-                                                            "JavaScript (React.js and Node.js)"
-                                                                ? "Javascript"
-                                                                : selectedUser.language}
-                                                        </p>
-                                                    </div>
-                                                </div>
-                                                <div className="flex justify-between space-x-2">
-                                                    {!visible ? (
-                                                        <Button
-                                                            className="text-green-500 w-1/2"
-                                                            onClick={
-                                                                addToCircle
-                                                            }
-                                                        >
-                                                            <FaPlus />
-                                                        </Button>
-                                                    ) : (
-                                                        <Button
-                                                            className="text-green-500 w-1/2"
-                                                            onClick={
-                                                                toggleVisible
-                                                            }
-                                                        >
-                                                            <FaMinus />
-                                                        </Button>
-                                                    )}
-
-                                                    {/* <Button className="text-green-500 w-1/2">
-                                                        <RiChatSmile2Line
-                                                            className="text-2xl"
-                                                            onClick={() =>
-                                                                setChatOpen(
-                                                                    !chatOpen
-                                                                )
-                                                            }
-                                                        />
-                                                    </Button> */}
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </Popup>
-                                )}
                             {singleUser !== null && (
                                 <Popup
                                     onClose={() => setSingleUser(null)}
@@ -249,9 +177,13 @@ export const MainMap = ({
                                     <div className="flex flex-col p-4 bg-black/70 rounded font-bold">
                                         <div className="flex flex-col space-y-8 ">
                                             <div className="space-y-1">
-                                                <p className="text-blue-500  text-2xl uppercase text-center">
-                                                    {singleUser.username}
-                                                </p>
+                                                <Link
+                                                    href={`/user/${singleUser._id}`}
+                                                >
+                                                    <p className="text-blue-500  text-2xl uppercase text-center">
+                                                        {singleUser.username}
+                                                    </p>
+                                                </Link>
 
                                                 <div className="flex justify-between capitalize ">
                                                     <p className="text-green-500">

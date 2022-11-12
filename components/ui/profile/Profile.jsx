@@ -4,12 +4,12 @@ import Image from "next/image";
 export default function Profile({ user }) {
     return (
         <div className="p-16 pt-2">
-            <div className="p-8 bg-gray-900 shadow mt-24 rounded-3xl  mt-0.5 opacity-80 bg-red-500/10">
+            <div className="p-8 bg-gray-900 shadow rounded-3xl  mt-0.5 opacity-80 bg-red-500/10">
                 <div
-                    className="p-6 bg-gray-900 shadow mt-24 rounded-3xl    mt-0.5 
+                    className="p-6 bg-gray-900 shadow rounded-3xl mt-0.5 
  "
                 >
-                    <div className="p-7 mt-2 bg-gray-800 shadow mt-24   ">
+                    <div className="p-7 bg-gray-800 shadow mt-24   ">
                         <div className="grid grid-cols-1 md:grid-cols-3 ">
                             <div className="grid grid-cols-3 text-center order-last md:order-first mt-20 md:mt-0">
                                 <div>
@@ -72,11 +72,9 @@ export default function Profile({ user }) {
 
                         <div className="mt-12 text-center border-b pb-4  ">
                             <h1 className="text-6xl font-medium text capitalize">
-                                {" "}
                                 {user?.username}
                             </h1>
                             <h2 className="text-xl font-medium text">
-                                {" "}
                                 {user?.email}
                             </h2>
                             <p className="text-lg font-light text mt-3">

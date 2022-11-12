@@ -21,9 +21,9 @@ const DashCard = ({ title, text, style }) => {
   );
 };
 
-const PostCard = ({ i, post, timestampTxt, style }) => {
+const PostCard = ({ post, timestampTxt, style }) => {
 
-  const { data: currentUser, error } = useCurrentUser();
+  const { data: currentUser } = useCurrentUser();
   return (
     <Card
       className={`bg-black/70 w-full m-1 text-sm border-blue-500/50 hover:scale-95 shadow-md`}

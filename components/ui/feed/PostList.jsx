@@ -1,6 +1,5 @@
 import { Button } from "react-daisyui";
 import { usePostPages } from "../../../utils/post/hooks";
-import { useCurrentUser } from "../../../utils/user/hooks";
 import Post from "./Post";
 
 
@@ -11,16 +10,17 @@ const PostList = ({ user }) => {
     : [];
 
   return (
-    <div className="w-full h-full flex flex-wrap">
+    <div className="w-full h-[68vh] flex flex-wrap overflow-y-scroll scrollbar-hide mt-2">
       {posts &&
         posts.map((post, i) => {
           return <Post key={i} post={post} user={user} />;
         })}
-      <div>
+      <div className="w-full">
         {isReachingEnd ? (
           <div>No more posts are found</div>
         ) : (
           <Button
+          className="w-full"
             variant="ghost"
             loading={isLoadingMore}
             onClick={() => setSize(size + 1)}
