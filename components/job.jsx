@@ -19,7 +19,7 @@ export default function Jobs() {
     const saveJob = async (job) => {
         try {
             const response = await fetcher(
-                `/api/users/${user.username}/updateJobs`,
+                `/api/users/${user?.username}/updateJobs`,
                 {
                     method: "POST",
                     headers: { "Content-Type": "application/json" },
@@ -28,12 +28,11 @@ export default function Jobs() {
                         jobs: job,
                     }),
                 }
-                );
-                mutate({ user: response }, false);
-                toast("Job Saved");
-
+            );
+            mutate({ user: response }, false);
+            toast("Job Saved");
         } catch (error) {
-            console.error(error);
+            toast.error(error);
         }
     };
     // ########################
@@ -92,7 +91,7 @@ export default function Jobs() {
                                 job: e.target.value,
                             })
                         }
-                    />{" "}
+                    />
                     <input
                         type="text"
                         placeholder="City or Country"
@@ -105,16 +104,16 @@ export default function Jobs() {
                                 location: e.target.value,
                             })
                         }
-                    />{" "}
+                    />
                     <button className="btn btn-sm  bg-cyan-700" type="submit">
                         Search
                     </button>
                 </form>
             </div>
-            <hr />
+            
             <div className="flex flex-wrap justify-center">
                 {searchResults[0]?.jobs_results &&
-                    searchResults[0].jobs_results.map((el, i) => (
+                    searchResults[0]?.jobs_results.map((el, i) => (
                         <div key={i} className=" ">
                             <div className="card m-4 w-80 h-96 bg-slate-700 shadow-xl opacity-90 hover:scale-95 transition duration-200 ease-in-out ">
                                 <div className="card-body items-center text-center px-2">

@@ -10,7 +10,7 @@ import { AiOutlineSend } from "react-icons/ai";
 const PosterInner = ({ user }) => {
     const [comments, setComments] = useState();
     const [content, setContent] = useState();
-    console.log("content", content);
+    //console.log("content", content);
 
     const [isLoading, setIsLoading] = useState(false);
 
@@ -32,7 +32,7 @@ const PosterInner = ({ user }) => {
             mutate({ posts: data }, false);
             toast.success("You have posted successfully");
         } catch (e) {
-            console.log(e.message);
+            console.error(e.message);
             //toast.error(e.message);
         } finally {
             setIsLoading(false);

@@ -22,7 +22,7 @@ handler.get(async (req, res) => {
 
 //! Works:
 handler.post(...auths, async (req, res) => {
-  console.log("req.body from api/chats", req.body);
+  //console.log("req.body from api/chats", req.body);
   if (!req.body) {
     return res.status(401).end();
   }
@@ -35,7 +35,7 @@ handler.post(...auths, async (req, res) => {
     users: users,
     creatorId: req.user._id,
   });
-  console.log("chat", chat);
+  //console.log("chat", chat);
   return res.json({ chat });
 });
 

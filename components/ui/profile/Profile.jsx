@@ -13,7 +13,7 @@ export default function Profile({ user }) {
 
     const addToCircle = async () => {
         try {
-            console.log(data?.user?._id && user._id)
+            //console.log(data?.user?._id && user._id)
             if (data?.user?._id && user._id) {
                 const response = await fetcher(
                     `/api/users/${data.user.username}/updateCircle`,
@@ -32,7 +32,6 @@ export default function Profile({ user }) {
                 toast.error("Ops...something went wrong!");
             }
         } catch (error) {
-            console.error(error);
             toast.error("Ops...something went wrong!");
         }
     };

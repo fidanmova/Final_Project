@@ -33,7 +33,7 @@ const PosterInner = ({ user }) => {
       setComments([data, ...comments]);
       toast.success("You have posted successfully");
     } catch (e) {
-      console.log(e.message);
+      console.error(e.message);
     } finally {
       setIsLoading(false);
     }

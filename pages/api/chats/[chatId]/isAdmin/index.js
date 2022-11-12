@@ -26,7 +26,7 @@ handler.get(async (req, res) => {
       throw new Error("Not authorized");
     }
   } catch (error) {
-    console.log("EEERRRRORR", error);
+    console.error("EEERRRRORR", error);
     // res.status(404);
     throw new Error("Error");
   }

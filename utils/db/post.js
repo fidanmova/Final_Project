@@ -56,7 +56,7 @@ export async function findPostById(db, id) {
 // @route   GET PAGES/posts/
 // @route   GET /api/posts/ => can get post of user; also are sent to route.
 export async function findUsersPosts(db, currentUser) {
-  console.log("currentUser from db/posts/findUsersPosts", currentUser);
+  //console.log("currentUser from db/posts/findUsersPosts", currentUser);
   const usersPosts = await db
     .collection("posts")
     .aggregate([
