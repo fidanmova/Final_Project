@@ -1,4 +1,4 @@
-import { Button, Text, Form } from "react-daisyui";
+import { Button, Form } from "react-daisyui";
 import { fetcher } from "../../../utils/fetcher";
 import { usePostPages } from "../../../utils/post/hooks";
 import { useCurrentUser } from "../../../utils/user/hooks";
@@ -70,7 +70,7 @@ const Poster = () => {
             {!loading && data?.user ? (
                 <PosterInner user={data.user} />
             ) : (
-                <Text>No Messages in the feed.</Text>
+                <p>No Messages in the feed.</p>
             )}
         </div>
     );

@@ -1,10 +1,8 @@
 import { MainMap } from "./Maps";
 import { useCurrentUser } from "../../../utils/user/hooks";
 import { useEffect, useState } from "react";
-import moment from "moment";
 import { useRouter } from "next/router";
 import languagesList from "../../../utils/list/languagesList";
-import { Button } from "react-daisyui";
 import { HiUserAdd, HiUserRemove } from "react-icons/hi";
 import { toast } from "react-toastify";
 import { fetcher } from "../../../utils/fetcher";
@@ -49,7 +47,7 @@ const Circle = () => {
                         byLanguage === "Search by language"
                     ) {
                         const notMe = results.filter(
-                            (us) => us._id !== user._id
+                            (us) => us._id !== user?._id
                         );
                         setAllUsers(notMe);
                         setLoading(false);
@@ -61,7 +59,7 @@ const Circle = () => {
                     ) {
                         const filteredResults = results.filter(
                             (use) =>
-                                use._id !== user._id &&
+                                use._id !== user?._id &&
                                 use.language === byLanguage
                         );
                         //console.log("FILTRED", filteredResults);

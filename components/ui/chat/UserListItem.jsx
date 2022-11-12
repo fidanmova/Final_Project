@@ -1,12 +1,8 @@
+import Image from "next/image";
 import React from "react";
-import { useCurrentUser, useUserUsername } from "../../../utils/user/hooks";
 
 const UserListItem = ({ handleFunction, user }) => {
-  const { data: currentUser, error: currentUserError } = useCurrentUser();
-  // const { data: user, error: userError } = useUserUsername();
-  // console.log("handleFunction =>", handleFunction);
-  // console.log("userListItem User =>", user);
-
+  
   return (
     <div
       onClick={handleFunction}
@@ -15,8 +11,7 @@ const UserListItem = ({ handleFunction, user }) => {
       <div>
         <div className="avatar">
           <div className="w-14 rounded-full ring ring-primary ring-offset-base-100 ring-offset-2">
-            <img src="https://placeimg.com/192/192/people" />
-            {/* <img src={user.avatar} /> */}
+            <Image src="https://placeimg.com/192/192/people" alt="image" />
           </div>
         </div>
         <h1>{user.username}</h1>

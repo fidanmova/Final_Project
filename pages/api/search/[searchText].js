@@ -2,7 +2,7 @@ import nc from "next-connect";
 import { ncOpts } from "../../../utils/nc";
 import auths from "../../../middlewares/auth";
 import { dbConnect } from "../../../utils/mongo/mongodb";
-import { findUserBySearchText } from "../../../utils/db/user";
+import { findUserBySearchText } from "../../../utils/db";
 
 const handler = nc(ncOpts);
 

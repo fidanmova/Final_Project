@@ -17,7 +17,6 @@ export default function Jobs() {
 
     //  ## Save Job Function  ##
     const saveJob = async (job) => {
-        toast("Job Saved");
         try {
             const response = await fetcher(
                 `/api/users/${user.username}/updateJobs`,
@@ -29,7 +28,10 @@ export default function Jobs() {
                         jobs: job,
                     }),
                 }
-            );
+                );
+                mutate({ user: response }, false);
+                toast("Job Saved");
+
         } catch (error) {
             console.error(error);
         }
@@ -50,7 +52,7 @@ export default function Jobs() {
                     setError(error);
                 }
             );
-    }, []);
+    }, [searchTerms]);
 
     function jobSearchHandler(e) {
         e.preventDefault();

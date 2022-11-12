@@ -1,14 +1,79 @@
 import React from "react";
 import Image from "next/image";
+import { useCurrentUser } from "../../../utils/user/hooks";
+import { HiUserAdd, HiUserRemove } from "react-icons/hi";
+import { TbBackspace, TbMessages } from "react-icons/tb";
+import { toast } from "react-toastify";
+import { useRouter } from "next/router";
+import { fetcher } from "../../../utils/fetcher";
 
 export default function Profile({ user }) {
+    const { data, mutate } = useCurrentUser();
+    const router = useRouter();
+
+    const addToCircle = async () => {
+        try {
+            console.log(data?.user?._id && user._id)
+            if (data?.user?._id && user._id) {
+                const response = await fetcher(
+                    `/api/users/${data.user.username}/updateCircle`,
+                    {
+                        method: "POST",
+                        headers: { "Content-Type": "application/json" },
+                        body: JSON.stringify({
+                            id: data.user._id,
+                            circle: user._id,
+                        }),
+                    }
+                );
+
+                //                console.log(`/api/users/${user.username}/updateCircle`);
+                mutate({ user: response }, false);
+                toast.error("Ops...something went wrong!");
+            }
+        } catch (error) {
+            console.error(error);
+            toast.error("Ops...something went wrong!");
+        }
+    };
+
+    const deleteFromCircle = async () => {
+        try {
+            if (data?.user?._id && user._id) {
+                const response = await fetcher(
+                    `/api/users/${data.user.username}/updateCircle`,
+                    {
+                        method: "DELETE",
+                        headers: { "Content-Type": "application/json" },
+                        body: JSON.stringify({
+                            id: data.user._id,
+                            circle: user._id,
+                        }),
+                    }
+                );
+
+                mutate({ user: response }, false);
+                toast.error(
+                    `${user.username.toUpperCase()} is not in your circle anymore`
+                );
+            }
+        } catch (error) {
+            console.error(error);
+            toast.error("Ops...something went wrong!");
+        }
+    };
+
     return (
-        <div className="p-16 pt-2">
+        <div className="w-full h-full p-16 pt-2">
             <div className="p-8 bg-gray-900 shadow rounded-3xl  mt-0.5 opacity-80 bg-red-500/10">
-                <div
-                    className="p-6 bg-gray-900 shadow rounded-3xl mt-0.5 
- "
-                >
+                <div className="p-6 bg-gray-900 shadow rounded-3xl mt-0.5">
+                    <div
+                        className="flex items-center space-x-2 capitalize text-xl"
+                        onClick={() => router.back()}
+                    >
+                        <TbBackspace className="text-3xl text-pink-500" />
+                        <p>back</p>
+                    </div>
                     <div className="p-7 bg-gray-800 shadow mt-24   ">
                         <div className="grid grid-cols-1 md:grid-cols-3 ">
                             <div className="grid grid-cols-3 text-center order-last md:order-first mt-20 md:mt-0">
@@ -61,12 +126,18 @@ export default function Profile({ user }) {
                             </div>
 
                             <div className="space-x-8 flex justify-between mt-32 md:mt-2 md:justify-center font-extrabold ">
-                                <button className="btn-lg text py-2 px-4 uppercase rounded-xl bg-black text-red-500 tracking-widest hover:bg-gray-900 shadow hover:shadow-lg font-medium transition transform hover:-translate-y-0.5 ">
-                                    Connect
-                                </button>
-                                <button className="btn-lg text py-2 px-4 uppercase rounded-xl tracking-widest bg-black text-purple-500 hover:bg-gray-900 shadow hover:shadow-lg font-medium transition transform hover:-translate-y-0.5">
-                                    Message
-                                </button>
+                                {data?.user?.circle?.includes(user._id) ? (
+                                    <HiUserRemove
+                                        className="text-3xl text-zinc-700"
+                                        onClick={deleteFromCircle}
+                                    />
+                                ) : (
+                                    <HiUserAdd
+                                        className="text-3xl text-green-500"
+                                        onClick={addToCircle}
+                                    />
+                                )}
+                                <TbMessages className="text-3xl text-purple-500" />
                             </div>
                         </div>
 

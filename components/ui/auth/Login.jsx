@@ -57,7 +57,7 @@ const Login = ({ setForm }) => {
                     }),
                 });
                 mutate({ user: response.user }, false);
-                toast.success(`Hi ${response.user.username}, Welcome to DEVSHED!`);
+                toast.success(`Hi ${response.user.username.toUpperCase()}, Welcome to DEVSHED!`);
             } catch (e) {
                 toast.error("Incorrect email or password.", e);
             } finally {

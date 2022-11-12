@@ -3,7 +3,7 @@ import { useState, useEffect } from "react";
 import { Tooltip } from "react-daisyui";
 import { CgPinAlt } from "react-icons/cg";
 import Link from "next/link";
-import { toast } from "react-toastify";
+import { useRouter } from "next/router";
 
 import Map, {
     Marker,
@@ -15,6 +15,7 @@ import Map, {
 } from "react-map-gl";
 //import Message from "../message/Message";
 import { HiUserAdd, HiUserRemove } from "react-icons/hi";
+import { TbMessages } from "react-icons/tb";
 
 export const Maps = ({ location, w, h }) => {
     //console.log("location", location);
@@ -76,12 +77,9 @@ export const MainMap = ({
         height: "90vh",
         zoom: 6,
     });
-    // const [selectedUser, setSelectedUser] = useState(null);
-    // //console.log("selected", selectedUser);
 
+    const router = useRouter();
     const [usersCoords, setUsersCoords] = useState(null);
-
-    // const [showPopup, setShowPopup] = useState(true);
 
     useEffect(() => {
         if (
@@ -172,9 +170,9 @@ export const MainMap = ({
                                     style={{ width: "100%" }}
                                     content="black"
                                 >
-                                    <div className="flex flex-col p-4 bg-black/70 rounded font-bold">
-                                        <div className="flex flex-col space-y-8 ">
-                                            <div className="space-y-1">
+                                    <div className="flex flex-col p-4 bg-black/80 rounded font-bold">
+                                        <div className="flex flex-col  ">
+                                            <div className="space-y-8">
                                                 <Link
                                                     href={`/user/${singleUser._id}`}
                                                 >
@@ -204,27 +202,37 @@ export const MainMap = ({
                                                         {singleUser.city}
                                                     </p>
                                                 </div>
-                                                {user?.circle?.includes(
-                                                    singleUser._id
-                                                ) ? (
-                                                    <HiUserRemove
-                                                        className="text-3xl text-zinc-700"
+                                                <div className="h-12 flex justify-evenly items-center">
+                                                    {user?.circle?.includes(
+                                                        singleUser._id
+                                                    ) ? (
+                                                        <HiUserRemove
+                                                            className="text-3xl text-zinc-700"
+                                                            onClick={() =>
+                                                                deleteFromCircle(
+                                                                    singleUser
+                                                                )
+                                                            }
+                                                        />
+                                                    ) : (
+                                                        <HiUserAdd
+                                                            className="text-3xl text-green-500"
+                                                            onClick={() =>
+                                                                addToCircle(
+                                                                    singleUser
+                                                                )
+                                                            }
+                                                        />
+                                                    )}
+                                                    <TbMessages
+                                                        className="text-3xl text-purple-500"
                                                         onClick={() =>
-                                                            deleteFromCircle(
-                                                                singleUser
+                                                            router.push(
+                                                                "/chats"
                                                             )
                                                         }
                                                     />
-                                                ) : (
-                                                    <HiUserAdd
-                                                        className="text-3xl text-green-500"
-                                                        onClick={() =>
-                                                            addToCircle(
-                                                                singleUser
-                                                            )
-                                                        }
-                                                    />
-                                                )}
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
