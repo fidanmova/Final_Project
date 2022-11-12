@@ -2,19 +2,11 @@ import React from "react";
 import Image from "next/image";
 
 export default function Profile({ user }) {
-<<<<<<< HEAD
     return (
         <div className="p-16 pt-2">
             <div className="p-8 bg-gray-900 shadow rounded-3xl  mt-0.5 opacity-80 bg-red-500/10">
                 <div
                     className="p-6 bg-gray-900 shadow rounded-3xl mt-0.5 
-=======
-  return (
-    <div className="p-16 pt-2">
-      <div className="p-8 bg-gray-900 shadow mt-24 rounded-3xl  mt-0.5 opacity-80 bg-red-500/10">
-        <div
-          className="p-6 bg-gray-900 shadow mt-24 rounded-3xl    mt-0.5 
->>>>>>> e1f4a0c1fc1a4608d6efb4639069ee39a203d876
  "
                 >
                     <div className="p-7 bg-gray-800 shadow mt-24   ">
@@ -22,13 +14,13 @@ export default function Profile({ user }) {
                             <div className="grid grid-cols-3 text-center order-last md:order-first mt-20 md:mt-0">
                                 <div>
                                     <p className="font-bold text-red-500 text-xl">
-                                        {user.circle.length}
+                                        {user?.circle?.length}
                                     </p>
                                     <p className="text">Friends</p>
                                 </div>
                                 <div>
                                     <p className="font-bold text-yellow-500 text-xl">
-                                        {user.code.length}
+                                        {user?.code?.length}
                                     </p>
                                     <p className="text">Code Files</p>
                                 </div>
@@ -40,13 +32,13 @@ export default function Profile({ user }) {
                                 </div>
                                 <div>
                                     <p className="font-bold text-blue-500 text-xl">
-                                        {user.events.length}
+                                        {user?.events?.length}
                                     </p>
                                     <p className="text">Events</p>
                                 </div>
                                 <div className=" ">
                                     <p className="font-bold text-pink-500 text-xl">
-                                        {user.jobs.length}
+                                        {user?.jobs?.length}
                                     </p>
                                     <p className="text">Jobs </p>
                                 </div>

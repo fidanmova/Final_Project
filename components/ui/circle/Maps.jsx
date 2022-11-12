@@ -1,9 +1,7 @@
 import { getCenter } from "geolib";
-import { useState, useEffect, useCallback } from "react";
-import { Button, Tooltip } from "react-daisyui";
+import { useState, useEffect } from "react";
+import { Tooltip } from "react-daisyui";
 import { CgPinAlt } from "react-icons/cg";
-import { FaPlus, FaMinus } from "react-icons/fa";
-import { RiChatSmile2Line } from "react-icons/ri";
 import Link from "next/link";
 import { toast } from "react-toastify";
 
@@ -16,6 +14,7 @@ import Map, {
     GeolocateControl,
 } from "react-map-gl";
 //import Message from "../message/Message";
+import { HiUserAdd, HiUserRemove } from "react-icons/hi";
 
 export const Maps = ({ location, w, h }) => {
     //console.log("location", location);
@@ -66,8 +65,7 @@ export const MainMap = ({
     users,
     singleUser,
     setSingleUser,
-    visible,
-    toggleVisible,
+    deleteFromCircle,
     user,
     addToCircle,
 }) => {
@@ -140,11 +138,11 @@ export const MainMap = ({
                 <NavigationControl position="top-left" visualizePitch={true} />
                 <ScaleControl />
                 {usersCoords &&
-                    usersCoords.map((user, i) => (
+                    usersCoords.map((use, i) => (
                         <div key={i}>
                             <Marker
-                                latitude={user.location[0]}
-                                longitude={user.location[1]}
+                                latitude={use.location[0]}
+                                longitude={use.location[1]}
                                 offsetLeft={-20}
                                 offsetTop={-10}
                             >
@@ -152,7 +150,7 @@ export const MainMap = ({
                                     onClick={() => {
                                         // setSelectedUser(user);
                                         setShowPopup(true);
-                                        setSingleUser(user);
+                                        setSingleUser(use);
                                     }}
                                 >
                                     <p
@@ -206,6 +204,27 @@ export const MainMap = ({
                                                         {singleUser.city}
                                                     </p>
                                                 </div>
+                                                {user?.circle?.includes(
+                                                    singleUser._id
+                                                ) ? (
+                                                    <HiUserRemove
+                                                        className="text-3xl text-zinc-700"
+                                                        onClick={() =>
+                                                            deleteFromCircle(
+                                                                singleUser
+                                                            )
+                                                        }
+                                                    />
+                                                ) : (
+                                                    <HiUserAdd
+                                                        className="text-3xl text-green-500"
+                                                        onClick={() =>
+                                                            addToCircle(
+                                                                singleUser
+                                                            )
+                                                        }
+                                                    />
+                                                )}
                                             </div>
                                         </div>
                                     </div>

@@ -5,7 +5,7 @@ import moment from "moment";
 import { useRouter } from "next/router";
 import languagesList from "../../../utils/list/languagesList";
 import { Button } from "react-daisyui";
-import { FaPlus, FaMinus } from "react-icons/fa";
+import { HiUserAdd, HiUserRemove } from "react-icons/hi";
 import { toast } from "react-toastify";
 import { fetcher } from "../../../utils/fetcher";
 
@@ -43,7 +43,7 @@ const Circle = () => {
             .then(
                 (results) => {
                     //ALLUSERS IN DB
-                    //console.log("CIRCLE RESULTS", results);
+                    console.log("CIRCLE RESULTS", results);
                     if (
                         byLanguage === "" ||
                         byLanguage === "Search by language"
@@ -105,9 +105,9 @@ const Circle = () => {
             });
     }, []);
 
-    const addToCircle = async () => {
+    const addToCircle = async (list) => {
         try {
-            if (singleUser._id && user._id) {
+            if (list._id && user._id) {
                 const response = await fetcher(
                     `/api/users/${user.username}/updateCircle`,
                     {
@@ -115,14 +115,16 @@ const Circle = () => {
                         headers: { "Content-Type": "application/json" },
                         body: JSON.stringify({
                             id: user._id,
-                            circle: singleUser._id,
+                            circle: list._id,
                         }),
                     }
                 );
 
                 //                console.log(`/api/users/${user.username}/updateCircle`);
                 mutate({ user: response }, false);
-                toast.success(`${singleUser.username} is now in your circle`);
+                toast.success(
+                    `${list.username.toUpperCase()} is now in your circle`
+                );
             } else {
                 toast("PORCAMADONNA");
             }
@@ -132,9 +134,9 @@ const Circle = () => {
         }
     };
 
-    const deleteFromCircle = async () => {
+    const deleteFromCircle = async (list) => {
         try {
-            if (singleUser._id && user._id) {
+            if (list._id && user._id) {
                 const response = await fetcher(
                     `/api/users/${user.username}/updateCircle`,
                     {
@@ -142,14 +144,14 @@ const Circle = () => {
                         headers: { "Content-Type": "application/json" },
                         body: JSON.stringify({
                             id: user._id,
-                            circle: singleUser._id,
+                            circle: list._id,
                         }),
                     }
                 );
 
                 mutate({ user: response }, false);
-                toast.success(
-                    `${singleUser.username} is not in your circle anymore`
+                toast.error(
+                    `${list.username.toUpperCase()} is not in your circle anymore`
                 );
             } else {
                 toast("PORCAMADONNA");
@@ -202,9 +204,8 @@ const Circle = () => {
                                     <div
                                         key={k}
                                         className="flex flex-col w-1/2 2xl:w-auto 2xl:flex-row 2xl:space-y-0 2xl:justify-between items-center p-2 lg:rounded hover:border-2 hover:border-green-500 hover:bg-black hover:scale-105 "
-                                        onClick={() => handleSingle(list)}
                                     >
-                                        <div>
+                                        <div onClick={() => handleSingle(list)}>
                                             <p className="w-1/3 font-bold uppercase">
                                                 {list.username}
                                             </p>
@@ -216,19 +217,19 @@ const Circle = () => {
                                             )}
                                         </div>
                                         {user?.circle?.includes(list._id) ? (
-                                            <Button
-                                                className="text-green-500 w-[3rem]"
-                                                onClick={deleteFromCircle}
-                                            >
-                                                <FaMinus />
-                                            </Button>
+                                            <HiUserRemove
+                                                className="text-3xl text-zinc-700"
+                                                onClick={() =>
+                                                    deleteFromCircle(list)
+                                                }
+                                            />
                                         ) : (
-                                            <Button
-                                                className="text-green-500 w-[3rem]"
-                                                onClick={addToCircle}
-                                            >
-                                                <FaPlus />
-                                            </Button>
+                                            <HiUserAdd
+                                                className="text-3xl text-green-500"
+                                                onClick={() =>
+                                                    addToCircle(list)
+                                                }
+                                            />
                                         )}
                                     </div>
                                 ))}
@@ -250,23 +251,31 @@ const Circle = () => {
                                         ) : (
                                             <p>{circle.language}</p>
                                         )}
-                                        <div>
-                                            {circle.since && (
-                                                <p className="italic font-light text-sm capitalize">
-                                                    {moment(
-                                                        circle.since,
-                                                        "YYYYMMDD"
-                                                    ).fromNow()}
-                                                </p>
-                                            )}
-                                        </div>
+                                        {user?.circle?.includes(circle._id) ? (
+                                            <HiUserRemove
+                                                className="text-3xl text-zinc-700"
+                                                onClick={() =>
+                                                    deleteFromCircle(circle)
+                                                }
+                                            />
+                                        ) : (
+                                            <HiUserAdd
+                                                className="text-3xl text-green-500"
+                                                onClick={() =>
+                                                    addToCircle(circle)
+                                                }
+                                            />
+                                        )}
                                     </div>
                                 ))}
                         </div>
                         <div className="w-full h-24 pl-4">
                             <div>
                                 Your Circle :{" "}
-                                <label onClick={handleMyCircle} className="btn">
+                                <label
+                                    onClick={handleMyCircle}
+                                    className="btn text-red-500"
+                                >
                                     {user.circle.length}
                                 </label>
                             </div>
@@ -274,6 +283,8 @@ const Circle = () => {
                     </div>
                     <div className="order-1 lg:order-2 w-full lg:w-4/5 h-full flex flex-col justify-center items-center lg:px-8  ">
                         <MainMap
+                        addToCircle={addToCircle}
+                        deleteFromCircle={deleteFromCircle}
                             user={user}
                             users={allUsers}
                             location={user?.location}
