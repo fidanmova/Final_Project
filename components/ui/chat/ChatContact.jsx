@@ -18,21 +18,23 @@ const ChatContact = ({ chat, i }) => {
         setSelectedChat(chat._id);
         setChatObject(chat);
       }}
-      className={`flex items-center cursor-pointer rounded-lg mt-1 p-1 ${
+      className={`flex items-center cursor-pointer rounded-lg mt-2 p-2 hover:bg-blue-800 ${
         i % 2 === 0 ? "bg-blue-900" : "bg-indigo-900"
       }`}
     >
-      <Image
-        width={55}
-        height={55}
-        alt={chat.chatName}
-        className="rounded-full"
-        src={`https://avatar.tobi.sh/${chat._id}`}
-      />
-      <div className="ml-4 pr-4 flex-1 py-4 ">
-        <div className="flex items-bottom justify-between">
+      <div className="w-3/12 flex justify-center items-center">
+        <Image
+          width={60}
+          height={60}
+          alt={chat.chatName}
+          className="rounded-full"
+          src={`https://avatar.tobi.sh/${chat._id}`}
+        />
+      </div>
+      <div className="ml-4 pr-4 flex-1 py-2 ">
+        <div className="flex flex-col justify-between">
           <p className="">{chat.chatName}</p>
-          <p className="text-xs">{timestampTxt}</p>
+          <p className="text-xs  text-left w-full">{timestampTxt}</p>
         </div>
         {/* <p> {groupMembers.map((member) => `${member.username} `)}</p> */}
         {/* Here 'latestMessage' can be added */}

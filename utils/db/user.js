@@ -31,7 +31,6 @@ export async function findAllUsersForChat(db) {
       { projection: { username: 1, avatar: 1 } }
     )
     .toArray();
-  //console.log("searchResults from db/user", searchResults);
   if (searchResults.length === 0) return null;
   return searchResults;
 }
@@ -102,7 +101,7 @@ export async function updateUserCode(db, id, code) {
     )
     .then(({ value }) => value)
     .catch((er) => {
-      console.error(er);
+      console.log(er);
     });
 }
 
@@ -118,7 +117,7 @@ export async function updateUserEvents(db, id, event) {
     )
     .then(({ value }) => value)
     .catch((er) => {
-      console.error(er);
+      console.log(er);
     });
 }
 
@@ -133,12 +132,12 @@ export async function updateUserJobs(db, id, job) {
     )
     .then(({ value }) => value)
     .catch((er) => {
-      console.error(er);
+      console.log(er);
     });
 }
 
 export async function addToCircle(db, id, circle) {
-  //console.log("myId, userId", id, circle);
+  console.log("myId, userId", id, circle);
   return db
     .collection("users")
     .findOneAndUpdate(
