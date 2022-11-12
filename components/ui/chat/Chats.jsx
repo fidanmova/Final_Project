@@ -27,7 +27,7 @@ const Chats = ({ user }) => {
               width={80}
               height={80}
               className="rounded-full"
-              src={`https://avatar.tobi.sh/${chatObject._id}`}
+              src={`https://avatar.tobi.sh/${chatObject?._id}`}
             />
           </div>
           <div className="ml-4">
