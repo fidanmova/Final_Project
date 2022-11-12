@@ -6,25 +6,26 @@ import "mapbox-gl/dist/mapbox-gl.css";
 import { ToastContainer, Flip } from "react-toastify";
 
 function MyApp({ Component, pageProps }) {
-    return (
-        <Layout>
-            <Component {...pageProps} />
-            <ToastContainer
-                position="top-center"
-                autoClose={1500}
-                hideProgressBar={false}
-                newestOnTop={false}
-                closeOnClick
-                rtl={false}
-                pauseOnFocusLoss
-                draggable
-                pauseOnHover
-                theme="dark"
-                transition={Flip}
-            />
-        </Layout>
-        
-    );
+  return (
+    <ContextProvider>
+      <Layout>
+        <Component {...pageProps} />
+        <ToastContainer
+          position="top-center"
+          autoClose={1500}
+          hideProgressBar={false}
+          newestOnTop={false}
+          closeOnClick
+          rtl={false}
+          pauseOnFocusLoss
+          draggable
+          pauseOnHover
+          theme="dark"
+          transition={Flip}
+        />
+      </Layout>
+    </ContextProvider>
+  );
 }
 
 export default MyApp;

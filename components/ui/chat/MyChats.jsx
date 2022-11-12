@@ -60,9 +60,10 @@ const MyChats = ({ user }) => {
       {/* CHATS START */}
       {chats ? (
         <div className="border-b border-grey-lighter flex-1 overflow-y-scroll scrollbar-hide max-h-screen">
-          {chats.map((chat, i) => {
-            return <ChatContact key={i} user={user} chat={chat} i={i} />;
-          })}
+          {chats &&
+            chats?.map((chat, i) => {
+              return <ChatContact key={i} user={user} chat={chat} i={i} />;
+            })}
         </div>
       ) : (
         <div>Loading...</div>

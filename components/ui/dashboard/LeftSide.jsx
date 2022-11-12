@@ -75,17 +75,15 @@ const LeftSide = ({ data }) => {
                         </span>
                     </p>
 
-                     
                     <div className="w-full max-h-[20vh] flex flex-col px-4 space-y-1.5 overflow-y-scroll overflow-x-hidden z-0 scrollbar-thin scrollbar-track-[#242424] scrollbar-thumb-[#ff2e2e]/50">
-                    {data?.user?.circle.length === 0 && (
-                        // 
+                        {data?.user?.circle.length === 0 && (
+                            //
                             <p className="w-full p-1.5">
-                            
                                 No One in your circle yet
                             </p>
-                        // 
-                    )} 
-                         {data?.user?.circle.length !== 0 &&
+                            //
+                        )}
+                        {data?.user?.circle.length !== 0 &&
                             myCircle?.map((myc, i) => (
                                 <p className="w-full uppercase" key={i}>
                                     <span className="text-red-500">
@@ -93,7 +91,7 @@ const LeftSide = ({ data }) => {
                                     </span>{" "}
                                     {myc.username}
                                 </p>
-                            ))} 
+                            ))}
                     </div>
                 </div>
                 <div className="w-full flex capitalize border-y border-blue-500/40 py-3">

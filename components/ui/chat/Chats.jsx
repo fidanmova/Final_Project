@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect } from "react";
 import { Context } from "../../../utils/context/context";
 import Image from "next/image";
 import SendMessage from "./SendMessage";
@@ -27,15 +27,18 @@ const Chats = ({ user }) => {
               width={80}
               height={80}
               className="rounded-full"
-              src={`https://avatar.tobi.sh/${chatObject._id}`}
+              src={`https://avatar.tobi.sh/${chatObject?._id}`}
             />
           </div>
           <div className="ml-4">
             <p className="text-grey-darkest">
-              {chatObject ? chatObject.chatName : "No chat selected"}
+              {chatObject && chatObject?.chatName}
             </p>
             <p className="text-grey-darker text-base mt-1">
-              {groupMembers.map((member) => `${member.username} `)}
+              {selectedChat !== null &&
+                chatObject !== null &&
+                groupMembers?.length >= 0 &&
+                groupMembers?.map((member) => `${member.username} `)}
             </p>
           </div>
         </div>

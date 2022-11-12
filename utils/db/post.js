@@ -1,7 +1,6 @@
 import { ObjectId } from "mongodb";
 import { dbProjectionUsers } from "./user";
 
-// ! Works:
 // @desc    find all chats
 // @route   GET api/posts/
 // @access  NOT Protected
@@ -65,14 +64,9 @@ export async function findUsersPosts(db, currentUser) {
         $match: { creatorId: new ObjectId(currentUser) },
       },
       { $sort: { _id: -1 } },
-      //! Projection can't be used here:
-      // { projection: dbProjectionUsers() },
     ])
     .toArray();
   if (usersPosts.length === 0) return null;
-  // console.log("#####################################");
-  // console.log("utils/db/post findUsersPosts =>", usersPosts);
-  // result is [{},{}, ...]
   return usersPosts;
 }
 
@@ -108,15 +102,7 @@ export async function insertPost(db, { content, creatorId }) {
     creatorId,
     createdAt: new Date(),
   };
-  //console.log("POST from db/post/insertPost =>", post);
   const { insertedId } = await db.collection("posts").insertOne(post);
   post._id = insertedId;
   return post;
 }
-
-// #################
-// Info about MONGODB Methods used:
-// #################
-
-// aggregate:
-// It collects values from various documents and groups them together.

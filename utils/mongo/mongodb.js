@@ -28,7 +28,7 @@ async function createIndexes(client) {
       .collection("posts")
       .createIndexes([{ key: { createdAt: -1 } }, { key: { creatorId: -1 } }]),
     db
-      .collection("comments")
+      .collection("editorChats")
       .createIndexes([{ key: { createdAt: -1 } }, { key: { postId: -1 } }]),
 
     db.collection("berlin_oct_2022"),

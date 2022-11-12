@@ -1,4 +1,7 @@
-import { findAllPosts, insertPost } from "../../../utils/db/post";
+import {
+  findEditorMessages,
+  insertEditorMessage,
+} from "../../../utils/db/editor";
 import { auths } from "../../../middlewares";
 import { dbConnect } from "./../../../utils/mongo/mongodb";
 import { ncOpts } from "../../../utils/nc";
@@ -8,11 +11,10 @@ const handler = nc(ncOpts);
 
 handler.use(...auths);
 
-// finds all Posts
 handler.get(async (req, res) => {
   const db = await dbConnect();
-  const posts = await findAllPosts(db);
-  res.json({ posts });
+  const messages = await findEditorMessages(db);
+  res.json({ messages });
 });
 
 handler.post(...auths, async (req, res) => {
@@ -22,12 +24,12 @@ handler.post(...auths, async (req, res) => {
 
   const db = await dbConnect();
 
-  const post = await insertPost(db, {
+  const message = await insertEditorMessage(db, {
     content: req.body.content,
     creatorId: req.user._id,
   });
 
-  return res.json({ post });
+  return res.json({ message });
 });
 
 export default handler;

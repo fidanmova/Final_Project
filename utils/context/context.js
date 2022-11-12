@@ -23,10 +23,8 @@ function ContextProvider({ children }) {
             Object.keys(chatObject).length === 0 &&
             Object.getPrototypeOf(chatObject) === Object.prototype
           ) {
-            console.log("No chat selected");
           } else {
             let groupMembers = chatObject.users;
-            console.log("chatObject =>", groupMembers);
             let groupMembersArray = [];
             groupMembers.map((groupMember) => {
               let result = allUsersData.filter(

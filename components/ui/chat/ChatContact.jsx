@@ -3,8 +3,8 @@ import { Context } from "../../../utils/context/context";
 import { format } from "@lukeed/ms";
 import Image from "next/image";
 
-const ChatContact = ({ user, chat, i }) => {
-  const { setSelectedChat, setChatObject, groupMembers } = useContext(Context);
+const ChatContact = ({ chat, i }) => {
+  const { setSelectedChat, setChatObject } = useContext(Context);
 
   const timestampTxt = useMemo(() => {
     const diff = Date.now() - new Date(chat.createdAt).getTime();
