@@ -7,9 +7,9 @@ const Feed = () => {
         data: { user },
     } = useCurrentUser();
     return (
-        <div className="w-full p-2 ">
-            <Poster />
+        <div className="w-full h-full p-2 ">
             <PostList user={user} />
+            <Poster />
         </div>
     );
 };

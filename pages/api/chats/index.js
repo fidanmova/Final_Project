@@ -12,12 +12,7 @@ handler.use(...auths);
 // works to get all chats:
 handler.get(async (req, res) => {
   const db = await dbConnect();
-  const chats = await findAllChats(
-    db,
-    // req.query.before ? new Date(req.query.before) : undefined,
-    req.query.by
-    // req.query.limit ? parseInt(req.query.limit, 10) : undefined
-  );
+  const chats = await findAllChats(db, req.query.by);
   if (chats === null) {
     res.json("NO DATA");
   }
@@ -26,6 +21,7 @@ handler.get(async (req, res) => {
 });
 
 //! Works:
+<<<<<<< HEAD
 handler.post(
   ...auths,
   // validateBody({
@@ -51,7 +47,24 @@ handler.post(
     });
    //console.log("chat", chat);
     return res.json({ chat });
+=======
+handler.post(...auths, async (req, res) => {
+  console.log("req.body from api/chats", req.body);
+  if (!req.body) {
+    return res.status(401).end();
+>>>>>>> e1f4a0c1fc1a4608d6efb4639069ee39a203d876
   }
-);
+  let users = req.body.users;
+  const chatName = req.body.chatName;
+
+  const db = await dbConnect();
+  const chat = await insertChat(db, {
+    chatName,
+    users: users,
+    creatorId: req.user._id,
+  });
+  console.log("chat", chat);
+  return res.json({ chat });
+});
 
 export default handler;

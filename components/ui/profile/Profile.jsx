@@ -2,11 +2,19 @@ import React from "react";
 import Image from "next/image";
 
 export default function Profile({ user }) {
+<<<<<<< HEAD
     return (
         <div className="p-16 pt-2">
             <div className="p-8 bg-gray-900 shadow rounded-3xl  mt-0.5 opacity-80 bg-red-500/10">
                 <div
                     className="p-6 bg-gray-900 shadow rounded-3xl mt-0.5 
+=======
+  return (
+    <div className="p-16 pt-2">
+      <div className="p-8 bg-gray-900 shadow mt-24 rounded-3xl  mt-0.5 opacity-80 bg-red-500/10">
+        <div
+          className="p-6 bg-gray-900 shadow mt-24 rounded-3xl    mt-0.5 
+>>>>>>> e1f4a0c1fc1a4608d6efb4639069ee39a203d876
  "
                 >
                     <div className="p-7 bg-gray-800 shadow mt-24   ">

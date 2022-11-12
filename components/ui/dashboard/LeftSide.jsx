@@ -53,7 +53,7 @@ const LeftSide = ({ data }) => {
             <h1 className="text-xl my-4 capitalize text-left">
                 Hi <span className="uppercase">{data?.user?.username}</span>
             </h1>
-            <div className="w-11/12 h-full flex flex-col space-y-4 lg:space-y-12">
+            <div className="w-11/12 h-full flex flex-col space-y-4 lg:space-y-5">
                 <div className="flex items-center">
                     <CgPinAlt className="text-2xl font-extrabold text-green-500" />
                     <p className="capitalize">{data?.user?.city}</p>
@@ -63,8 +63,9 @@ const LeftSide = ({ data }) => {
                     <p className="w-1/2 uppercase">your language:</p>
                     <p className="w-1/2"> {data?.user?.language}</p>
                 </div>
-                <div className="w-full flex  capitalize">
-                    <p className="w-1/3 pb-3 uppercase">
+
+                <div className="w-full flex capitalize border-y border-red-500/40 py-3">
+                    <p className="w-1/2 uppercase">
                         <span className="text-2xl text-red-500">
                             {data?.user?.circle.length}
                         </span>{" "}
@@ -75,9 +76,14 @@ const LeftSide = ({ data }) => {
                     </p>
 
                     {data?.user?.circle.length === 0 && (
-                        <p className="w-1/2 pt-4"> {myCircle}</p>
+                        <Link href="/circle">
+                            <p className="pt-4">
+                                {" "}
+                                No One in your circle yet
+                            </p>
+                        </Link>
                     )}
-                    <div className="w-2/3 max-h-[20vh] flex flex-col px-5 space-y-1.5 overflow-y-scroll overflow-x-hidden z-0 scrollbar-thin scrollbar-track-[#242424] scrollbar-thumb-[#ff2e2e]/50">
+                    <div className="w-full max-h-[20vh] flex flex-col px-4 space-y-1.5 overflow-y-scroll overflow-x-hidden z-0 scrollbar-thin scrollbar-track-[#242424] scrollbar-thumb-[#ff2e2e]/50">
                         {data?.user?.circle.length !== 0 &&
                             myCircle?.map((myc, i) => (
                                 <p className="w-full uppercase" key={i}>
@@ -89,7 +95,7 @@ const LeftSide = ({ data }) => {
                             ))}
                     </div>
                 </div>
-                <div className="w-full flex capitalize">
+                <div className="w-full flex capitalize border-y border-blue-500/40 py-3">
                     <p className="w-1/2 uppercase text-blue-500 font-bold tracking-widest">
                         <span className="text-2xl">
                             {" "}
@@ -100,7 +106,7 @@ const LeftSide = ({ data }) => {
                     <div className="w-full h-[20vh] flex flex-col px-2 overflow-y-scroll overflow-x-hidden z-0 scrollbar-thin scrollbar-track-[#242424] scrollbar-thumb-blue-500/50">
                         {data?.user?.events &&
                             data.user.events.map((event, i) => (
-                                <p key={i} className="w-full p-4">
+                                <p key={i} className="w-full p-1.5">
                                     <span className="text-blue-500">
                                         {i + 1} -{" "}
                                     </span>
@@ -109,7 +115,7 @@ const LeftSide = ({ data }) => {
                             ))}
                     </div>
                 </div>
-                <div className="w-full flex capitalize">
+                <div className="w-full flex capitalize border-y border-pink-500/40 py-3">
                     <p className="w-1/2 uppercase text-pink-500 font-bold tracking-widest">
                         <span className="text-2xl">
                             {" "}
@@ -117,7 +123,7 @@ const LeftSide = ({ data }) => {
                         </span>{" "}
                         Jobs :
                     </p>
-                    <div className="w-full h-[20vh] flex flex-col px-2 overflow-y-scroll overflow-x-hidden z-0 scrollbar-thin scrollbar-track-[#242424] scrollbar-thumb-pink-500/50">
+                    <div className="w-full h-[20vh] flex flex-col overflow-y-scroll overflow-x-hidden z-0 scrollbar-thin scrollbar-track-[#242424] scrollbar-thumb-pink-500/50">
                         {data?.user?.jobs.length !== 0 &&
                             data?.user.jobs.map((job, id) => (
                                 <p key={id} className="w-full p-4 pt-0">
@@ -131,14 +137,14 @@ const LeftSide = ({ data }) => {
                     </div>
                 </div>
 
-                <div className="w-full flex capitalize pb-4">
+                <div className="w-full flex capitalize border-y border-yellow-500/40 py-3">
                     <p className="w-1/2 uppercase text-yellow-500 font-bold tracking-widest">
                         <span className="text-2xl">
                             {data?.user?.code.length}
                         </span>
                         Code{data?.user?.code.length > 1 ? "s" : ""} :
                     </p>
-                    <div className="w-full h-[20vh] flex flex-col px-2 overflow-y-scroll overflow-x-hidden z-0 scrollbar-thin scrollbar-track-[#242424] scrollbar-thumb-yellow-500/50">
+                    <div className="w-full h-[20vh] flex flex-col overflow-y-scroll overflow-x-hidden z-0 scrollbar-thin scrollbar-track-[#242424] scrollbar-thumb-yellow-500/50">
                         {data?.user?.code.length !== 0 &&
                             data?.user?.code.map((cod, id) => (
                                 <div key={id} className="w-full p-4 pt-0">

@@ -20,7 +20,6 @@ handler.get(async (req, res) => {
 
   //! This part comes from pages/user/[username]/index.js:
   //! There, it uses "getServerSideProps(context)" to access the params (username)
-  //! The users ObjId is replaced to a normal "string Id"
   // user._id = String(user._id);
   // console.log("USER PROPS?? =>", { props: { user } });
   // return { props: { user } };
