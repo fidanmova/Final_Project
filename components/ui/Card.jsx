@@ -66,6 +66,48 @@ const PostCard = ({ post }) => {
   );
 };
 
+const EditorCard = ({ message }) => {
+  const timestampTxtPost = useMemo(() => {
+    const diff = Date.now() - new Date(message.createdAt).getTime();
+    if (diff < 1 * 60 * 1000) return "Just now";
+    return `${format(diff, true)} ago`;
+  }, [message.createdAt]);
+  const { data: currentUser, error } = useCurrentUser();
+
+  return (
+    <Card
+      className={`bg-black/70 w-full m-1 text-sm border-blue-500/50 hover:scale-95 shadow-md`}
+    >
+      <Link href={`/user/${message.creator._id}`}>
+        <a>
+          <div
+            className={`first-letter:w-full h-full flex flex-col justify-between items-start p-2 `}
+          >
+            <h2
+              className={`text-base bold ${
+                message.creator.username == currentUser.user.username
+                  ? "text-red-500"
+                  : "text-yellow-500"
+              }`}
+            >
+              {message.creator.username}
+            </h2>
+            <p className="text-md capitalize text-white">{message.content}</p>
+            <div className="w-full flex justify-end">
+              <time
+                dateTime={String(message.createdAt)}
+                className="text-[10px] text-right font-gray-200 item-end"
+              >
+                {timestampTxtPost}
+              </time>
+            </div>
+          </div>
+        </a>
+      </Link>
+    </Card>
+  );
+};
+
 const MessageCard = ({ message, user }) => {
   const { groupMembers } = useContext(Context);
 
@@ -120,4 +162,4 @@ const MessageCard = ({ message, user }) => {
     </div>
   );
 };
-export { DashCard, MessageCard, PostCard };
+export { DashCard, MessageCard, PostCard, EditorCard };

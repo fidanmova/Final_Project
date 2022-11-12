@@ -1,8 +1,8 @@
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 import { Context } from "../../../utils/context/context";
 import { Button, Input, Form } from "react-daisyui";
 import { fetcher } from "../../../utils/fetcher";
-import { useState } from "react";
+import InputEmoji from "react-input-emoji";
 
 const SendMessage = () => {
   const { selectedChat } = useContext(Context);
@@ -13,6 +13,7 @@ const SendMessage = () => {
   const onSubmit = async (e) => {
     e.preventDefault();
     if (!selectedChat) {
+      toast.error("select a chat!");
     }
     try {
       setIsLoading(true);
@@ -24,6 +25,7 @@ const SendMessage = () => {
         }),
       });
       setMessages([data, ...messages]);
+      setContent("");
     } catch (e) {
       console.log(e.message);
     } finally {
@@ -37,12 +39,22 @@ const SendMessage = () => {
         onSubmit={onSubmit}
         className="w-full flex flex-row justify-center p-4"
       >
-        <Input
+        {/* <Input
           value={content}
           className="w-full"
           placeholder={`Enter message here`}
           aria-label={`Enter message here`}
           onChange={(e) => setContent(e.target.value)}
+        />
+ */}
+        <InputEmoji
+          value={content}
+          onChange={setContent}
+          cleanOnEnter
+          placeholder={`Enter message here`}
+          borderRadius={2}
+          borderColor="#494948"
+          theme="dark"
         />
         <Button
           type="success"

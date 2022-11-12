@@ -1,7 +1,7 @@
 import { fetcher } from "../fetcher";
 import useSWRInfinite from "swr/infinite";
 
-export function usePostPages({ limit = 10 } = {}) {
+export function useEditorPages({ limit = 10 } = {}) {
   const { data, error, size, ...props } = useSWRInfinite(
     (index, previousPageData) => {
       // reached the end
@@ -20,7 +20,7 @@ export function usePostPages({ limit = 10 } = {}) {
         searchParams.set("before", before.toJSON());
       }
 
-      return `/api/posts/`;
+      return `/api/editorPosts`;
     },
     fetcher,
     {

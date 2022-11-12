@@ -11,14 +11,6 @@ handler.use(...auths);
 
 //! Works:
 handler.get(async (req, res) => {
-<<<<<<< HEAD
-  //console.log("req.query api/chats/chatId => ", req.query);
-  const db = await dbConnect();
-  let id = req.query?.chatId;
- // console.log("REq Query ChatId from api/chats/chatId", id);
-  const chat = await findChatById(db, id);
-  return res.json({ chat });
-=======
   const db = await dbConnect();
   const chat = await findChatById(db, chatId);
 
@@ -49,7 +41,6 @@ handler.post(...auths, async (req, res) => {
   });
 
   return res.json({ message });
->>>>>>> e1f4a0c1fc1a4608d6efb4639069ee39a203d876
 });
 
 export default handler;
