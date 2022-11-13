@@ -9,12 +9,11 @@ const handler = nc(ncOpts);
 
 handler.use(...auths);
 
-//! Works:
 handler.get(async (req, res) => {
   try {
     const db = await dbConnect();
     const chatId = req.query.chatId;
-    const currentUser = req.user;
+    const currentUser = req.user._id;
     //console.log("CHAT ID?", chatId, "CURRENT USER", currentUser);
 
     // check if the requester is admin/creator:

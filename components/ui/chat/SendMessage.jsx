@@ -10,8 +10,10 @@ const SendMessage = () => {
   const [content, setContent] = useState();
   const [isLoading, setIsLoading] = useState(false);
 
-  const onSubmit = async (e) => {
-    e.preventDefault();
+  // const { mutate } = useMessagePages({ chatId: chat._id });
+
+  const onSubmit = async () => {
+    // e.preventDefault();
     if (!selectedChat) {
       toast.error("select a chat!");
     }
@@ -25,7 +27,6 @@ const SendMessage = () => {
           content: content,
         }),
       });
-
       setMessages([data, ...messages]);
     } catch (e) {
       console.log(e.message);
@@ -38,12 +39,12 @@ const SendMessage = () => {
     <div className="bg-gray-700/60 lg:rounded-b-xl rounded-b-sm">
       <Form
         onSubmit={onSubmit}
-        className="w-full flex flex-row justify-center p-4"
+        className="w-full flex flex-row justify-center p-4 normal-case"
       >
         <InputEmoji
           value={content}
           onChange={setContent}
-          onEnter={setContent}
+          onEnter={onSubmit}
           cleanOnEnter
           placeholder={`Enter message here`}
           borderRadius={2}
