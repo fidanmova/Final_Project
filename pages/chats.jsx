@@ -15,23 +15,4 @@ const chats = () => {
   );
 };
 
-// export async function getServerSideProps(context) {
-//   const db = await dbConnect();
-
-//   // let resData = context.res;
-//   let reqData = context.req.cookies.sess;
-//   console.log("COOKIE SESSION? context =>", reqData);
-//   // let userId = user._id;
-
-//   const allUserChats = await findAllChats(db);
-//   if (!allUserChats) {
-//     return {
-//       notFound: true,
-//     };
-//   }
-//   let allChats = await JSON.parse(JSON.stringify(allUserChats));
-//   // console.log("CHAT =>", allChats);
-//   return { props: { allChats } };
-// }
-
 export default chats;

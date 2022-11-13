@@ -15,7 +15,7 @@ const PostList = ({ user }) => {
         : [];
 
     return (
-        <div className="w-full h-[68vh] flex flex-wrap overflow-y-scroll scrollbar-hide pt-2">
+        <div className="w-full h-[72vh] flex flex-wrap overflow-y-scroll scrollbar-hide pt-2">
             {posts &&
                 posts.map((post, i) => {
                     return <PostCard post={post} key={i} />;

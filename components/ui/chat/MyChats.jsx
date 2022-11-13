@@ -6,7 +6,7 @@ import { useChatPages } from "../../../utils/chat/hooks";
 import CreateChatModal from "./CreateChatModal";
 
 const MyChats = ({ user }) => {
-  const { data, size, setSize, isLoadingMore, isReachingEnd } = useChatPages();
+  const { data } = useChatPages();
 
   const chats = data
     ? data.reduce((acc, val) => [...acc, ...val.usersChats], [])
@@ -19,12 +19,12 @@ const MyChats = ({ user }) => {
     >
       {/* HEADER START */}
       <div className="flex justify-between items-center flex-nowrap">
-        <h1 className="lg:text-4xl text-2xl">My Chats</h1>
+        <h1 className="lg:text-4xl text-2xl uppercase font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-red-600 via-purple-500 to-yellow-500 hover:scale-95 transition duration-200 ease-in-out">My Chats</h1>
         <div className="">
           {/* For opening Modal from CreateModal Component */}
           <label
             htmlFor="my-modal"
-            className="btn text-[1rem] lg:text-sm font-normal text-white border-2 bg-blue-900 p-2 rounded-xl hover:bg-blue-800 lg:w-40 w-36"
+            className="btn text-[1rem] lg:text-sm font-normal text-white border-2 bg-purple-900 p-2 rounded-xl hover:bg-purple-800 lg:w-40 w-36"
           >
             Add Group Chat +{" "}
           </label>

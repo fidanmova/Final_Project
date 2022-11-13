@@ -18,8 +18,8 @@ const ChatContact = ({ chat, i }) => {
         setSelectedChat(chat._id);
         setChatObject(chat);
       }}
-      className={`flex items-center cursor-pointer rounded-lg mt-2 p-2 hover:bg-blue-800 ${
-        i % 2 === 0 ? "bg-blue-900" : "bg-indigo-900"
+      className={`flex items-center cursor-pointer rounded-lg mt-2 p-2 hover:bg-purple-800 ${
+        i % 2 === 0 ? "bg-purple-900" : "bg-indigo-900"
       }`}
     >
       <div className="w-3/12 flex justify-center items-center">

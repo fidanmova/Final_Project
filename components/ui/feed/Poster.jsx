@@ -16,8 +16,7 @@ const PosterInner = ({ user }) => {
 
     const { mutate } = usePostPages();
 
-    const onSubmit = async (e) => {
-        e.preventDefault();
+    const onSubmit = async () => {
         try {
             setIsLoading(true);
             const data = await fetcher("/api/posts", {
@@ -30,7 +29,7 @@ const PosterInner = ({ user }) => {
             setContent("");
             setComments([data, ...comments]);
             mutate({ posts: data }, false);
-            toast.success("You have posted successfully");
+            //toast.success("You have posted successfully");
         } catch (e) {
             console.error(e.message);
             //toast.error(e.message);
@@ -41,11 +40,12 @@ const PosterInner = ({ user }) => {
     // [mutate]
 
     return (
-        <Form onSubmit={onSubmit}>
+        <Form onSubmit={onSubmit} onEnter={onSubmit}>
             <div className="w-full flex">
                 <InputEmoji
                     value={content}
                     onChange={setContent}
+                    onEnter={onSubmit}
                     cleanOnEnter
                     placeholder="hi"
                     borderRadius={2}
