@@ -1,4 +1,4 @@
-import React, { useCallback } from "react";
+import React, { useCallback, useState } from "react";
 import Link from "next/link";
 import { useCurrentUser } from "../utils/user/hooks";
 import { ImPacman } from "react-icons/im";
@@ -6,11 +6,19 @@ import { IoMdLogOut } from "react-icons/io";
 import { useRouter } from "next/router";
 import { fetcher } from "../utils/fetcher";
 import { CgLogIn } from "react-icons/cg";
+import Links from "./Links";
+import { motion } from "framer-motion";
 
 const Header = () => {
     const router = useRouter();
     const { data: { user } = {}, mutate } = useCurrentUser();
     //console.log("USER", user);
+
+    const [visible, setVisible] = useState(false);
+
+    const toggleVisible = () => {
+        setVisible(!visible);
+    };
 
     const logOut = useCallback(
         async (e) => {
@@ -34,7 +42,7 @@ const Header = () => {
         <header className="w-full h-16 sticky z-50 top-0 flex justify-between items-center px-2 lg:px-6">
             {user !== null ? (
                 <Link href="/dashboard">
-                    <button className="uppercase font-extrabold text-transparent text-4xl bg-clip-text bg-gradient-to-r from-red-600 via-purple-500 to-yellow-500 hover:scale-95 transition duration-200 ease-in-out">
+                    <button className="uppercase font-extrabold text-transparent text-3xl lg:text-4xl bg-clip-text bg-gradient-to-r from-red-600 via-purple-500 to-yellow-500 hover:scale-95 transition duration-200 ease-in-out">
                         DevShed
                     </button>
                 </Link>
@@ -45,42 +53,35 @@ const Header = () => {
                     </button>
                 </Link>
             )}
-
-            <button className="flex items-center space-x-4">
+            {visible && (
+                <motion.div
+                    initial={{ x: -200, opacity: 0 }}
+                    whileInView={{ x: 0, opacity: 1 }}
+                    transition={{ duration: 1 }}
+                    onClick={toggleVisible}
+                    className="w-screen h-screen absolute top-0 z-[99] bg-black lg:hidden flex flex-col items-center justify-center"
+                >
+                    <Links style="text-4xl" />
+                </motion.div>
+            )}
+            <div className="flex items-center space-x-4">
                 {user !== null ? (
                     <>
                         <div className="hidden lg:flex mr-8 items-center space-x-4">
-                            <Link href="/circle">
-                                <p className="text-red-500 text-xl rounded-lg hover:bg-red-500/50 hover:text-gray-300 p-2 ">
-                                    CIRCLE
-                                </p>
-                            </Link>
-                            <Link href="/chats">
-                                <p className="text-purple-500 text-xl rounded-lg hover:bg-purple-500/50 hover:text-gray-300 p-2">
-                                    CHAT
-                                </p>
-                            </Link>{" "}
-                            <Link href="/events">
-                                <p className="text-blue-500 text-xl rounded-lg hover:bg-blue-500/50 hover:text-gray-300 p-2">
-                                    EVENTS
-                                </p>
-                            </Link>
-                            <Link href="/job">
-                                <p className="text-pink-500 text-xl rounded-lg hover:bg-pink-500/50 hover:text-gray-300 p-2">
-                                    JOBS
-                                </p>
-                            </Link>
-                            <Link href="/editor">
-                                <p className="text-yellow-500 text-xl rounded-lg hover:bg-yellow-500/50 hover:text-gray-300 p-2">
-                                    CODE
-                                </p>
-                            </Link>
+                            <Links style="text-xl" />
                         </div>
                         <div className="flex space-x-4 items-center p-2 lg:border-4 border-yellow-500/50 rounded-xl">
                             <ImPacman
                                 className="text-yellow-500 text-lg hidden lg:inline"
                                 href="/dashboard"
                             />
+
+                            <ImPacman
+                                className="text-yellow-500 text-lg lg:hidden"
+                                color="primary"
+                                onClick={toggleVisible}
+                            />
+
                             <Link href={`/user/${user?._id}`}>
                                 <p className="font-bold uppercase hover:scale-95 transition duration-200 ease-in-out">
                                     {user?.username}
@@ -100,7 +101,7 @@ const Header = () => {
                         </Link>
                     </div>
                 )}
-            </button>
+            </div>
         </header>
     );
 };

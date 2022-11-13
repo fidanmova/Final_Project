@@ -14,7 +14,7 @@ const MyChats = ({ user }) => {
 
   return (
     <div
-      className="lg:w-3/12 w-full lg:min-h-[90vh] lg:max-h-[90vh] h-[40vh] p-6 flex flex-col text-xl uppercase bg-gray-900/90
+      className="lg:w-3/12 w-full lg:min-h-[85vh] lg:max-h-[90vh] h-[40vh] p-6 flex flex-col text-xl uppercase bg-gray-900/90
       lg:rounded-3xl rounded-sm border-2 border-gray-600"
     >
       {/* HEADER START */}

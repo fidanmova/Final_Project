@@ -41,7 +41,7 @@ const Chats = ({ user }) => {
   };
 
   return (
-    <div className="lg:w-8/12 w-full h-[90vh] min-h-[80vh] flex flex-col p-4 lg:ml-4 bg-gray-900/80 lg:rounded-3xl rounded-sm text-xl uppercase border-2 border-gray-600">
+    <div className="lg:w-8/12 w-full h-[85vh] min-h-[80vh] flex flex-col p-4 lg:ml-4 bg-gray-900/80 lg:rounded-3xl rounded-sm text-xl uppercase border-2 border-gray-600">
       {/* HEADER START */}
       <div className="h-1/10 py-2 px-3 lg:rounded-t-3xl rounded-t-sm rounded-b-none bg-gray-700/60 flex flex-row justify-between items-center">
         <div className="flex items-center">
