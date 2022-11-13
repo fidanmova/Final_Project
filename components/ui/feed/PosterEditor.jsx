@@ -10,15 +10,6 @@ const PosterInner = ({ user }) => {
   const [content, setContent] = useState();
   const [isLoading, setIsLoading] = useState(false);
 
-  const {} = usePostPages();
-
-  const onChangeHandler = (e) => {
-    setUserInput((prevUser) => ({
-      ...prevUser,
-      [e.target.name]: e.target.value,
-    }));
-  };
-
   const onSubmit = async (e) => {
     e.preventDefault();
     try {
@@ -30,8 +21,8 @@ const PosterInner = ({ user }) => {
           content: content,
         }),
       });
+      setContent("")
       setComments([data, ...comments]);
-      toast.success("You have posted successfully");
     } catch (e) {
       console.error(e.message);
     } finally {
@@ -40,7 +31,7 @@ const PosterInner = ({ user }) => {
   };
 
   return (
-    <form
+    <Form
       onSubmit={onSubmit}
       className="w-full flex flex-wrap justify-between py-1"
     >
@@ -58,7 +49,7 @@ const PosterInner = ({ user }) => {
       >
         send
       </Button>
-    </form>
+    </Form>
   );
 };
 
@@ -67,16 +58,15 @@ const PosterEditor = () => {
   const loading = !data && !error;
 
   return (
-    <div className="">
-      {loading ? (
-        <div> ... LOAD</div>
-      ) : data?.user ? (
-        <PosterInner user={data.user} />
-      ) : (
-        <p>No Messages in the feed.</p>
-      )}
-    </div>
-  );
+        <div className="h-[10vh] pt-4">
+            {loading && <div> ... LOAD</div>}
+            {!loading && data?.user ? (
+                <PosterInner user={data.user} />
+            ) : (
+                <p>No Messages in the feed.</p>
+            )}
+        </div>
+    );
 };
 
 export default PosterEditor;

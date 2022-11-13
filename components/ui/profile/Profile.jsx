@@ -28,11 +28,13 @@ export default function Profile({ user }) {
                 );
 
                 //                console.log(`/api/users/${user.username}/updateCircle`);
+                toast.success(
+                    `${list.username.toUpperCase()} is now in your circle`
+                );
                 mutate({ user: response }, false);
-                toast.error("Ops...something went wrong!");
             }
         } catch (error) {
-            toast.error("Ops...something went wrong!");
+            console.error("Ops...something went wrong!");
         }
     };
 
@@ -58,7 +60,6 @@ export default function Profile({ user }) {
             }
         } catch (error) {
             console.error(error);
-            toast.error("Ops...something went wrong!");
         }
     };
 
@@ -84,7 +85,9 @@ export default function Profile({ user }) {
                                 </div>
                                 <div>
                                     <p className="font-bold text-yellow-500 text-xl">
-                                        {user?.code?.length}
+                                        {user?.code?.length
+                                            ? user?.code?.length
+                                            : "0"}
                                     </p>
                                     <p className="text">Code Files</p>
                                 </div>
@@ -163,23 +166,31 @@ export default function Profile({ user }) {
                         <div className="flex flex-wrap px-4 mt-6 justify-evenly">
                             <div className=" w-1/2 mt-4 text-lg tracking-wider overflow-x-auto ...">
                                 Jobs List :
-                                {user.jobs.map((el, i) => (
-                                    <div key={i} className=" ">
-                                        <p className="text-xs">
-                                            {i + 1}.&emsp;{el}
-                                        </p>
-                                    </div>
-                                ))}
+                                {user?.jobs?.length > 0 ? (
+                                    user.jobs.map((el, i) => (
+                                        <div key={i} className=" ">
+                                            <p className="text-xs">
+                                                {i + 1}.&emsp;{el}
+                                            </p>
+                                        </div>
+                                    ))
+                                ) : (
+                                    <p className=" italic text-xs">No Job Saved</p>
+                                )}
                             </div>
                             <div className="w-1/2 mt-4 text-lg tracking-wider overflow-x-auto ...">
                                 Events List :
-                                {user.events.map((el, i) => (
-                                    <div key={i} className=" ">
-                                        <p className="text-xs">
-                                            {i + 1}.&emsp;{el}
-                                        </p>
-                                    </div>
-                                ))}
+                                {user.events.length > 0 ? (
+                                    user.events.map((el, i) => (
+                                        <div key={i} className=" ">
+                                            <p className="text-xs">
+                                                {i + 1}.&emsp;{el}
+                                            </p>
+                                        </div>
+                                    ))
+                                ) : (
+                                    <p className=" italic text-xs">No Event Saved</p>
+                                )}
                             </div>
                         </div>
                     </div>

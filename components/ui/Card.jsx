@@ -76,7 +76,7 @@ const EditorCard = ({ message }) => {
 
   return (
     <Card
-      className={`bg-black/70 w-full m-1 text-sm border-blue-500/50 hover:scale-95 shadow-md`}
+      className={`bg-black/70 w-full m-1 text-sm border-y-blue-500/50 hover:scale-95 shadow-md rounded-0`}
     >
       <Link href={`/user/${message.creator._id}`}>
         <a>

@@ -1,4 +1,4 @@
-import { Button, Input, Text } from "react-daisyui";
+import { Button} from "react-daisyui";
 import { useEditorPages } from "../../../utils/editor/hooks";
 // import { useCurrentUser } from "../../../utils/user/hooks";
 import { EditorCard } from "../Card";
@@ -11,17 +11,17 @@ const EditorList = () => {
     : [];
 
   return (
-    <div className="w-full h-full flex flex-wrap">
+    <div className="w-full h-full flex flex-wrap ">
       {messages &&
         messages.map((message, i) => {
           return <EditorCard message={message} key={i} />;
         })}
-      <div>
+      <div className="w-full py-4 px-2">
         {isReachingEnd ? (
           <div>No chat messages.</div>
         ) : (
           <Button
-            className="mt-4 hover:bg-blue-800/80 hover:after:text-white"
+            className="w-full hover:bg-purple-800/80 hover:after:text-white"
             loading={isLoadingMore}
             onClick={() => setSize(size + 1)}
           >

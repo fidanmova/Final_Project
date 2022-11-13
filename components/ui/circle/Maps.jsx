@@ -16,6 +16,7 @@ import Map, {
 //import Message from "../message/Message";
 import { HiUserAdd, HiUserRemove } from "react-icons/hi";
 import { TbMessages } from "react-icons/tb";
+import { ImProfile } from "react-icons/im";
 
 export const Maps = ({ location, w, h }) => {
     //console.log("location", location);
@@ -176,7 +177,7 @@ export const MainMap = ({
                                                 <Link
                                                     href={`/user/${singleUser._id}`}
                                                 >
-                                                    <p className="text-blue-500  text-2xl uppercase text-center">
+                                                    <p className="hover:underline uppercase font-extrabold text-transparent text-lg lg:text-3xl bg-clip-text bg-gradient-to-r from-red-600 via-purple-500 to-yellow-500 hover:scale-95 transition duration-200 ease-in-out text-center hover:tracking-widest cursor-pointer">
                                                         {singleUser.username}
                                                     </p>
                                                 </Link>
@@ -207,7 +208,7 @@ export const MainMap = ({
                                                         singleUser._id
                                                     ) ? (
                                                         <HiUserRemove
-                                                            className="text-3xl text-zinc-700"
+                                                            className="text-3xl text-zinc-700 cursor-pointer"
                                                             onClick={() =>
                                                                 deleteFromCircle(
                                                                     singleUser
@@ -216,7 +217,7 @@ export const MainMap = ({
                                                         />
                                                     ) : (
                                                         <HiUserAdd
-                                                            className="text-3xl text-green-500"
+                                                            className="text-3xl text-green-500 cursor-pointer"
                                                             onClick={() =>
                                                                 addToCircle(
                                                                     singleUser
@@ -225,13 +226,18 @@ export const MainMap = ({
                                                         />
                                                     )}
                                                     <TbMessages
-                                                        className="text-3xl text-purple-500"
+                                                        className="text-3xl text-purple-500 cursor-pointer"
                                                         onClick={() =>
                                                             router.push(
                                                                 "/chats"
                                                             )
                                                         }
                                                     />
+                                                    <Link
+                                                        href={`/user/${singleUser._id}`}
+                                                    >
+                                                        <ImProfile className="text-3xl text-[#ef7f23] cursor-pointer" />
+                                                    </Link>
                                                 </div>
                                             </div>
                                         </div>
