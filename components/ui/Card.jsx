@@ -7,20 +7,23 @@ import { useCurrentUser } from "../../utils/user/hooks";
 
 const DashCard = ({ title, text, style }) => {
   return (
-    <Card href={`/${title}`}
-      className={`bg-black/70 w-[42vw] lg:w-[30vw] h-[25vh] m-1 text-sm border-blue-500/50 hover:scale-95 shadow-md cursor-pointer ${style}`}
-    >
-      <div className="w-full h-full flex flex-col justify-between items-center py-8">
-        <h2 className={`text-2xl`}>{title}</h2>
-
-        <p className="text-md capitalize text-white">{text}</p>
-        {title === "code" ? (
-          <Link href={`/editor`}>enter</Link>
-        ) : (
-          <Link href={`/${title}`}>enter</Link>
-        )}
-      </div>
-    </Card>
+    <Link href={title === "code" ? `/editor` : `/${title}`}>
+      <a>
+        <Card
+          className={`bg-black/70 w-[42vw] lg:w-[30vw] h-[25vh] m-1 text-sm border-blue-500/50 hover:scale-95 shadow-md cursor-pointer ${style}`}
+        >
+          <div className="w-full h-full flex flex-col justify-between items-center py-8">
+            <h2 className={`text-2xl`}>{title}</h2>
+            <p className="text-md capitalize text-white">{text}</p>
+            {title === "code" ? (
+              <Link href={`/editor`}>enter</Link>
+            ) : (
+              <Link href={`/${title}`}>enter</Link>
+            )}
+          </div>
+        </Card>
+      </a>
+    </Link>
   );
 };
 
@@ -75,9 +78,7 @@ const EditorCard = ({ message }) => {
   const { data: currentUser, error } = useCurrentUser();
 
   return (
-    <Card
-      className="rounded-0 bg-black/70 w-full m-1 text-sm border-y-blue-500/50 shadow-md shadow-black"
-    >
+    <Card className="rounded-0 bg-black/70 w-full m-1 text-sm border-y-blue-500/50 shadow-md shadow-black">
       <Link href={`/user/${message.creator._id}`}>
         <a>
           <div
