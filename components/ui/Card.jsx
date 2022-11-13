@@ -139,7 +139,7 @@ const MessageCard = ({ message, user }) => {
         className={`min-w-[15vw] max-w-[55%] py-1 px-2 normal-case ${
           message.creatorId != user._id.toString()
             ? "bg-blue-900"
-            : "bg-indigo-900"
+            : "bg-purple-900"
         }`}
       >
         <p className="text-base text-white">{message.content}</p>

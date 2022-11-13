@@ -58,16 +58,15 @@ export async function isUserChatAdmin(db, chatId, currentUser) {
               _id: new ObjectId(chatId.toString()),
             },
             {
-              creatorId: new ObjectId(currentUser._id.toString()),
+              creatorId: new ObjectId(currentUser.toString()),
             },
           ],
         },
       },
     ])
     .toArray();
-
-  if (isAdmin.length === 0) return false;
-  return true;
+  if (isAdmin.length === 1) return true;
+  return false;
 }
 
 // @desc    creates a chat with username
@@ -102,7 +101,17 @@ export async function findChatByIdAndAddUser(db, chatId, userId) {
   );
 }
 
-// ! Works
+export async function deleteChat(db, chatId) {
+  const deletedChat = await db
+    .collection("chats")
+    .findOneAndDelete({ _id: new ObjectId(chatId) })
+    .then(({ value }) => value)
+    .catch((error) => {
+      console.error(error);
+    });
+  return deletedChat;
+}
+
 // @desc    Deletes user from Group
 // @route   PUT /api/chats/groupdelete
 // @access  Protected

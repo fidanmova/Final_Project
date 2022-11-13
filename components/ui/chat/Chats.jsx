@@ -4,7 +4,10 @@ import Image from "next/image";
 import SendMessage from "./SendMessage";
 import { MessageCard } from "../Card";
 import { BiDotsVerticalRounded, BiSearch } from "react-icons/bi";
+import { GoTrashcan } from "react-icons/go";
 import { useMessagePages } from "../../../utils/message/hooks";
+import { toast } from "react-toastify";
+import { fetcher } from "../../../utils/fetcher";
 
 const Chats = ({ user }) => {
   const { groupMembers, selectedChat, chatObject } = useContext(Context);
@@ -15,6 +18,27 @@ const Chats = ({ user }) => {
   const messages = data
     ? data.reduce((acc, val) => [...acc, ...val.messages], [])
     : [];
+
+  const deleteChat = async (selectedChat, chatObject) => {
+    try {
+      if (selectedChat) {
+        const response = await fetcher(`/api/chats/`, {
+          method: "DELETE",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            chatId: selectedChat,
+          }),
+        });
+        console.log("response", response);
+        toast.error(`Chat deleted.`);
+      } else {
+        toast("Wooohoo");
+      }
+    } catch (error) {
+      console.error(error);
+      toast.error("You are not authorized to delete this chat.");
+    }
+  };
 
   return (
     <div className="lg:w-8/12 w-full h-[90vh] min-h-[80vh] flex flex-col p-4 lg:ml-4 bg-gray-900/80 lg:rounded-3xl rounded-sm text-xl uppercase border-2 border-gray-600">
@@ -46,6 +70,10 @@ const Chats = ({ user }) => {
         <div className="flex">
           <div className="hover:scale-110">
             <BiSearch />
+          </div>
+
+          <div className="ml-6 hover:scale-110">
+            <GoTrashcan onClick={() => deleteChat(selectedChat, chatObject)} />
           </div>
 
           {/* ADDITIONAL OPTIONS */}

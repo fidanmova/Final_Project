@@ -10,6 +10,8 @@ const SendMessage = () => {
   const [content, setContent] = useState();
   const [isLoading, setIsLoading] = useState(false);
 
+  // const { mutate } = useMessagePages({ chatId: chat._id });
+
   const onSubmit = async (e) => {
     e.preventDefault();
     if (!selectedChat) {
@@ -25,7 +27,6 @@ const SendMessage = () => {
           content: content,
         }),
       });
-
       setMessages([data, ...messages]);
     } catch (e) {
       console.log(e.message);
