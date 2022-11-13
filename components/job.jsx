@@ -74,7 +74,7 @@ export default function Jobs() {
     return (
         <div className="m-4 h-[85vh] ">
             <h1 className="p-4 text-2xl capitalize">
-                job search top 10 results
+                <span className="uppercase font-extrabold text-transparent text-lg lg:text-4xl bg-clip-text bg-gradient-to-r from-red-600 via-purple-500 to-yellow-500 px-4">jobs</span> search top 10 results
             </h1>
             <hr />
             <div className="Search m-2">

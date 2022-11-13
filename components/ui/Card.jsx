@@ -7,8 +7,8 @@ import { useCurrentUser } from "../../utils/user/hooks";
 
 const DashCard = ({ title, text, style }) => {
   return (
-    <Card
-      className={`bg-black/70 w-[42vw] lg:w-[30vw] h-[25vh] m-1 text-sm border-blue-500/50 hover:scale-95 shadow-md ${style}`}
+    <Card href={`/${title}`}
+      className={`bg-black/70 w-[42vw] lg:w-[30vw] h-[25vh] m-1 text-sm border-blue-500/50 hover:scale-95 shadow-md cursor-pointer ${style}`}
     >
       <div className="w-full h-full flex flex-col justify-between items-center py-8">
         <h2 className={`text-2xl`}>{title}</h2>
@@ -76,7 +76,7 @@ const EditorCard = ({ message }) => {
 
   return (
     <Card
-      className={`bg-black/70 w-full m-1 text-sm border-y-blue-500/50 hover:scale-95 shadow-md rounded-0`}
+      className="rounded-0 bg-black/70 w-full m-1 text-sm border-y-blue-500/50 shadow-md shadow-black"
     >
       <Link href={`/user/${message.creator._id}`}>
         <a>

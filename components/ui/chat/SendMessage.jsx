@@ -53,7 +53,7 @@ const SendMessage = () => {
         <Button
           type="success"
           loading={isLoading}
-          className="lg:w-40 bg-blue-900/80 hover:bg-blue-800 text-gray-200 text-xl font-normal "
+          className="lg:w-40 bg-purple-900/80 hover:bg-purple-800 text-gray-200 text-xl font-normal "
         >
           Send
         </Button>

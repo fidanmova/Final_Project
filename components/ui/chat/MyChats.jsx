@@ -19,7 +19,7 @@ const MyChats = ({ user }) => {
     >
       {/* HEADER START */}
       <div className="flex justify-between items-center flex-nowrap">
-        <h1 className="lg:text-4xl text-2xl uppercase font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-red-600 via-purple-500 to-yellow-500 hover:scale-95 transition duration-200 ease-in-out">My Chats</h1>
+        <h1 className="lg:text-4xl text-2xl uppercase font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-purple-600 via-blue-500 to-pink-500">My Chats</h1>
         <div className="">
           {/* For opening Modal from CreateModal Component */}
           <label

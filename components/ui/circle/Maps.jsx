@@ -168,7 +168,6 @@ export const MainMap = ({
                                     closeOnClick={true}
                                     latitude={singleUser.location[0]}
                                     longitude={singleUser.location[1]}
-                                    style={{ width: "100%" }}
                                     content="black"
                                 >
                                     <div className="flex flex-col p-4 bg-black/80 rounded font-bold">
@@ -177,7 +176,7 @@ export const MainMap = ({
                                                 <Link
                                                     href={`/user/${singleUser._id}`}
                                                 >
-                                                    <p className="hover:underline uppercase font-extrabold text-transparent text-lg lg:text-3xl bg-clip-text bg-gradient-to-r from-red-600 via-purple-500 to-yellow-500 hover:scale-95 transition duration-200 ease-in-out text-center hover:tracking-widest cursor-pointer">
+                                                    <p className="hover:underline uppercase font-extrabold text-transparent text-lg lg:text-xl bg-clip-text bg-gradient-to-r from-red-600 via-purple-500 to-yellow-500 hover:scale-95 transition duration-200 ease-in-out text-center hover:tracking-widest cursor-pointer">
                                                         {singleUser.username}
                                                     </p>
                                                 </Link>

@@ -3,7 +3,6 @@ import { fetcher } from "../../../utils/fetcher";
 import { usePostPages } from "../../../utils/post/hooks";
 import { useCurrentUser } from "../../../utils/user/hooks";
 import { useState } from "react";
-import { toast } from "react-toastify";
 import InputEmoji from "react-input-emoji";
 import { AiOutlineSend } from "react-icons/ai";
 
@@ -47,7 +46,7 @@ const PosterInner = ({ user }) => {
                     onChange={setContent}
                     onEnter={onSubmit}
                     cleanOnEnter
-                    placeholder="hi"
+                    placeholder="Hey Devs"
                     borderRadius={2}
                     borderColor="#eeff00"
                     theme="dark"

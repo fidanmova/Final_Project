@@ -64,7 +64,7 @@ export default function Profile({ user }) {
     };
 
     return (
-        <div className="w-full h-full p-16 pt-2">
+        <div className="w-full h-full lg:p-16 pt-2">
             <div className="p-8 bg-gray-900 shadow rounded-3xl  mt-0.5 opacity-80 bg-red-500/10">
                 <div className="p-6 bg-gray-900 shadow rounded-3xl mt-0.5">
                     <div
@@ -74,14 +74,14 @@ export default function Profile({ user }) {
                         <TbBackspace className="text-3xl text-pink-500" />
                         <p>back</p>
                     </div>
-                    <div className="p-7 bg-gray-800 shadow mt-24   ">
+                    <div className="lg:p-7 bg-gray-800 shadow mt-24   ">
                         <div className="grid grid-cols-1 md:grid-cols-3 ">
                             <div className="grid grid-cols-3 text-center order-last md:order-first mt-20 md:mt-0">
                                 <div>
                                     <p className="font-bold text-red-500 text-xl">
                                         {user?.circle?.length}
                                     </p>
-                                    <p className="text">Friends</p>
+                                    <p className="text">Circle</p>
                                 </div>
                                 <div>
                                     <p className="font-bold text-yellow-500 text-xl">
@@ -126,26 +126,27 @@ export default function Profile({ user }) {
                                     />
                                 </div>
                             </div>
-
-                            <div className="space-x-8 flex justify-between mt-32 md:mt-2 md:justify-center font-extrabold ">
-                                {data?.user?.circle?.includes(user._id) ? (
-                                    <HiUserRemove
-                                        className="text-3xl text-zinc-700"
-                                        onClick={deleteFromCircle}
-                                    />
-                                ) : (
-                                    <HiUserAdd
-                                        className="text-3xl text-green-500"
-                                        onClick={addToCircle}
-                                    />
-                                )}
-                                <TbMessages className="text-3xl text-purple-500" />
-                            </div>
+                            {data.user._id !== user._id && (
+                                <div className="lg:space-x-8 flex justify-between mt-32 md:mt-2 md:justify-center font-extrabold ">
+                                    {data?.user?.circle?.includes(user._id) ? (
+                                        <HiUserRemove
+                                            className="text-3xl text-zinc-700"
+                                            onClick={deleteFromCircle}
+                                        />
+                                    ) : (
+                                        <HiUserAdd
+                                            className="text-3xl text-green-500"
+                                            onClick={addToCircle}
+                                        />
+                                    )}
+                                    <TbMessages className="text-3xl text-purple-500" />
+                                </div>
+                            )}
                         </div>
 
                         <div className="mt-12 text-center border-b pb-4  ">
-                            <h1 className="text-6xl font-medium text capitalize">
-                                {user?.username}
+                            <h1 >
+                               <span className="uppercase font-extrabold text-transparent text-lg lg:text-4xl bg-clip-text bg-gradient-to-r from-red-600 via-purple-500 to-yellow-500"> {user?.username}</span>
                             </h1>
                             <h2 className="text-xl font-medium text">
                                 {user?.email}
@@ -164,8 +165,11 @@ export default function Profile({ user }) {
                             </p>
                         </div>
                         <div className="flex flex-wrap px-4 mt-6 justify-evenly">
-                            <div className=" w-1/2 mt-4 text-lg tracking-wider overflow-x-auto ...">
-                                Jobs List :
+                            <div className="w-full lg:w-1/2 mt-4 text-lg tracking-wider overflow-x-auto ...">
+                                <span className="uppercase font-extrabold text-pink-500">
+                                    Jobs
+                                </span>{" "}
+                                List :
                                 {user?.jobs?.length > 0 ? (
                                     user.jobs.map((el, i) => (
                                         <div key={i} className=" ">
@@ -175,11 +179,16 @@ export default function Profile({ user }) {
                                         </div>
                                     ))
                                 ) : (
-                                    <p className=" italic text-xs">No Job Saved</p>
+                                    <p className=" italic text-xs">
+                                        No Job Saved
+                                    </p>
                                 )}
                             </div>
-                            <div className="w-1/2 mt-4 text-lg tracking-wider overflow-x-auto ...">
-                                Events List :
+                            <div className="w-full lg:w-1/2 mt-4 text-lg tracking-wider overflow-x-auto ...">
+                                <span className="uppercase font-extrabold text-blue-500">
+                                    Events{" "}
+                                </span>
+                                List :
                                 {user.events.length > 0 ? (
                                     user.events.map((el, i) => (
                                         <div key={i} className=" ">
@@ -189,7 +198,9 @@ export default function Profile({ user }) {
                                         </div>
                                     ))
                                 ) : (
-                                    <p className=" italic text-xs">No Event Saved</p>
+                                    <p className=" italic text-xs">
+                                        No Event Saved
+                                    </p>
                                 )}
                             </div>
                         </div>

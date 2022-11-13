@@ -34,7 +34,10 @@ export default function Events({ eventsAsString }) {
         <PageTemplate content="Dev-Shed Community" title="DevShed-Events">
             <div className="m-4 ">
                 <h1 className="p-4 text-2xl capitalize">
-                    events : I.T., berlin, nov-2022
+                    <span className="uppercase font-extrabold text-transparent text-lg lg:text-4xl bg-clip-text bg-gradient-to-r from-purple-600 via-blue-500 to-pink-500 px-4">
+                        events
+                    </span>
+                    : I.T. berlin, nov-2022
                 </h1>
                 <hr />
                 <div className="flex flex-wrap items-center justify-center">

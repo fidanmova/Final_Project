@@ -81,7 +81,7 @@ const Header = () => {
                                 className="text-yellow-500 text-lg"
                                 href="/dashboard"
                             />
-                            <Link href="/dashboard">
+                            <Link href={`/user/${user?._id}`}>
                                 <p className="font-bold uppercase hover:scale-95 transition duration-200 ease-in-out">
                                     {user?.username}
                                 </p>

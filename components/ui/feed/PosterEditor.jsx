@@ -38,7 +38,7 @@ const PosterInner = ({ user }) => {
                     onChange={setContent}
                     onEnter={onSubmit}
                     cleanOnEnter
-                    placeholder="hi"
+                    placeholder="comment my code..."
                     borderRadius={2}
                     borderColor="#eeff00"
                     theme="dark"
