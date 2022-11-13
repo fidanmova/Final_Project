@@ -1,14 +1,17 @@
 import React from "react";
-import { useCurrentUser, useUserUsername } from "../../../utils/user/hooks";
+import { Badge } from "react-daisyui";
+import { useCurrentUser } from "../../../utils/user/hooks";
 
 const UserBadge = ({ handleFunction, user }) => {
-  const { data: currentUser, error: currentUserError } = useCurrentUser();
   return (
-    <div onClick={handleFunction} className="badge bg-pink-600 p-4 mt-6">
-      <div>
-        <h1>{user.username} x</h1>
-      </div>
-    </div>
+    <Badge
+      onClick={handleFunction}
+      className="badge bg-pink-600 text-white p-3 mr-1"
+    >
+      <h1>
+        {user.username} <span>x</span>
+      </h1>
+    </Badge>
   );
 };
 export default UserBadge;

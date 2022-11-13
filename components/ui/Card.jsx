@@ -30,11 +30,11 @@ const PostCard = ({ post }) => {
     if (diff < 1 * 60 * 1000) return "Just now";
     return `${format(diff, true)} ago`;
   }, [post.createdAt]);
-  const { data: currentUser} = useCurrentUser();
+  const { data: currentUser } = useCurrentUser();
 
   return (
     <Card
-      className={`bg-black/70 w-full m-1 text-sm border-blue-500/50 hover:scale-95 shadow-md`}
+      className={`bg-black/70 w-full m-1 text-sm border-blue-500/50 shadow-md rounded-none`}
     >
       <Link href={`/user/${post.creator._id}`}>
         <a>

@@ -6,7 +6,7 @@ import UserListItem from "./UserListItem";
 import UserBadge from "./UserBadge";
 
 // import Link from "next/link";
-import { useCallback, useRef, useState } from "react";
+import { useState } from "react";
 import { toast } from "react-toastify";
 
 const CreateChatModel = () => {
@@ -86,60 +86,50 @@ const CreateChatModel = () => {
       {/* Put this part before </body> tag */}
       <input type="checkbox" id="my-modal" className="modal-toggle" />
       <div className="modal">
-        <div className="modal-box">
-          <h1 className=" text-xl mb-8">Create Chat Group</h1>
+        <div className="modal-box w-96 min-h-96 overflow-y-scroll scrollbar-hide">
+          <h1 className=" text-3xl mb-6">Create Chat Group</h1>
           <form onSubmit={handleSubmit} className=" ">
             <input
-              // ref={chatNameRef}
-              // htmlType="chat name"
               placeholder="Chat Name"
               value={chatName}
               aria-label="chat name"
               onChange={(e) => setChatName(e.target.value)}
-              className="text-m border-2 bg-blue-900 p-4 rounded-xl mb-7 w-full"
+              className="text-base border-2 bg-blue-900 px-4 py-2 rounded-xl mb-7 w-full"
             />
 
             <input
-              // ref={usersRef}
-              // htmlType="users"
-              // value={selectedUsers}
               placeholder="Add Users "
               aria-label="users"
               onChange={(e) => handleSearch(e.target.value)}
-              className="text-m border-2 bg-blue-900 p-4 rounded-xl w-full"
+              className="text-base border-2 bg-blue-900 px-4 py-2 rounded-xl w-full"
             />
           </form>
-
-          <div>
-            <div className="w-full h-20">
-              {selectedUsers.map((u) => (
-                <UserBadge
-                  key={u._id}
-                  user={u}
-                  handleFunction={() => handleDelete(u)}
-                />
-              ))}
-            </div>
-            {isLoading ? (
-              // <ChatLoading />
-              <div></div>
-            ) : (
-              searchResult?.map((user, i) => {
-                // console.log("user from searchResult", user);
-                return (
-                  <UserListItem
-                    key={i}
-                    user={user}
-                    handleFunction={() => handleChat(user)}
-                  />
-                );
-              })
-            )}
+          <div className="w-full h-16 flex items-center flex-wrap my-4">
+            {selectedUsers.map((u) => (
+              <UserBadge
+                key={u._id}
+                user={u}
+                handleFunction={() => handleDelete(u)}
+              />
+            ))}
           </div>
+          {isLoading ? (
+            <div></div>
+          ) : (
+            searchResult?.slice(0, 3).map((user, i) => {
+              return (
+                <UserListItem
+                  key={i}
+                  user={user}
+                  handleFunction={() => handleChat(user)}
+                />
+              );
+            })
+          )}
 
           <div className="modal-action">
             <Button
-              className="text-m  bg-pink-600 p-3 rounded-xl hover:bg-gray-900"
+              className="text-m text-white bg-pink-600 p-3 rounded-xl hover:bg-gray-900"
               type="button"
               onClick={handleSubmit}
 
@@ -149,7 +139,7 @@ const CreateChatModel = () => {
             </Button>
             <label
               htmlFor="my-modal"
-              className="btn bg-pink-600 hover:bg-gray-900 "
+              className="btn text-white bg-pink-600 hover:bg-gray-900 "
               // loading={isLoading}
             >
               {" "}

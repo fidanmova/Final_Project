@@ -9,6 +9,7 @@ const nextConfig = {
       "icon-library.com",
       "img.evbuc.com",
       "loremflickr.com",
+      "placeimg.com",
     ],
   },
   env: {

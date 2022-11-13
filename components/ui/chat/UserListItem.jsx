@@ -1,24 +1,27 @@
-import Image from "next/image";
 import React from "react";
+// import { useCurrentUser } from "../../../utils/user/hooks";
+import Image from "next/image";
 
 const UserListItem = ({ handleFunction, user }) => {
-  
   return (
     <div
       onClick={handleFunction}
-      className="text-m  border-2 bg-transparent p-4 rounded-xl mb-7 mt-8"
+      className="flex-1 flex justify-evenly items-center w-full text-base border-2 hover:bg-blue-800/95 border-blue-500 bg-blue-900 rounded-xl h-16 mb-2"
     >
-      <div>
-        <div className="avatar">
-          <div className="w-14 rounded-full ring ring-primary ring-offset-base-100 ring-offset-2">
-            <Image src="https://placeimg.com/192/192/people" alt="image" />
-          </div>
-        </div>
-        <h1>{user.username}</h1>
-        <h2>
-          <b>Email : </b>
-          {user.email}
-        </h2>
+      <Image
+        width={50}
+        height={50}
+        alt={user?.username}
+        className="rounded-full w-1/5"
+        src={
+          user?.avatar
+            ? `${user.avatar}`
+            : `https://placeimg.com/192/192/people`
+        }
+      />
+      <div className="w-4/6">
+        <h1 className="text-xl">{user.username}</h1>
+        <h2 className="text-sm">{user.email}</h2>
       </div>
     </div>
   );
