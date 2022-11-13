@@ -1,64 +1,62 @@
-import { Button, Input, Form } from "react-daisyui";
+import { Button, Form } from "react-daisyui";
 import { fetcher } from "../../../utils/fetcher";
-import { usePostPages } from "../../../utils/post/hooks";
 import { useCurrentUser } from "../../../utils/user/hooks";
 import { useState } from "react";
-import { toast } from "react-toastify";
+import InputEmoji from "react-input-emoji";
+import { AiOutlineSend } from "react-icons/ai";
 
 const PosterInner = ({ user }) => {
-  const [comments, setComments] = useState();
-  const [content, setContent] = useState();
-  const [isLoading, setIsLoading] = useState(false);
+    const [comments, setComments] = useState();
+    const [content, setContent] = useState();
+    const [isLoading, setIsLoading] = useState(false);
 
-  const onSubmit = async (e) => {
-    e.preventDefault();
-    try {
-      setIsLoading(true);
-      const data = await fetcher("/api/editorPosts", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          content: content,
-        }),
-      });
-      setContent("")
-      setComments([data, ...comments]);
-    } catch (e) {
-      console.error(e.message);
-    } finally {
-      setIsLoading(false);
-    }
-  };
+    const onSubmit = async () => {
+        try {
+            setIsLoading(true);
+            const data = await fetcher("/api/editorPosts", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({
+                    content: content,
+                }),
+            });
+            setContent("");
+            setComments([data, ...comments]);
+            mutate({ user: data }, false);
+        } catch (e) {
+            console.error(e.message);
+        } finally {
+            setIsLoading(false);
+        }
+    };
 
-  return (
-    <Form
-      onSubmit={onSubmit}
-      className="w-full flex flex-wrap justify-between py-1"
-    >
-      <Input
-        value={content}
-        className="w-80 bg-gray-900/80 m-0 "
-        placeholder={`Let's chat!`}
-        aria-label={`Let's chat!`}
-        onChange={(e) => setContent(e.target.value)}
-      />
-      <Button
-        className="bg-blue-800 hover:bg-blue-900/90 text-white hover:border-blue-500/50 text-xl
-           font-thin w-32"
-        type="success"
-      >
-        send
-      </Button>
-    </Form>
-  );
+    return (
+        <Form onSubmit={onSubmit}>
+            <div className="w-full flex">
+                <InputEmoji
+                    value={content}
+                    onChange={setContent}
+                    onEnter={onSubmit}
+                    cleanOnEnter
+                    placeholder="hi"
+                    borderRadius={2}
+                    borderColor="#eeff00"
+                    theme="dark"
+                />
+                <Button className="p-1.5" type="submit" loading={isLoading}>
+                    <AiOutlineSend className="text-purple-500 text-2xl" />
+                </Button>
+            </div>
+        </Form>
+    );
 };
 
 const PosterEditor = () => {
-  const { data, error } = useCurrentUser();
-  const loading = !data && !error;
+    const { data, error } = useCurrentUser();
+    const loading = !data && !error;
 
-  return (
-        <div className="h-[10vh] pt-4">
+    return (
+        <div className="h-[8vh] pt-4">
             {loading && <div> ... LOAD</div>}
             {!loading && data?.user ? (
                 <PosterInner user={data.user} />

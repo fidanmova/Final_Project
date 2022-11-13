@@ -121,14 +121,14 @@ export default function CodeEditor() {
                         </button>
                     </div>
                 </div>
-                <div className="flex flex-col justify-between lg:w-[40vw] lg:h-[65vh] mt-3.5 space-y-4">
+                <div className="flex flex-col justify-between lg:w-[40vw] lg:h-[65vh] mt-4 space-y-8">
                     <div className="w-full h-[80vh] lg:h-[45vh] flex flex-col items-center bg-black/50 rounded-lg border-2 border-purple-400/80 shadow-md shadow-purple-500">
                         <h1 className="text-xl p-2">Editor Chat:</h1>
                         <div className="w-full px-4 ">
-                            <PosterEditor user={user} />
-                            <div className="overflow-y-scroll scrollbar-hide h-[60vh] lg:h-[30vh] py-4">
+                            <div className="overflow-y-scroll scrollbar-hide h-[60vh] lg:h-[30vh] py-2">
                                 <EditorList user={user} />
                             </div>
+                            <PosterEditor user={user} />
                         </div>
                     </div>
                     <div className="hidden w-full h-full lg:flex flex-col  items-center bg-black/50 rounded-lg border-2 border-green-400/80 shadow-md shadow-green-500 px-2">
