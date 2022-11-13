@@ -9,7 +9,7 @@ const UserBadge = ({ handleFunction, user }) => {
       className="badge bg-pink-600 text-white p-3 mr-1"
     >
       <h1>
-        {user.username} <span>x</span>
+        {user.username} <span className="cursor-pointer">x</span>
       </h1>
     </Badge>
   );
