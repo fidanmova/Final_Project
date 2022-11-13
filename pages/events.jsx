@@ -32,18 +32,21 @@ export default function Events({ eventsAsString }) {
 
     return (
         <PageTemplate content="Dev-Shed Community" title="DevShed-Events">
-            <div className="m-4 ">
-                <h1 className="p-4 text-2xl capitalize">
-                    <span className="uppercase font-extrabold text-transparent text-lg lg:text-4xl bg-clip-text bg-gradient-to-r from-purple-600 via-blue-500 to-pink-500 px-4">
+            <div className="m-4 h-[85vh] flex flex-col items-center ">
+                <div className="p-4 text-2xl capitalize flex flex-col lg:flex-row items-center">
+                    <h1 className="uppercase font-extrabold text-transparent text-4xl bg-clip-text bg-gradient-to-r from-purple-600 via-blue-500 to-pink-500 px-4">
                         events
-                    </span>
-                    : I.T. berlin, nov-2022
-                </h1>
-                <hr />
-                <div className="flex flex-wrap items-center justify-center">
-                    {eventsAsString?.map((el, i) => (
-                        <div key={i}>
-                            <div className="card m-4 w-64 h-96 bg-slate-700/50 shadow-xl opacity-90 hover:scale-95 transition duration-200 ease-in-out ">
+                    </h1>
+                    <p>I.T. berlin, nov-2022</p>
+                </div>
+                <div className="divider"></div>
+                <div className="lg:h-[71vh] overflow-y-scroll overflow-x-hidden z-0 scrollbar-thin scrollbar-track-[#242424] scrollbar-thumb-[#0037ff]/50">
+                    <div className="h-full flex flex-col lg:flex-row lg:flex-wrap lg:items-center lg:justify-center ">
+                        {eventsAsString?.map((el, i) => (
+                            <div
+                                key={i}
+                                className="card m-4 w-11/12 lg:w-64 h-96 bg-slate-700/90 shadow-xl opacity-90 hover:scale-95 transition duration-200 ease-in-out "
+                            >
                                 <figure className="px-2 pt-4">
                                     <a
                                         href={el.event_link}
@@ -55,7 +58,7 @@ export default function Events({ eventsAsString }) {
                                             width="250px"
                                             height="160px"
                                             alt="image"
-                                            className="rounded-xl "
+                                            className="rounded-xl w-[30rem] h-[160px]"
                                         />
                                     </a>
                                 </figure>
@@ -91,10 +94,10 @@ export default function Events({ eventsAsString }) {
                                     </div>
                                 </div>
                             </div>
-                        </div>
-                    ))}
+                        ))}
+                    </div>
                 </div>
-                <hr />
+                <div className="divider"></div>
             </div>
         </PageTemplate>
     );

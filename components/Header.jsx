@@ -34,13 +34,13 @@ const Header = () => {
         <header className="w-full h-16 sticky z-50 top-0 flex justify-between items-center px-2 lg:px-6">
             {user !== null ? (
                 <Link href="/dashboard">
-                    <button className="uppercase font-extrabold text-transparent text-lg lg:text-4xl bg-clip-text bg-gradient-to-r from-red-600 via-purple-500 to-yellow-500 hover:scale-95 transition duration-200 ease-in-out">
+                    <button className="uppercase font-extrabold text-transparent text-4xl bg-clip-text bg-gradient-to-r from-red-600 via-purple-500 to-yellow-500 hover:scale-95 transition duration-200 ease-in-out">
                         DevShed
                     </button>
                 </Link>
             ) : (
                 <Link href="/">
-                    <button className="uppercase font-extrabold text-transparent text-lg lg:text-4xl bg-clip-text bg-gradient-to-r from-red-600 via-purple-500 to-yellow-500 hover:scale-95 transition duration-200 ease-in-out">
+                    <button className="uppercase font-extrabold text-transparent text-4xl bg-clip-text bg-gradient-to-r from-red-600 via-purple-500 to-yellow-500 hover:scale-95 transition duration-200 ease-in-out">
                         DevShed
                     </button>
                 </Link>
@@ -78,7 +78,7 @@ const Header = () => {
                         </div>
                         <div className="flex space-x-4 items-center p-2 lg:border-4 border-yellow-500/50 rounded-xl">
                             <ImPacman
-                                className="text-yellow-500 text-lg"
+                                className="text-yellow-500 text-lg hidden lg:inline"
                                 href="/dashboard"
                             />
                             <Link href={`/user/${user?._id}`}>

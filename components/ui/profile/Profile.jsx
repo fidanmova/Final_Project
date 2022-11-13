@@ -64,17 +64,17 @@ export default function Profile({ user }) {
     };
 
     return (
-        <div className="w-full h-full lg:p-16 pt-2">
+        <div className="w-full h-full lg:p-10 pt-2">
             <div className="p-8 bg-gray-900 shadow rounded-3xl  mt-0.5 opacity-80 bg-red-500/10">
                 <div className="p-6 bg-gray-900 shadow rounded-3xl mt-0.5">
                     <div
-                        className="flex items-center space-x-2 capitalize text-xl"
+                        className="w-1/3 flex items-center space-x-2 capitalize text-xl"
                         onClick={() => router.back()}
                     >
                         <TbBackspace className="text-3xl text-pink-500" />
                         <p>back</p>
                     </div>
-                    <div className="lg:p-7 bg-gray-800 shadow mt-24   ">
+                    <div className="lg:p-7 bg-gray-800 shadow mt-8   ">
                         <div className="grid grid-cols-1 md:grid-cols-3 ">
                             <div className="grid grid-cols-3 text-center order-last md:order-first mt-20 md:mt-0">
                                 <div>
@@ -145,8 +145,11 @@ export default function Profile({ user }) {
                         </div>
 
                         <div className="mt-12 text-center border-b pb-4  ">
-                            <h1 >
-                               <span className="uppercase font-extrabold text-transparent text-lg lg:text-4xl bg-clip-text bg-gradient-to-r from-red-600 via-purple-500 to-yellow-500"> {user?.username}</span>
+                            <h1>
+                                <span className="uppercase font-extrabold text-transparent text-lg lg:text-4xl bg-clip-text bg-gradient-to-r from-red-600 via-purple-500 to-yellow-500">
+                                    {" "}
+                                    {user?.username}
+                                </span>
                             </h1>
                             <h2 className="text-xl font-medium text">
                                 {user?.email}
@@ -165,7 +168,7 @@ export default function Profile({ user }) {
                             </p>
                         </div>
                         <div className="flex flex-wrap px-4 mt-6 justify-evenly">
-                            <div className="w-full lg:w-1/2 mt-4 text-lg tracking-wider overflow-x-auto ...">
+                            <div className="w-full h-[10vh] lg:w-1/2 mt-4 text-lg tracking-wider overflow-y-scroll overflow-x-hidden z-0 scrollbar-thin scrollbar-track-[#242424] scrollbar-thumb-[#ff2e2e]/50 ">
                                 <span className="uppercase font-extrabold text-pink-500">
                                     Jobs
                                 </span>{" "}
