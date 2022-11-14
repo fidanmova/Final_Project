@@ -64,21 +64,22 @@ const LeftSide = ({ data }) => {
                 </div>
 
                 <div className="w-full flex capitalize border-y border-red-500/40 py-3">
-                    <p className="w-1/2 uppercase">
-                        <span className="text-2xl text-red-500">
+                    <div className="w-1/2 uppercase">
+                        <p className="text-2xl text-red-500">
                             {data?.user?.circle?.length}
-                        </span>{" "}
-                        Devs in{" "}
-                        <span className="text-red-500 font-bold tracking-widest">
-                            Circle:
-                        </span>
-                    </p>
+                        </p>
+                        <p>Devs in</p>
+                        <p className="text-red-500 font-bold tracking-widest">
+                            Circle
+                        </p>
+                    </div>
 
                     <div className="w-full max-h-[20vh] flex flex-col px-4 space-y-1.5 overflow-y-scroll overflow-x-hidden z-0 scrollbar-thin scrollbar-track-[#242424] scrollbar-thumb-[#ff2e2e]/50">
                         {data?.user?.circle?.length === 0 && (
                             //
                             <p className="w-full p-1.5 text-right">
-                                No One in your circle</p>
+                                No One in your circle
+                            </p>
                             //
                         )}
                         {data !== null &&
@@ -107,7 +108,7 @@ const LeftSide = ({ data }) => {
                             <p className="w-full p-1.5 text-right">No events</p>
                         )}{" "}
                         {data?.user?.events?.length !== 0 &&
-                            data.user.events.map((event, i) => (
+                            data?.user?.events.map((event, i) => (
                                 <p key={i} className="w-full p-1.5">
                                     <span className="text-blue-500">
                                         {i + 1} -{" "}
@@ -119,10 +120,7 @@ const LeftSide = ({ data }) => {
                 </div>
                 <div className="w-full flex capitalize border-y border-pink-500/40 py-3">
                     <div className="w-1/2 uppercase text-pink-500 font-bold tracking-widest">
-                        <p className="text-3xl">
-                            
-                            {data?.user?.jobs?.length}{" "}
-                        </p>
+                        <p className="text-3xl">{data?.user?.jobs?.length} </p>
                         <p>Job{data?.user?.jobs?.length > 1 ? "s" : ""}</p>
                     </div>
                     <div className="w-full max-h-[20vh] flex flex-col overflow-y-scroll overflow-x-hidden z-0 scrollbar-thin scrollbar-track-[#242424] scrollbar-thumb-pink-500/50">
@@ -148,7 +146,8 @@ const LeftSide = ({ data }) => {
                             {data?.user?.code?.length
                                 ? data?.user?.code?.length
                                 : "0 "}
-                        </p>{"  "}
+                        </p>
+                        {"  "}
                         <p>Code{data?.user?.code?.length > 1 ? "s" : ""}</p>
                     </div>
                     <div className="w-full h-[20vh] flex flex-col overflow-y-scroll overflow-x-hidden z-0 scrollbar-thin scrollbar-track-[#242424] scrollbar-thumb-yellow-500/50">
