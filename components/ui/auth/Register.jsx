@@ -17,6 +17,7 @@ const Register = ({ setForm, setOTP, setCredentials }) => {
             // Retrieve latitude & longitude coordinates from `navigator.geolocation` Web API
             navigator.geolocation.getCurrentPosition(({ coords }) => {
                 const { latitude, longitude } = coords;
+
                 setLocation([latitude, longitude]);
             });
         }
@@ -36,22 +37,48 @@ const Register = ({ setForm, setOTP, setCredentials }) => {
         async (data) => {
             try {
                 setOTP(OTP);
-                const response = await fetcher("/api/users", {
-                    method: "POST",
-                    headers: { "Content-Type": "application/json" },
-                    body: JSON.stringify({
-                        username: data.username,
-                        email: data.email,
-                        password: data.password,
-                        city: data.city,
-                        language: data.language,
-                        location: location,
-                        OTP: OTP,
-                    }),
-                });
+                //console.log("-------", location.length);
+                if (location.lenght === undefined || location.lenght===0) {
+                    const respGeo = await fetch(
+                        `https://api.mapbox.com/geocoding/v5/mapbox.places/${data.city}.json?limit=1&types=place&access_token=pk.eyJ1IjoiaW5jcHRkIiwiYSI6ImNsOWZuOGtyZTA4Znczb2syaW1rYjlva20ifQ.i498IcTJnARrFJ8EcRoWFQ`
+                    );
+                    const city = await respGeo.json();
+                    
+                    let coords = [
+                        city?.features[0]?.center[1],
+                        city?.features[0]?.center[0],
+                    ];
+                    const response = await fetcher("/api/users", {
+                        method: "POST",
+                        headers: { "Content-Type": "application/json" },
+                        body: JSON.stringify({
+                            username: data.username,
+                            email: data.email,
+                            password: data.password,
+                            city: data.city,
+                            language: data.language,
+                            location: coords,
+                            OTP: OTP,
+                        }),
+                    });
+                    setCredentials(response.user);
+                } else {
+                    const response = await fetcher("/api/users", {
+                        method: "POST",
+                        headers: { "Content-Type": "application/json" },
+                        body: JSON.stringify({
+                            username: data.username,
+                            email: data.email,
+                            password: data.password,
+                            city: data.city,
+                            language: data.language,
+                            location: location,
+                            OTP: OTP,
+                        }),
+                    });
+                    setCredentials(response.user);
+                }
                 toast.error(errors);
-
-                setCredentials(response.user);
                 setForm("otp");
                 toast("Almost there...");
             } catch (error) {
@@ -60,15 +87,6 @@ const Register = ({ setForm, setOTP, setCredentials }) => {
         },
         [errors, setForm, OTP, setOTP, setCredentials, location]
     );
-    useEffect(() => {
-        if ("geolocation" in navigator) {
-            // Retrieve latitude & longitude coordinates from `navigator.geolocation` Web API
-            navigator.geolocation.getCurrentPosition(({ coords }) => {
-                const { latitude, longitude } = coords;
-                setLocation([latitude, longitude]);
-            });
-        }
-    }, []);
 
     return (
         <Card className="flex-shrink-0 shadow-md shadow-yellow-500 w-full">
@@ -189,7 +207,7 @@ const Register = ({ setForm, setOTP, setCredentials }) => {
                             </div>
                         </div>
                     </div>
-                    {/* <div className="flex  flex-wrap w-full">
+                    <div className="flex  flex-wrap w-full">
                         {errors.username && (
                             <li className="w-1/2 text-xs text-red-500">
                                 {errors?.username?.message}
@@ -215,7 +233,7 @@ const Register = ({ setForm, setOTP, setCredentials }) => {
                                 {errors?.language?.message}
                             </li>
                         )}
-                    </div> */}
+                    </div>
                     <div className="flex justify-between pt-4">
                         <label
                             className="label"

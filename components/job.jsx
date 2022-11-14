@@ -102,7 +102,7 @@ export default function Jobs() {
                         placeholder="City or Country"
                         name="location"
                         id="location"
-                        className="input input-bordered w-1/3 lg:w-[18vw] bg-slate-800 m-2 w-full opacity-80 hover:scale-95 transition duration-200 ease-in-out"
+                        className="input input-bordered w-1/3 lg:w-[18vw] bg-slate-800 m-2 opacity-80 hover:scale-95 transition duration-200 ease-in-out"
                         onChange={(e) =>
                             setSearchTerms({
                                 ...searchTerms,

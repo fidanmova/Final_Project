@@ -93,7 +93,7 @@ export default function Profile({ user }) {
                                 </div>
                                 <div>
                                     <p className="font-bold text-purple-500  text-xl">
-                                        {Math.floor(Math.random() * 100)}
+                                        {Math.floor(Math.random() * 10)}
                                     </p>
                                     <p className="text">Comments</p>
                                 </div>

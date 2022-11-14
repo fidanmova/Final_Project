@@ -19,12 +19,17 @@ import { TbMessages } from "react-icons/tb";
 import { ImProfile } from "react-icons/im";
 
 export const Maps = ({ location, w, h }) => {
-    //console.log("location", location);
+    
 
     const [viewport, setViewport] = useState({
-        latitude: location[0],
+        latitude:location[0],
         longitude: location[1],
     });
+    useEffect(() => {
+        if (!location) {
+            setViewport({ latitude: "49.6", longitude:"9.1"  });
+        }
+    }, [location]);
 
     return (
         <div className="w-full flex justify-center items-center rounded-xlp-4">

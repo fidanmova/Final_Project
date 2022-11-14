@@ -41,7 +41,7 @@ const Circle = () => {
             .then(
                 (results) => {
                     //ALLUSERS IN DB
-                    console.log("CIRCLE RESULTS", results);
+                    //console.log("CIRCLE RESULTS", results);
                     if (
                         byLanguage === "" ||
                         byLanguage === "Search by language"

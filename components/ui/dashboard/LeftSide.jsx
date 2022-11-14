@@ -1,7 +1,6 @@
 import { useState, useEffect } from "react";
 import { Maps } from "../circle/Maps";
 import { CgPinAlt } from "react-icons/cg";
-import { Link } from "next/link";
 
 const LeftSide = ({ data }) => {
     const [location, setLocation] = useState();
@@ -67,7 +66,7 @@ const LeftSide = ({ data }) => {
                 <div className="w-full flex capitalize border-y border-red-500/40 py-3">
                     <p className="w-1/2 uppercase">
                         <span className="text-2xl text-red-500">
-                            {data?.user?.circle.length}
+                            {data?.user?.circle?.length}
                         </span>{" "}
                         Devs in{" "}
                         <span className="text-red-500 font-bold tracking-widest">
@@ -76,14 +75,15 @@ const LeftSide = ({ data }) => {
                     </p>
 
                     <div className="w-full max-h-[20vh] flex flex-col px-4 space-y-1.5 overflow-y-scroll overflow-x-hidden z-0 scrollbar-thin scrollbar-track-[#242424] scrollbar-thumb-[#ff2e2e]/50">
-                        {data?.user?.circle.length === 0 && (
+                        {data?.user?.circle?.length === 0 && (
                             //
-                            <p className="w-full p-1.5">
-                                No One in your circle yet
-                            </p>
+                            <p className="w-full p-1.5 text-right">
+                                No One in your circle</p>
                             //
                         )}
-                        {data?.user?.circle.length !== 0 &&
+                        {data !== null &&
+                            data !== undefined &&
+                            data?.user?.circle?.length !== 0 &&
                             myCircle?.map((myc, i) => (
                                 <p className="w-full uppercase" key={i}>
                                     <span className="text-red-500">
@@ -94,16 +94,19 @@ const LeftSide = ({ data }) => {
                             ))}
                     </div>
                 </div>
-                <div className="w-full flex capitalize border-y border-blue-500/40 py-3">
+                <div className="w-full flex items-center capitalize border-y border-blue-500/40 py-3">
                     <p className="w-1/2 uppercase text-blue-500 font-bold tracking-widest">
                         <span className="text-2xl">
                             {" "}
-                            {data?.user?.events.length}{" "}
+                            {data?.user?.events?.length}{" "}
                         </span>{" "}
-                        Events :
+                        Event{data?.user?.events?.length > 1 ? "s" : ""} :
                     </p>
-                    <div className="w-full h-[20vh] flex flex-col px-2 overflow-y-scroll overflow-x-hidden z-0 scrollbar-thin scrollbar-track-[#242424] scrollbar-thumb-blue-500/50">
-                        {data?.user?.events &&
+                    <div className="w-full max-h-[20vh] flex flex-col px-2 overflow-y-scroll overflow-x-hidden z-0 scrollbar-thin scrollbar-track-[#242424] scrollbar-thumb-blue-500/50">
+                        {data?.user?.events?.length === 0 && (
+                            <p className="w-full p-1.5 text-right">No events</p>
+                        )}{" "}
+                        {data?.user?.events?.length !== 0 &&
                             data.user.events.map((event, i) => (
                                 <p key={i} className="w-full p-1.5">
                                     <span className="text-blue-500">
@@ -118,13 +121,16 @@ const LeftSide = ({ data }) => {
                     <p className="w-1/2 uppercase text-pink-500 font-bold tracking-widest">
                         <span className="text-2xl">
                             {" "}
-                            {data?.user?.jobs.length}{" "}
+                            {data?.user?.jobs?.length}{" "}
                         </span>{" "}
-                        Jobs :
+                        Job{data?.user?.jobs?.length > 1 ? "s" : ""} :
                     </p>
-                    <div className="w-full h-[20vh] flex flex-col overflow-y-scroll overflow-x-hidden z-0 scrollbar-thin scrollbar-track-[#242424] scrollbar-thumb-pink-500/50">
-                        {data?.user?.jobs.length !== 0 &&
-                            data?.user.jobs.map((job, id) => (
+                    <div className="w-full max-h-[20vh] flex flex-col overflow-y-scroll overflow-x-hidden z-0 scrollbar-thin scrollbar-track-[#242424] scrollbar-thumb-pink-500/50">
+                        {data?.user?.jobs?.length === 0 && (
+                            <p className="w-full p-1.5 text-right">No Jobs</p>
+                        )}
+                        {data?.user?.jobs?.length !== 0 &&
+                            data?.user?.jobs.map((job, id) => (
                                 <p key={id} className="w-full p-4 pt-0">
                                     <span className="text-pink-500">
                                         {" "}
@@ -139,13 +145,20 @@ const LeftSide = ({ data }) => {
                 <div className="w-full flex capitalize border-y border-yellow-500/40 py-3">
                     <p className="w-1/2 uppercase text-yellow-500 font-bold tracking-widest">
                         <span className="text-2xl">
-                            {data?.user?.code.length}
+                            {data?.user?.code?.length
+                                ? data?.user?.code?.length
+                                : "0 "}
                         </span>
-                        Code{data?.user?.code.length > 1 ? "s" : ""} :
+                        Code{data?.user?.code?.length > 1 ? "s" : ""} :
                     </p>
                     <div className="w-full h-[20vh] flex flex-col overflow-y-scroll overflow-x-hidden z-0 scrollbar-thin scrollbar-track-[#242424] scrollbar-thumb-yellow-500/50">
-                        {data?.user?.code.length !== 0 &&
-                            data?.user?.code.map((cod, id) => (
+                        {data?.user?.events?.length === 0 && (
+                            <p className="w-full p-1.5 text-right">
+                                No Code saved
+                            </p>
+                        )}
+                        {data?.user?.code?.length !== 0 &&
+                            data?.user?.code?.map((cod, id) => (
                                 <div key={id} className="w-full p-4 pt-0">
                                     <span className="text-yellow-500">
                                         {id + 1}

@@ -29,7 +29,7 @@ const Chats = ({ user }) => {
             chatId: selectedChat,
           }),
         });
-        console.log("response", response);
+        //console.log("response", response);
         toast.error(`Chat deleted.`);
       } else {
         toast("Wooohoo");
