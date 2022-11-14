@@ -29,7 +29,7 @@ const Board = () => {
                 </Link>
                 <Link href="/job">
                     <DashCard
-                        text="looking for a job? check last listenings"
+                        text="looking for a job? Search latest Listings"
                         title="job"
                         style="text-pink-500 shadow-pink-500 text-center p-2 hover:scale-95 transition duration-200 ease-in-out"
                     />
