@@ -66,7 +66,7 @@ export default function Profile({ user }) {
     return (
         <div className="w-full h-full lg:p-10 pt-2">
             <div className="p-8 bg-gray-900 shadow rounded-3xl  mt-0.5 opacity-80 bg-red-500/10">
-                <div className="p-6 bg-gray-900 shadow rounded-3xl mt-0.5">
+                <div className="lg:p-6 bg-gray-900 shadow rounded-3xl lg:mt-0.5">
                     <div
                         className="w-1/3 flex items-center space-x-2 capitalize text-xl"
                         onClick={() => router.back()}
@@ -76,7 +76,7 @@ export default function Profile({ user }) {
                     </div>
                     <div className="lg:p-7 bg-gray-800 shadow mt-8   ">
                         <div className="grid grid-cols-1 md:grid-cols-3 ">
-                            <div className="grid grid-cols-3 text-center order-last md:order-first mt-20 md:mt-0">
+                            <div className="border-5 border-lime-500 grid grid-cols-3 text-center order-last md:order-first mt-20 md:mt-0">
                                 <div>
                                     <p className="font-bold text-red-500 text-xl">
                                         {user?.circle?.length}
@@ -112,7 +112,7 @@ export default function Profile({ user }) {
                             </div>
 
                             <div className="relative ">
-                                <div className="w-48 h-48 bg-yellow-400 mx-auto rounded-full shadow-2xl absolute inset-x-0 top-0 -mt-24 flex items-center justify-center text-sky-700 ">
+                                <div className="w-36 h-36 lg:w-48 lg:h-48 bg-yellow-400 mx-auto rounded-full shadow-2xl absolute inset-x-0 top-0 -mt-24 flex items-center justify-center text-sky-700 ">
                                     <Image
                                         width={220}
                                         height={220}
@@ -163,7 +163,7 @@ export default function Profile({ user }) {
                         </div>
 
                         <div className="my-6 flex flex-col justify-center">
-                            <p className="text-lg text-center font-light lg:px-16">
+                            <p className="text-lg  text-justify lg:text-center font-light px-4 lg:px-16">
                                 {user?.bio}
                             </p>
                         </div>

@@ -203,7 +203,7 @@ const Circle = () => {
                                         key={k}
                                         className="flex flex-col w-1/2 2xl:w-auto 2xl:flex-row 2xl:space-y-0 2xl:justify-between items-center p-2 lg:rounded hover:border-2 hover:border-green-500 hover:bg-black hover:scale-105 "
                                     >
-                                        <div onClick={() => handleSingle(list)}>
+                                        <div onClick={() => handleSingle(list)} className="cursor-pointer">
                                             <p className="w-1/3 font-bold uppercase">
                                                 {list.username}
                                             </p>
@@ -216,14 +216,14 @@ const Circle = () => {
                                         </div>
                                         {user?.circle?.includes(list._id) ? (
                                             <HiUserRemove
-                                                className="text-3xl text-zinc-700"
+                                                className="text-3xl text-zinc-700 cursor-pointer"
                                                 onClick={() =>
                                                     deleteFromCircle(list)
                                                 }
                                             />
                                         ) : (
                                             <HiUserAdd
-                                                className="text-3xl text-green-500"
+                                                className="text-3xl text-green-500 cursor-pointer"
                                                 onClick={() =>
                                                     addToCircle(list)
                                                 }

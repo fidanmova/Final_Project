@@ -39,7 +39,7 @@ const Header = () => {
     );
 
     return (
-        <header className="w-full h-16 sticky z-50 top-0 flex justify-between items-center px-2 lg:px-6">
+        <header className="w-full h-16 sticky z-40 top-0 flex justify-between items-center px-2 lg:px-6">
             {user !== null ? (
                 <Link href="/dashboard">
                     <button className="uppercase font-extrabold text-transparent text-3xl lg:text-4xl bg-clip-text bg-gradient-to-r from-red-600 via-purple-500 to-yellow-500 hover:scale-95 transition duration-200 ease-in-out">

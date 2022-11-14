@@ -39,7 +39,7 @@ const SendMessage = () => {
     <div className="bg-gray-700/60 lg:rounded-b-xl rounded-b-sm">
       <Form
         onSubmit={onSubmit}
-        className="w-full flex flex-row justify-center p-4 normal-case"
+        className="w-full flex flex-col lg:flex-row items-center justify-center p-4 normal-case"
       >
         <InputEmoji
           value={content}
@@ -47,14 +47,14 @@ const SendMessage = () => {
           onEnter={onSubmit}
           cleanOnEnter
           placeholder={`Enter message here`}
-          borderRadius={2}
+          borderRadius={4}
           borderColor="#494948"
           theme="dark"
         />
         <Button
           type="success"
           loading={isLoading}
-          className="lg:w-40 bg-purple-900/80 hover:bg-purple-800 text-gray-200 text-xl font-normal "
+          className="w-full lg:w-40 bg-purple-900/80 hover:bg-purple-800 text-gray-200 text-xl font-normal "
         >
           Send
         </Button>
