@@ -94,14 +94,14 @@ const LeftSide = ({ data }) => {
                             ))}
                     </div>
                 </div>
-                <div className="w-full flex items-center capitalize border-y border-blue-500/40 py-3">
-                    <p className="w-1/2 uppercase text-blue-500 font-bold tracking-widest">
-                        <span className="text-2xl">
+                <div className="w-full flex capitalize border-y border-blue-500/40 py-3">
+                    <div className="w-1/2 uppercase text-blue-500 font-bold tracking-widest">
+                        <p className="text-3xl">
                             {" "}
                             {data?.user?.events?.length}{" "}
-                        </span>{" "}
-                        Event{data?.user?.events?.length > 1 ? "s" : ""} :
-                    </p>
+                        </p>
+                        <p>Event{data?.user?.events?.length > 1 ? "s" : ""}</p>
+                    </div>
                     <div className="w-full max-h-[20vh] flex flex-col px-2 overflow-y-scroll overflow-x-hidden z-0 scrollbar-thin scrollbar-track-[#242424] scrollbar-thumb-blue-500/50">
                         {data?.user?.events?.length === 0 && (
                             <p className="w-full p-1.5 text-right">No events</p>
@@ -118,13 +118,13 @@ const LeftSide = ({ data }) => {
                     </div>
                 </div>
                 <div className="w-full flex capitalize border-y border-pink-500/40 py-3">
-                    <p className="w-1/2 uppercase text-pink-500 font-bold tracking-widest">
-                        <span className="text-2xl">
-                            {" "}
+                    <div className="w-1/2 uppercase text-pink-500 font-bold tracking-widest">
+                        <p className="text-3xl">
+                            
                             {data?.user?.jobs?.length}{" "}
-                        </span>{" "}
-                        Job{data?.user?.jobs?.length > 1 ? "s" : ""} :
-                    </p>
+                        </p>
+                        <p>Job{data?.user?.jobs?.length > 1 ? "s" : ""}</p>
+                    </div>
                     <div className="w-full max-h-[20vh] flex flex-col overflow-y-scroll overflow-x-hidden z-0 scrollbar-thin scrollbar-track-[#242424] scrollbar-thumb-pink-500/50">
                         {data?.user?.jobs?.length === 0 && (
                             <p className="w-full p-1.5 text-right">No Jobs</p>
@@ -143,14 +143,14 @@ const LeftSide = ({ data }) => {
                 </div>
 
                 <div className="w-full flex capitalize border-y border-yellow-500/40 py-3">
-                    <p className="w-1/2 uppercase text-yellow-500 font-bold tracking-widest">
-                        <span className="text-2xl">
+                    <div className="w-1/2 uppercase text-yellow-500 font-bold tracking-widest">
+                        <p className="text-3xl">
                             {data?.user?.code?.length
                                 ? data?.user?.code?.length
                                 : "0 "}
-                        </span>
-                        Code{data?.user?.code?.length > 1 ? "s" : ""} :
-                    </p>
+                        </p>{"  "}
+                        <p>Code{data?.user?.code?.length > 1 ? "s" : ""}</p>
+                    </div>
                     <div className="w-full h-[20vh] flex flex-col overflow-y-scroll overflow-x-hidden z-0 scrollbar-thin scrollbar-track-[#242424] scrollbar-thumb-yellow-500/50">
                         {data?.user?.events?.length === 0 && (
                             <p className="w-full p-1.5 text-right">
