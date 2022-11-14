@@ -10,7 +10,7 @@ const Board = () => {
                     style="text-red-500 shadow-red-500 text-center p-2 hover:scale-95 transition duration-200 ease-in-out"
                 />
                 <DashCard
-                    text="check all events around you"
+                    text="check all monthly events around you"
                     title="events"
                     style="text-blue-500 shadow-blue-500 text-center p-2 hover:scale-95 transition duration-200 ease-in-out"
                 />
