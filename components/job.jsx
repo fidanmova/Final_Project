@@ -127,11 +127,11 @@ export default function Jobs() {
                         searchResults[0]?.jobs_results.map((el, i) => (
                             <div
                                 key={i}
-                                className=" rounded-xl m-1 w-11/12 lg:w-[18vw] lg:h-[40vh] bg-slate-700 shadow-xl opacity-90 hover:border-2"
+                                className=" rounded-xl m-1 w-11/12 lg:w-[18vw] lg:h-[42vh] bg-slate-700 shadow-xl opacity-90 hover:border-2"
                             >
-                                <div className="flex flex-col items-center justify-center text-center px-1 w-full ">
+                                <div className="flex flex-col items-center justify-center text-center p-2 w-full ">
                                     <h2 className="card-title h-[10vh]">{el.title}</h2>
-                                    <div className="h-[6vh] py-4">
+                                    <div className="h-[6vh] py-2">
                                     <p className="text-xs w-full">
                                         {el.company_name} | {el.location}
                                     </p>
@@ -140,10 +140,10 @@ export default function Jobs() {
                                         {el.detected_extensions.schedule_type} |{" "}
                                         {el.via}
                                     </p></div>
-                                    <p className="px-6 text-xs overflow-wrap text-justify h-[18vh] py-4">
-                                        {el.description.slice(0, 300)}
+                                    <p className="p-6 text-xs overflow-wrap text-justify h-[18vh] overflow-y-scroll overflow-x-hidden z-0 scrollbar-thin scrollbar-track-[#242424] scrollbar-thumb-green-300/50">
+                                        {el.description}
                                     </p>
-                                    <div className="card-actions w-full lg:w-1/2 justify-end">
+                                    <div className="card-actions w-full lg:w-1/2 py-4 justify-end">
                                         <button
                                             className="btn lg:btn-sm w-full bg-pink-700"
                                             onClick={() =>
