@@ -168,7 +168,7 @@ export default function Profile({ user }) {
                             </p>
                         </div>
                         <div className="flex flex-wrap px-4 mt-6 justify-evenly">
-                            <div className="w-full h-[10vh] lg:w-1/2 mt-4 text-lg tracking-wider overflow-y-scroll overflow-x-hidden z-0 scrollbar-thin scrollbar-track-[#242424] scrollbar-thumb-[#ff2e2e]/50 ">
+                            <div className="w-full  lg:w-1/2 mt-4 px-2 text-lg tracking-wider overflow-x-auto ... ">
                                 <span className="uppercase font-extrabold text-pink-500">
                                     Jobs
                                 </span>{" "}
@@ -187,7 +187,7 @@ export default function Profile({ user }) {
                                     </p>
                                 )}
                             </div>
-                            <div className="w-full lg:w-1/2 mt-4 text-lg tracking-wider overflow-x-auto ...">
+                            <div className="w-full lg:w-1/2 mt-4 px-2 text-lg tracking-wider overflow-x-auto ...">
                                 <span className="uppercase font-extrabold text-blue-500">
                                     Events{" "}
                                 </span>
