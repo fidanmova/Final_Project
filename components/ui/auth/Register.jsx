@@ -38,12 +38,12 @@ const Register = ({ setForm, setOTP, setCredentials }) => {
             try {
                 setOTP(OTP);
                 //console.log("-------", location.length);
-                if (location.lenght === undefined || location.lenght===0) {
+                if (location.lenght === undefined || location.lenght === 0) {
                     const respGeo = await fetch(
                         `https://api.mapbox.com/geocoding/v5/mapbox.places/${data.city}.json?limit=1&types=place&access_token=pk.eyJ1IjoiaW5jcHRkIiwiYSI6ImNsOWZuOGtyZTA4Znczb2syaW1rYjlva20ifQ.i498IcTJnARrFJ8EcRoWFQ`
                     );
                     const city = await respGeo.json();
-                    
+
                     let coords = [
                         city?.features[0]?.center[1],
                         city?.features[0]?.center[0],
@@ -80,7 +80,11 @@ const Register = ({ setForm, setOTP, setCredentials }) => {
                 }
                 toast.error(errors);
                 setForm("otp");
-                toast("Almost there...");
+                toast(
+                    `Insert your validation code 
+                ${OTP}`,
+                    { autoClose: 10000, pauseOnHover: true, draggable: true }
+                );
             } catch (error) {
                 toast.error("Ops...something went wrong!");
             }
