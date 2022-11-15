@@ -12,7 +12,29 @@ const SendMessage = () => {
 
   // const { mutate } = useMessagePages({ chatId: chat._id });
 
-  const onSubmit = async () => {
+  const onSubmit = async (e) => {
+     e.preventDefault();
+    if (!selectedChat) {
+      toast.error("select a chat!");
+    }
+    try {
+      setContent("");
+      setIsLoading(true);
+      const data = await fetcher(`/api/chats/${selectedChat}/`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          content: content,
+        }),
+      });
+      setMessages([data, ...messages]);
+    } catch (e) {
+      console.log(e.message);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+  const onEnter = async () => {
     // e.preventDefault();
     if (!selectedChat) {
       toast.error("select a chat!");
@@ -34,7 +56,6 @@ const SendMessage = () => {
       setIsLoading(false);
     }
   };
-
   return (
     <div className="bg-gray-700/60 lg:rounded-b-xl rounded-b-sm">
       <Form
@@ -44,7 +65,7 @@ const SendMessage = () => {
         <InputEmoji
           value={content}
           onChange={setContent}
-          onEnter={onSubmit}
+          onEnter={onEnter}
           cleanOnEnter
           placeholder={`Enter message here`}
           borderRadius={4}
@@ -52,7 +73,7 @@ const SendMessage = () => {
           theme="dark"
         />
         <Button
-          type="success"
+          type="submit"
           loading={isLoading}
           className="w-full lg:w-40 bg-purple-900/80 hover:bg-purple-800 text-gray-200 text-xl font-normal "
         >

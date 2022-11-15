@@ -10,7 +10,28 @@ const PosterInner = ({ user }) => {
     const [content, setContent] = useState();
     const [isLoading, setIsLoading] = useState(false);
 
-    const onSubmit = async () => {
+    const onSubmit = async (e) => {
+        e.preventDefault();
+        try {
+            setIsLoading(true);
+            const data = await fetcher("/api/editorPosts", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({
+                    content: content,
+                }),
+            });
+            setContent("");
+            setComments([data, ...comments]);
+            mutate({ user: data }, false);
+        } catch (e) {
+            console.error(e.message);
+        } finally {
+            setIsLoading(false);
+        }
+    };
+
+    const onEnter = async () => {
         try {
             setIsLoading(true);
             const data = await fetcher("/api/editorPosts", {
@@ -36,7 +57,7 @@ const PosterInner = ({ user }) => {
                 <InputEmoji
                     value={content}
                     onChange={setContent}
-                    onEnter={onSubmit}
+                    onEnter={onEnter}
                     cleanOnEnter
                     placeholder="comment my code..."
                     borderRadius={2}
