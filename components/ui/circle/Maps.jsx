@@ -19,15 +19,13 @@ import { TbMessages } from "react-icons/tb";
 import { ImProfile } from "react-icons/im";
 
 export const Maps = ({ location, w, h }) => {
-    
-
     const [viewport, setViewport] = useState({
-        latitude:location[0],
+        latitude: location[0],
         longitude: location[1],
     });
     useEffect(() => {
         if (!location) {
-            setViewport({ latitude: "49.6", longitude:"9.1"  });
+            setViewport({ latitude: "49.6", longitude: "9.1" });
         }
     }, [location]);
 
@@ -88,30 +86,25 @@ export const MainMap = ({
     const [usersCoords, setUsersCoords] = useState(null);
 
     useEffect(() => {
-        // if (
-        //     users !== 0 &&
-        //     users !== undefined &&
-        //     users !== null &&
-        //     singleUser === null
-        // ) {
-        //     const coordinates = users.map((user) => ({
-        //         latitude: user.location[0],
-        //         longitude: user.location[1],
-        //     }));
-        //     console.log("COOORDS", coordinates);
-        //     // const center = getCenter(coordinates);
-        //      //console.log("CENTER", center);
-        //     // if (coordinates.length !== 0) {
-        //     //     setViewport({
-        //     //         longitude: center.longitude,
-        //     //         latitude: center.latitude,
-        //     //         width: "100%",
-        //     //         height: "90vh",
-        //     //         zoom: 3.5,
-        //     //     });
-        //     // }
-        //     // setUsersCoords(users);
-        // }
+        if (users && users !== null && singleUser === null) {
+            const coordinates = users.map((user) => ({
+                latitude: user.location[0],
+                longitude: user.location[1],
+            }));
+            console.log("COOORDS", coordinates);
+            const center = getCenter(coordinates);
+            //console.log("CENTER", center);
+            if (coordinates.length !== 0) {
+                setViewport({
+                    longitude: center.longitude,
+                    latitude: center.latitude,
+                    width: "100%",
+                    height: "90vh",
+                    zoom: 3.5,
+                });
+            }
+            setUsersCoords(users);
+        }
         if (singleUser !== null) {
             setViewport({
                 longitude: singleUser.location[1],
