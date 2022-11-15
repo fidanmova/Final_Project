@@ -60,7 +60,7 @@ handler.post(
                 email,
                 originalPassword: password,
                 city,
-                location: [location[0], location[1]],
+                location: [`${location[0]}`,` ${location[1]}`],
                 language,
                 circle: [],
                 friends: [],
