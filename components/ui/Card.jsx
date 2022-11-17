@@ -10,7 +10,7 @@ const DashCard = ({ title, text, style }) => {
         <Link href={title === "code" ? `/editor` : `/${title}`}>
             <a>
                 <Card
-                    className={`bg-black/70 w-[42vw] lg:w-[30vw] min-h-[18vh] m-1 text-sm border-blue-500/50 hover:scale-95 shadow-md cursor-pointer ${style}`}
+                    className={`bg-black/70 w-[42vw] lg:w-[30vw] min-h-[16vh] m-1 text-sm border-blue-500/50 hover:scale-95 shadow-md cursor-pointer ${style}`}
                 >
                     <div className="w-full h-full flex flex-col space-y-8 items-center py-8">
                         <h2 className={`text-2xl`}>{title}</h2>
