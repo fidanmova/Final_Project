@@ -27,7 +27,7 @@ const Board = () => {
                 <DashCard
                     text="Code with Friends"
                     title="code"
-                    style="text-[#faff00] shadow-[#faff00] h-3/4 w-full mt-2 hover:scale-95 transition duration-200 ease-in-out"
+                    style="text-[#faff00] shadow-[#faff00]  w-full mt-2 hover:scale-95 transition duration-200 ease-in-out"
                 />
             </div>
         </div>
