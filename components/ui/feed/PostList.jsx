@@ -22,7 +22,7 @@ const PostList = ({ user }) => {
                 })}
             <div className="w-full">
                 {isReachingEnd ? (
-                    <div>No more posts are found</div>
+                    <p className="text-xs text-center py-4">No more posts are found</p>
                 ) : (
                     <Button
                         className="w-full hover:bg-blue-800/80 hover:after:text-white"

@@ -1,8 +1,10 @@
 import React, { useContext, useState } from "react";
 import { Context } from "../../../utils/context/context";
-import { Button, Input, Form } from "react-daisyui";
+import { Button, Form } from "react-daisyui";
 import { fetcher } from "../../../utils/fetcher";
 import InputEmoji from "react-input-emoji";
+import { AiOutlineSend } from "react-icons/ai";
+
 
 const SendMessage = () => {
   const { selectedChat } = useContext(Context);
@@ -72,13 +74,9 @@ const SendMessage = () => {
           borderColor="#494948"
           theme="dark"
         />
-        <Button
-          type="submit"
-          loading={isLoading}
-          className="w-full lg:w-40 bg-purple-900/80 hover:bg-purple-800 text-gray-200 text-xl font-normal "
-        >
-          Send
-        </Button>
+        <Button className="p-1.5" type="submit" loading={isLoading}>
+                    <AiOutlineSend className="text-green-500 text-2xl" />
+                </Button>
       </Form>
     </div>
   );

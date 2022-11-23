@@ -39,7 +39,6 @@ handler.post(
     ...auths,
     async (req, res) => {
         try {
-            
             const db = await dbConnect();
             let { city, email, password, language, OTP, location } = req.body;
             let username = slugUsername(req.body.username);
@@ -60,7 +59,7 @@ handler.post(
                 email,
                 originalPassword: password,
                 city,
-                location: [`${location[0]}`,` ${location[1]}`],
+                location: [location[0], location[1]],
                 language,
                 circle: [],
                 friends: [],

@@ -84,16 +84,18 @@ export const MainMap = ({
 
     const router = useRouter();
     const [usersCoords, setUsersCoords] = useState(null);
+    console.log("usersCoords", usersCoords);
+    console.log("single=>", singleUser);
 
     useEffect(() => {
         if (users && users !== null && singleUser === null) {
             const coordinates = users.map((user) => ({
-                latitude: user.location[0],
-                longitude: user.location[1],
+                latitude: user.location[0].toString(),
+                longitude: user.location[1].toString(),
             }));
             console.log("COOORDS", coordinates);
             const center = getCenter(coordinates);
-            //console.log("CENTER", center);
+            console.log("CENTER", center);
             if (coordinates.length !== 0) {
                 setViewport({
                     longitude: center.longitude,
@@ -146,7 +148,7 @@ export const MainMap = ({
                                 <a
                                     onClick={() => {
                                         // setSelectedUser(user);
-                                        setShowPopup(true);
+                                       
                                         setSingleUser(use);
                                     }}
                                 >
