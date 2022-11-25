@@ -232,12 +232,12 @@ const Circle = () => {
                     )}
                     {user?.circle?.includes(circle._id) ? (
                       <HiUserRemove
-                        className="text-3xl text-red-700"
+                        className="text-3xl text-zinc-700"
                         onClick={() => deleteFromCircle(circle)}
                       />
                     ) : (
                       <HiUserAdd
-                        className="text-3xl text-purple-500"
+                        className="text-3xl text-green-500"
                         onClick={() => addToCircle(circle)}
                       />
                     )}
