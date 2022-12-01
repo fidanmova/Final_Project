@@ -43,8 +43,6 @@ const Register = ({ setForm, setOTP, setCredentials }) => {
             `https://api.mapbox.com/geocoding/v5/mapbox.places/${data.city}.json?limit=1&types=place&access_token=pk.eyJ1IjoiaW5jcHRkIiwiYSI6ImNsOWZuOGtyZTA4Znczb2syaW1rYjlva20ifQ.i498IcTJnARrFJ8EcRoWFQ`
           );
           const city = await respGeo.json();
-          console.log("City resp", city);
-          console.log("City resp feat", city.features.length === 0);
 
           async function getCoords(city) {
             if (city.features.length === 0) {
