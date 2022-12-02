@@ -82,7 +82,7 @@ const LeftSide = ({ data }) => {
               myCircle?.map((myc, i) => (
                 <p className="w-full uppercase" key={i}>
                   <span className="text-red-500">{i + 1} -</span>{" "}
-                  {!myc !== null && myc !== undefined && myc !== 0
+                  {!myc !== null && myc !== undefined && myc.length !== 0
                     ? myc?.username
                     : "unknown"}
                 </p>
