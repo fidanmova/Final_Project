@@ -153,7 +153,7 @@ const Circle = () => {
     <>
       {user?.location && (
         <div className="w-full h-full flex flex-col lg:flex-row lg:justify-center lg:items-center bg-red-500/10">
-          <div className="order-2 lg:order-1 flex flex-col items-center w-full lg:w-1/5 h-full lg:h-[90vh] border border-red-500/50 bg-black/50 rounded-2xl overflow-y-scroll scrollbar-hide">
+          <div className="order-2 lg:order-1 flex flex-col items-center w-full lg:w-1/5 h-full lg:h-[85vh] border border-red-500/50 bg-black/50 rounded-2xl overflow-y-scroll scrollbar-hide">
             <h2 className="uppercase font-bold text-center pt-4">
               Devs in this area
               {loading && <p>LOADING...</p>}

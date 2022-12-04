@@ -75,7 +75,7 @@ export const MainMap = ({
     latitude: 51,
     longitude: 12,
     width: "100%",
-    height: "90vh",
+    height: "85vh",
     zoom: 6,
   });
 
@@ -98,7 +98,7 @@ export const MainMap = ({
           longitude: center.longitude,
           latitude: center.latitude,
           width: "100%",
-          height: "90vh",
+          height: "85vh",
           zoom: 3.5,
         });
       }
@@ -109,7 +109,7 @@ export const MainMap = ({
         longitude: singleUser.location[1],
         latitude: singleUser.location[0],
         width: "100%",
-        height: "90vh",
+        height: "85vh",
         zoom: 6,
       });
     }
@@ -121,7 +121,7 @@ export const MainMap = ({
         {...viewport}
         style={{
           width: "100%",
-          height: "90vh",
+          height: "85vh",
           border: "1px solid red",
           borderRadius: "1rem",
         }}
